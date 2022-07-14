@@ -3,15 +3,6 @@
 
 #include "caffeine_core.h"
 
-
-
-typedef uint8_t(*comparer_fn)(uintptr_t a_ptr, uintptr_t b_ptr, uint64_t data_size);
-typedef uint8_t(*filter_fn)(uintptr_t data_ptr, uint64_t index, uint64_t data_size);
-typedef void(*map_fn)(uintptr_t from_ptr, uintptr_t to_ptr, uint64_t index);
-typedef void(*foreach_fn)(uintptr_t data_ptr, uint64_t index);
-
-
-
 typedef struct caffeine_containter_s cff_container;
 
 void caffeine_container_create(cff_container* container,uint64_t data_size,uint64_t lenght);
@@ -30,8 +21,8 @@ uint64_t caffeine_container_filter(cff_container* container, filter_fn func, cff
 void caffeine_container_use_filters(cff_container* container, filter_fn* funcs, uint64_t filters_len, cff_container* filter_result, uint64_t lenght);
 void caffeine_container_map(cff_container* container, map_fn func, cff_container* map_result, uint64_t result_data_size, uint64_t lenght);
 void caffeine_container_foreach(cff_container* container, foreach_fn func, uint64_t lenght);
+void caffeine_container_sort(cff_container* container, comparer_fn predicate, uint64_t lenght);
 void caffeine_container_free(cff_container* container);
-
 
 uint8_t caffeine_container_equal(cff_container* container, cff_container* other, uint64_t lenght);
 uint8_t caffeine_container_find(cff_container* container, uintptr_t data_ptr, uint64_t* found, uint64_t lenght);

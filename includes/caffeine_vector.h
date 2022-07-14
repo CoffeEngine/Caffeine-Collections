@@ -23,7 +23,9 @@ void caffeine_vector_filter(cff_vector* vector, filter_fn func, cff_vector* filt
 void caffeine_vector_use_filters(cff_vector* vector, filter_fn* funcs, uint64_t filters_len, cff_vector* filter_result);
 void caffeine_vector_map(cff_vector* vector, map_fn func, cff_vector* map_result, uint64_t result_data_size);
 void caffeine_vector_foreach(cff_vector* vector, foreach_fn func);
+void caffeine_vector_sort(cff_vector* vector, comparer_fn predicate);
 void caffeine_vector_free(cff_vector* vector);
+void caffeine_vector_clear(cff_vector* vector);
 void caffeine_vector_push_back(cff_vector* vector, uintptr_t data_ptr);
 void caffeine_vector_push_front(cff_vector* vector, uintptr_t data_ptr);
 void caffeine_vector_pop_back(cff_vector* vector, uintptr_t data_ptr);

@@ -19,13 +19,15 @@ void caffeine_vector_set(cff_vector* vector, uintptr_t data_ptr, uint64_t index)
 }
 
 void caffeine_vector_insert(cff_vector* vector, uintptr_t data_ptr, uint64_t index) {
+	if (vector->count == vector->lenght) caffeine_vector_resize(vector, vector->lenght * 2);
 	caffeine_container_insert((cff_container*)vector, data_ptr, index,vector->count);
 	vector->count++;
 }
 
 void caffeine_vector_remove(cff_vector* vector, uint64_t index) {
-	caffeine_container_remove((cff_container*)vector, index,vector->count);
+	if(index != vector->count-1) caffeine_container_remove((cff_container*)vector, index,vector->count);
 	vector->count--;
+	if (vector->count < vector->lenght/2) caffeine_vector_resize(vector, vector->lenght / 2);
 }
 
 void caffeine_vector_copy(cff_vector* vector, cff_vector* to, uint64_t start, uint64_t end) {
@@ -65,10 +67,13 @@ void caffeine_vector_push_back(cff_vector* vector, uintptr_t data_ptr) {
 void caffeine_vector_push_front(cff_vector* vector, uintptr_t data_ptr) {
 	caffeine_vector_insert(vector, data_ptr,0);
 }
+
 void caffeine_vector_pop_back(cff_vector* vector, uintptr_t data_ptr) {
 	caffeine_vector_get(vector, vector->count - 1, data_ptr);
 	vector->count--;
+	if (vector->count < vector->lenght / 2) caffeine_vector_resize(vector, vector->lenght / 2);
 }
+
 void caffeine_vector_pop_front(cff_vector* vector, uintptr_t data_ptr) {
 	caffeine_vector_get(vector,0, data_ptr);
 	caffeine_vector_remove(vector, 0);
@@ -82,8 +87,16 @@ void caffeine_vector_foreach(cff_vector* vector, foreach_fn func) {
 	caffeine_container_foreach((cff_container*)vector, func, vector->count);
 }
 
+void caffeine_vector_sort(cff_vector* vector, comparer_fn predicate) {
+	caffeine_container_sort((cff_container*)vector, predicate, vector->count);
+}
+
 void caffeine_vector_free(cff_vector* vector) {
 	caffeine_container_free((cff_container*)vector);
+}
+
+void caffeine_vector_clear(cff_vector* vector) {
+	vector->count = 0;
 }
 
 uint8_t caffeine_vector_equal(cff_vector* vector, cff_vector* other) {

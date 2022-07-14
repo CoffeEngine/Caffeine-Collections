@@ -42,6 +42,21 @@
 #endif
 #endif
 
+
+
+enum comparer_value_e{
+	CMP_LESS = - 1,
+	CMP_EQUALS = 0,
+	CMP_GREATER = 1
+};
+
+typedef enum comparer_value_e cmp_result;
+
+typedef cmp_result (*comparer_fn)(uintptr_t a_ptr, uintptr_t b_ptr, uint64_t data_size);
+typedef cmp_result (*filter_fn)(uintptr_t data_ptr, uint64_t index, uint64_t data_size);
+typedef void(*map_fn)(uintptr_t from_ptr, uintptr_t to_ptr, uint64_t index);
+typedef void(*foreach_fn)(uintptr_t data_ptr, uint64_t index);
+
 void mcpy(uintptr_t from, uintptr_t to, uint64_t size);
 void mmove(uintptr_t from, uintptr_t to, uint64_t size);
 void mcmp(uintptr_t a, uintptr_t b, uint64_t size);

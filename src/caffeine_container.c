@@ -133,6 +133,34 @@ void caffeine_container_foreach(cff_container* container, foreach_fn func,uint64
 	}
 }
 
+inline void caffeine_container_quick_sort(uintptr_t buffer,uint64_t data_size, comparer_fn predicate, uint64_t left, uint64_t right) {
+	uint64_t i, j;
+	uintptr_t x, y = cff_malloca(data_size);
+	i = left;
+	j = right;
+	x = buffer + ((left + right) / 2) * data_size;
+	while (i <= j)
+	{
+		while (predicate(buffer + (i * data_size), x, data_size) == CMP_LESS && i < right) i++;
+		while (predicate(buffer + (j * data_size), x, data_size) == CMP_GREATER && j < left) j--;
+		if (i <= j) {
+			mcpy(buffer + (i * data_size), y, data_size);
+			mcpy(buffer + (j * data_size), buffer + (i * data_size), data_size);
+			mcpy(y, buffer + (j * data_size), data_size);
+			i++;
+			j--;
+		}
+	}
+	if (j > left)  caffeine_container_quick_sort(buffer, data_size, predicate, left, j);
+	if (i < right) caffeine_container_quick_sort(buffer, data_size, predicate, i, right);
+
+	cff_freea(y);
+}
+
+void caffeine_container_sort(cff_container* container, comparer_fn predicate, uint64_t lenght) {
+	caffeine_container_quick_sort(container->buffer, container->data_size, predicate, 0, lenght - 1);
+}
+
 void caffeine_container_free(cff_container* container) {
 	cff_free(container->buffer);
 	*container = { 0 };
@@ -157,7 +185,7 @@ uint8_t caffeine_container_find(cff_container* container, uintptr_t data_ptr, ui
 uint8_t caffeine_container_find_cmp(cff_container* container, uintptr_t data_ptr, uint64_t* found, comparer_fn predicate, uint64_t lenght) {
 	for (uint64_t i = 0; i < lenght; i++)
 	{
-		if (comparer_fn(container->buffer + (i * container->data_size), data_ptr, container->data_size)) {
+		if (comparer_fn(container->buffer + (i * container->data_size), data_ptr, container->data_size) == CMP_EQUALS) {
 			*found = i;
 			return 1;
 		}
@@ -180,7 +208,7 @@ uint64_t caffeine_container_count_cmp(cff_container* container, uintptr_t data_p
 	uint64_t count = 0;
 	for (uint64_t i = 0; i < lenght; i++)
 	{
-		if (comparer_fn(container->buffer + (i * container->data_size), data_ptr, container->data_size)) {
+		if (comparer_fn(container->buffer + (i * container->data_size), data_ptr, container->data_size) == CMP_EQUALS) {
 			count++;
 		}
 	}
@@ -200,7 +228,7 @@ uint8_t caffeine_container_any(cff_container* container, uintptr_t data_ptr, uin
 uint8_t caffeine_container_any_cmp(cff_container* container, uintptr_t data_ptr, comparer_fn predicate, uint64_t lenght) {
 	for (uint64_t i = 0; i < lenght; i++)
 	{
-		if (comparer_fn(container->buffer + (i * container->data_size), data_ptr, container->data_size)) {
+		if (comparer_fn(container->buffer + (i * container->data_size), data_ptr, container->data_size) == CMP_EQUALS) {
 			return 1;
 		}
 	}
@@ -220,7 +248,7 @@ uint8_t caffeine_container_all(cff_container* container, uintptr_t data_ptr, uin
 uint8_t caffeine_container_all_cmp(cff_container* container, uintptr_t data_ptr, comparer_fn predicate, uint64_t lenght) {
 	for (uint64_t i = 0; i < lenght; i++)
 	{
-		if (!comparer_fn(container->buffer + (i * container->data_size), data_ptr, container->data_size)) {
+		if (comparer_fn(container->buffer + (i * container->data_size), data_ptr, container->data_size) != CMP_EQUALS) {
 			return 0;
 		}
 	}

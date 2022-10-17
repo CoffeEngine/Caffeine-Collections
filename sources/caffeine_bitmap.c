@@ -4,18 +4,24 @@
 #include "caffeine_assertions.h"
 
 
-void caffeine_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
+cff_err_e caffeine_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_zero(lenght);
 	
 	if (allocator == NULL) allocator = cff_default_allocator_get();
+	cff_assert_param_not_null(allocator);
 
 	size_t buff_size = sizeof(uint64_t) * (((size_t)lenght) / sizeof(uint64_t) * 8);
 	if (buff_size == 0) buff_size = 1;
 
 	bmp->buffer = (uint64_t*)cff_allocator_alloc(allocator,buff_size * sizeof(uint64_t), 8);
 	bmp->lenght = lenght;
+	
+	if (bmp->buffer == NULL) return CFF_ALLOC_ERR;
+	
 	caffeine_bitmap_clear_all(bmp);
+
+	return CFF_NONE_ERR;
 }
 
 void caffeine_bitmap_set(cff_bitmap* bmp, uint64_t bit) {
@@ -82,12 +88,13 @@ void caffeine_bitmap_clear_all(cff_bitmap* bmp) {
 
 }
 
-void caffeine_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
+cff_err_e caffeine_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_null(bmp->buffer);
 	cff_assert_param_not_zero(lenght);
 
 	if (allocator == NULL) allocator = cff_default_allocator_get();
+	cff_assert_param_not_null(allocator);
 
 	uint64_t* tmp = NULL;
 	size_t buff_size = sizeof(uint64_t) * ((size_t)(lenght) / sizeof(uint64_t) * 8);
@@ -96,7 +103,11 @@ void caffeine_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface
 	if (cff_allocator_realloc(allocator, bmp->buffer, buff_size, 8, &tmp)) {
 		bmp->buffer = tmp;
 		bmp->lenght = lenght;
+
+		return CFF_NONE_ERR;
 	}
+
+	return CFF_REALLOC_ERR;
 }
 
 void caffeine_bitmap_free(cff_bitmap* bmp, AllocatorInterface* allocator) {
@@ -104,6 +115,7 @@ void caffeine_bitmap_free(cff_bitmap* bmp, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(bmp->buffer);
 
 	if (allocator == NULL) allocator = cff_default_allocator_get();
+	cff_assert_param_not_null(allocator);
 
 	cff_allocator_free(allocator, bmp->buffer, 8);
 	bmp->buffer = 0;

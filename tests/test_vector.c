@@ -18,7 +18,7 @@ static const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_vector* vector)
 
-#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_SKIP; }}
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 bool filter_even_x(vec3* data, uint64_t index, uint64_t size) {
 	return data->x % 2 == 0;
@@ -44,7 +44,7 @@ static void assert_vec3(vec3 a, vec3 b) {
 }
 
 TESTDEF(vector_create) {
-	caffeine_vector_create(vector, DATA_SIZE, INI_LEN, NULL);
+	SKIP_ON_ERR(caffeine_vector_create(vector, DATA_SIZE, INI_LEN, NULL));
 
 	munit_assert_not_null(vector->buffer);
 	munit_assert(vector->count == 0);
@@ -67,7 +67,7 @@ TESTDEF(vector_free) {
 
 TESTDEF(vector_resize) {
 	int n_size = INI_LEN * 2;
-	caffeine_vector_resize(vector, n_size, NULL);
+	SKIP_ON_ERR(caffeine_vector_resize(vector, n_size, NULL));
 
 	munit_assert(vector->count == 0);
 	munit_assert(vector->lenght == INI_LEN * 2);
@@ -143,7 +143,7 @@ TESTDEF(vector_remove) {
 	caffeine_vector_insert(vector, &value1, 0);
 	caffeine_vector_insert(vector, &value2, 0);
 
-	caffeine_vector_remove(vector, 0, NULL);
+	SKIP_ON_ERR(caffeine_vector_remove(vector, 0, NULL));
 
 	vec3 out;
 	caffeine_vector_get(vector, 0, &out);
@@ -163,8 +163,8 @@ TESTDEF(vector_copy) {
 		caffeine_vector_set(vector, &value, i);
 	}
 
-	caffeine_vector_create(&tmp_vec, vector->data_size, INI_LEN / 2, NULL);
-	caffeine_vector_copy(vector, &tmp_vec, 0, INI_LEN / 2, NULL);
+	SKIP_ON_ERR(caffeine_vector_create(&tmp_vec, vector->data_size, INI_LEN / 2, NULL));
+	SKIP_ON_ERR(caffeine_vector_copy(vector, &tmp_vec, 0, INI_LEN / 2, NULL));
 
 	for (size_t i = 0; i < INI_LEN / 2; i++)
 	{
@@ -189,8 +189,8 @@ TESTDEF(vector_clone) {
 
 		caffeine_vector_set(vector, &value, i);
 	}
-	caffeine_vector_create(&tmp_vec, vector->data_size, INI_LEN, NULL);
-	caffeine_vector_clone(vector, &tmp_vec, NULL);
+	SKIP_ON_ERR(caffeine_vector_create(&tmp_vec, vector->data_size, INI_LEN, NULL));
+	SKIP_ON_ERR(caffeine_vector_clone(vector, &tmp_vec, NULL));
 
 	for (size_t i = 0; i < INI_LEN - 1; i++)
 	{
@@ -228,14 +228,14 @@ TESTDEF(vector_join) {
 		vec3 data = { .x = i, .y = i, .z = i };
 		caffeine_vector_set(vector, &data, i);
 	}
-	caffeine_vector_create(&vector2, DATA_SIZE, INI_LEN, NULL);
+	SKIP_ON_ERR(caffeine_vector_create(&vector2, DATA_SIZE, INI_LEN, NULL));
 	for (size_t i = INI_LEN; i < INI_LEN * 2; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
 		caffeine_vector_set(&vector2, &data, i - INI_LEN);
 	}
 
-	caffeine_vector_join(vector, &vector2, NULL);
+	SKIP_ON_ERR(caffeine_vector_join(vector, &vector2, NULL));
 
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
@@ -255,7 +255,7 @@ TESTDEF(vector_reverse) {
 		vec3 data = { .x = i, .y = i, .z = i };
 		caffeine_vector_set(vector, &data, i);
 	}
-	caffeine_vector_reverse(vector);
+	SKIP_ON_ERR(caffeine_vector_reverse(vector));
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
@@ -277,7 +277,7 @@ TESTDEF(vector_filter) {
 		caffeine_vector_set(vector, &data, i);
 	}
 
-	caffeine_vector_filter(vector, filter_even_x, &vector2, NULL);
+	SKIP_ON_ERR(caffeine_vector_filter(vector, filter_even_x, &vector2, NULL));
 
 	for (size_t i = 0; i < vector2.count; i++)
 	{
@@ -295,7 +295,7 @@ TESTDEF(vector_push_back) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	munit_assert(vector->lenght == INI_LEN * 2);
@@ -314,7 +314,7 @@ TESTDEF(vector_push_front) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_push_front(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_front(vector, &data, NULL));
 	}
 
 	munit_assert(vector->lenght == INI_LEN * 2);
@@ -333,7 +333,7 @@ TESTDEF(vector_pop_back) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	munit_assert(vector->lenght == INI_LEN * 2);
@@ -341,7 +341,7 @@ TESTDEF(vector_pop_back) {
 	for (int i = (INI_LEN * 2) - 1; i >= 0; --i)
 	{
 		vec3 out;
-		caffeine_vector_pop_back(vector, &out, NULL);
+		SKIP_ON_ERR(caffeine_vector_pop_back(vector, &out, NULL));
 		munit_assert(out.x == i);
 	}
 
@@ -352,7 +352,7 @@ TESTDEF(vector_pop_front) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	munit_assert(vector->lenght == INI_LEN * 2);
@@ -360,7 +360,7 @@ TESTDEF(vector_pop_front) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 out = { .x = i, .y = i, .z = i };
-		caffeine_vector_pop_front(vector, &out, NULL);
+		SKIP_ON_ERR(caffeine_vector_pop_front(vector, &out, NULL));
 		munit_assert(out.x == i);
 	}
 
@@ -378,10 +378,10 @@ TESTDEF(vector_map) {
 			.y = munit_rand_int_range(0,100),
 			.z = munit_rand_int_range(0,100)
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
-	caffeine_vector_map(vector, map_to_lenght, &len_vector, sizeof(float), NULL);
+	SKIP_ON_ERR(caffeine_vector_map(vector, map_to_lenght, &len_vector, sizeof(float), NULL));
 
 	for (size_t i = 0; i < INI_LEN; i++) {
 		vec3 v;
@@ -406,7 +406,7 @@ TESTDEF(vector_foreach) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	caffeine_vector_foreach(vector, double_y);
@@ -430,7 +430,7 @@ TESTDEF(vector_sort) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_front(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_front(vector, &data, NULL));
 	}
 
 	caffeine_vector_sort(vector, compare_vec3);
@@ -453,7 +453,7 @@ TESTDEF(vector_clear) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	caffeine_vector_clear(vector);
@@ -467,7 +467,7 @@ TESTDEF(vector_clear) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
@@ -491,10 +491,10 @@ TESTDEF(vector_equal) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
-	caffeine_vector_clone(vector, &vector2, NULL);
+	SKIP_ON_ERR(caffeine_vector_clone(vector, &vector2, NULL));
 
 	uint8_t eq = caffeine_vector_equal(vector, &vector2);
 
@@ -514,7 +514,7 @@ TESTDEF(vector_find) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	vec3 data_ok = {
@@ -553,7 +553,7 @@ TESTDEF(vector_find_cmp) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	vec3 data_ok = {
@@ -590,7 +590,7 @@ TESTDEF(vector_count) {
 			.y = i % 2,
 			.z = i % 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	vec3 data = {
@@ -622,7 +622,7 @@ TESTDEF(vector_count_cmp) {
 			.y = i % 2,
 			.z = i % 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	vec3 data = {
@@ -654,7 +654,7 @@ TESTDEF(vector_any) {
 			.y = i,
 			.z = i
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	vec3 data = {
@@ -678,7 +678,7 @@ TESTDEF(vector_any_cmp) {
 			.y = i,
 			.z = i
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	vec3 data = {
@@ -702,7 +702,7 @@ TESTDEF(vector_all) {
 			.y = 5,
 			.z = 5
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	vec3 data = {
@@ -734,7 +734,7 @@ TESTDEF(vector_all_cmp) {
 			.y = 5,
 			.z = 5
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		SKIP_ON_ERR(caffeine_vector_push_back(vector, &data, NULL));
 	}
 
 	vec3 data = {

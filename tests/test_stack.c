@@ -18,8 +18,10 @@ static const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_stack* stack)
 
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
+
 TESTDEF(stack_create) {
-	caffeine_stack_create(stack, DATA_SIZE, INI_LEN, NULL);
+	SKIP_ON_ERR(caffeine_stack_create(stack, DATA_SIZE, INI_LEN, NULL));
 
 	munit_assert(stack->buffer != 0);
 	munit_assert(stack->count == 0);
@@ -30,12 +32,12 @@ TESTDEF(stack_create) {
 }
 TESTDEF(stack_resize) {
 	uint64_t n_size = (uint64_t)munit_rand_int_range(10, 100);
-	caffeine_stack_resize(stack, n_size, NULL);
+	SKIP_ON_ERR(caffeine_stack_resize(stack, n_size, NULL));
 
 	for (size_t i = 0; i < n_size; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		SKIP_ON_ERR(caffeine_stack_push(stack, &v, NULL));
 	}
 
 	vec3* buffer = (vec3*)stack->buffer;
@@ -52,7 +54,7 @@ TESTDEF(stack_push) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		SKIP_ON_ERR(caffeine_stack_push(stack, &v, NULL));
 	}
 
 	munit_assert(stack->count == INI_LEN);
@@ -70,13 +72,14 @@ TESTDEF(stack_pop) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		SKIP_ON_ERR(caffeine_stack_push(stack, &v, NULL));
 	}
 
 	for (size_t i = 0, v = INI_LEN - 1; i < INI_LEN; v--, i++)
 	{
 		vec3 out;
-		caffeine_stack_pop(stack, &out, NULL);
+		uint8_t empty;
+		SKIP_ON_ERR(caffeine_stack_pop(stack, &out, &empty, NULL));
 
 		munit_assert(out.x == v);
 	}
@@ -90,10 +93,10 @@ TESTDEF(stack_reverse) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		SKIP_ON_ERR(caffeine_stack_push(stack, &v, NULL));
 	}
 
-	caffeine_stack_reverse(stack);
+	SKIP_ON_ERR(caffeine_stack_reverse(stack));
 
 	vec3* buffer = (vec3*)stack->buffer;
 
@@ -119,7 +122,7 @@ TESTDEF(stack_clear) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		SKIP_ON_ERR(caffeine_stack_push(stack, &v, NULL));
 	}
 
 	caffeine_stack_clear(stack);
@@ -127,8 +130,9 @@ TESTDEF(stack_clear) {
 	munit_assert(stack->count == 0);
 
 	vec3 tmp;
-	uint8_t res = caffeine_stack_pop(stack, &tmp, NULL);
-	munit_assert(res == 0);
+	uint8_t empty;
+	SKIP_ON_ERR(caffeine_stack_pop(stack, &tmp, &empty, NULL));
+	munit_assert(empty);
 
 	return MUNIT_OK;
 }
@@ -137,11 +141,11 @@ TESTDEF(stack_copy) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		SKIP_ON_ERR(caffeine_stack_push(stack, &v, NULL));
 	}
 
-	caffeine_stack_create(&tmp_stack, stack->data_size, INI_LEN / 2, NULL);
-	caffeine_stack_copy(stack, &tmp_stack, 0, INI_LEN / 2, NULL);
+	SKIP_ON_ERR(caffeine_stack_create(&tmp_stack, stack->data_size, INI_LEN / 2, NULL));
+	SKIP_ON_ERR(caffeine_stack_copy(stack, &tmp_stack, 0, INI_LEN / 2, NULL));
 
 	for (size_t i = 0; i < INI_LEN / 2; i++)
 	{
@@ -157,11 +161,11 @@ TESTDEF(stack_clone) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		SKIP_ON_ERR(caffeine_stack_push(stack, &v, NULL));
 	}
 
-	caffeine_stack_create(&tmp_stack, stack->data_size, INI_LEN, NULL);
-	caffeine_stack_clone(stack, &tmp_stack, NULL);
+	SKIP_ON_ERR(caffeine_stack_create(&tmp_stack, stack->data_size, INI_LEN, NULL));
+	SKIP_ON_ERR(caffeine_stack_clone(stack, &tmp_stack, NULL));
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
@@ -176,10 +180,11 @@ TESTDEF(stack_top) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		SKIP_ON_ERR(caffeine_stack_push(stack, &v, NULL));
 
 		vec3 out;
-		caffeine_stack_top(stack, &out);
+		uint8_t empty;
+		caffeine_stack_top(stack, &out, &empty);
 
 		munit_assert(v.x == out.x);
 	}

@@ -99,6 +99,7 @@ cff_err_e caffeine_container_create(cff_container* container, uint64_t data_size
 	cff_assert_param_not_zero(data_size);
 
 	if (allocator == NULL) allocator = cff_default_allocator_get();
+	cff_assert_param_not_null(allocator);
 
 	uintptr_t ptr = (uintptr_t)cff_allocator_alloc(allocator, (size_t)(data_size * lenght), 0);
 	if (ptr == 0) return CFF_ALLOC_ERR;
@@ -113,6 +114,7 @@ cff_err_e caffeine_container_recreate(cff_container* container, uint64_t data_si
 	cff_assert_param_not_zero(data_size);
 
 	if (allocator == NULL) allocator = cff_default_allocator_get();
+	cff_assert_param_not_null(allocator);
 
 	void* tmp = 0;
 	if (cff_allocator_realloc(allocator, (void*)container->buffer, (size_t)(data_size * lenght), 0, &tmp)) {
@@ -155,6 +157,7 @@ cff_err_e caffeine_container_resize(cff_container* container, uint64_t lenght, A
 	cff_assert_param_not_zero(lenght);
 
 	if (allocator == NULL) allocator = cff_default_allocator_get();
+	cff_assert_param_not_null(allocator);
 
 	void* tmp;
 	if (cff_allocator_realloc(allocator, (void*)container->buffer, (size_t)(container->data_size * lenght), 0, &tmp)) {
@@ -293,6 +296,7 @@ cff_err_e caffeine_container_join(cff_container* container, cff_container* other
 
 cff_err_e caffeine_container_reverse(cff_container* container, uint64_t lenght) {
 	cff_assert_param_not_null(container);
+	cff_assert_param_not_null(container->buffer);
 	cff_assert_param_not_zero(lenght);
 
 	int64_t start = 0;
@@ -394,6 +398,7 @@ void caffeine_container_free(cff_container* container, AllocatorInterface* alloc
 	cff_assert_param_not_null(container);
 
 	if (allocator == NULL) allocator = cff_default_allocator_get();
+	cff_assert_param_not_null(allocator);
 
 	cff_allocator_free(allocator, (void*)container->buffer, 0);
 	container->buffer = 0;

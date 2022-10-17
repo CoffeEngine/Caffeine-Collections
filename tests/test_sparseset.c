@@ -17,6 +17,8 @@ const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_sparseset* set)
 
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
+
 static void assert_vec3(vec3 a, vec3 b) {
 	munit_assert(a.x == b.x && a.y == b.y && a.z == b.z);
 }
@@ -25,13 +27,13 @@ static void sparseset_arange(cff_sparseset* set, int start, int end) {
 	for (int i = start, j = 0; i < end; i++, j++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
-		caffeine_sparseset_add(set, (uint64_t)i, (uintptr_t) & (vec3) { .x = i, .y = i + 1, .z = i + 2 }, NULL);
+		SKIP_ON_ERR(caffeine_sparseset_add(set, (uint64_t)i, (uintptr_t) & (vec3) { .x = i, .y = i + 1, .z = i + 2 }, NULL));
 		assert_uint64(set->count, == , i + 1);
 	}
 }
 
 TESTDEF(sparse_set_create) {
-	caffeine_sparseset_create(set, INI_LEN, DATA_SIZE, NULL);
+	SKIP_ON_ERR(caffeine_sparseset_create(set, INI_LEN, DATA_SIZE, NULL));
 	assert_uint64(set->lenght, == , INI_LEN);
 	assert_uint64(set->count, == , 0);
 	assert_uint64(set->data_size, == , DATA_SIZE);

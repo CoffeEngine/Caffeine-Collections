@@ -18,6 +18,7 @@ static const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_queue* queue)
 
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 static void assert_vec3(vec3 a, vec3 b) {
 	munit_assert(a.x == b.x && a.y == b.y && a.z == b.z);
@@ -25,7 +26,7 @@ static void assert_vec3(vec3 a, vec3 b) {
 
 
 TESTDEF(queue_create) {
-	caffeine_queue_create(queue, DATA_SIZE, INI_LEN, NULL);
+	SKIP_ON_ERR(caffeine_queue_create(queue, DATA_SIZE, INI_LEN, NULL));
 	munit_assert_not_null(queue->buffer);
 	munit_assert(queue->count == 0);
 	munit_assert(queue->data_size == DATA_SIZE);
@@ -35,16 +36,16 @@ TESTDEF(queue_create) {
 
 TESTDEF(queue_resize) {
 	uint64_t n_size = (uint64_t)munit_rand_int_range(10, 100);
-	caffeine_queue_resize(queue, n_size, NULL);
+	SKIP_ON_ERR(caffeine_queue_resize(queue, n_size, NULL));
 	munit_assert(n_size == queue->lenght);
 
 	for (size_t i = 0; i < n_size; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		SKIP_ON_ERR(caffeine_queue_enqueue(queue, &v, NULL));
 	}
 
-	for (size_t i = 0; i < INI_LEN; i++)
+	for (size_t i = 0; i < n_size; i++)
 	{
 		vec3* tmp = (vec3*)queue->buffer;
 		munit_assert(tmp[i].x == i);
@@ -58,7 +59,7 @@ TESTDEF(queue_enqueue) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v,NULL);
+		SKIP_ON_ERR(caffeine_queue_enqueue(queue, &v,NULL));
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
@@ -74,9 +75,9 @@ TESTDEF(queue_reverse) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		SKIP_ON_ERR(caffeine_queue_enqueue(queue, &v, NULL));
 	}
-	caffeine_queue_reverse(queue);
+	SKIP_ON_ERR(caffeine_queue_reverse(queue));
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3* tmp = (vec3*)queue->buffer;
@@ -100,7 +101,7 @@ TESTDEF(queue_clear) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		SKIP_ON_ERR(caffeine_queue_enqueue(queue, &v, NULL));
 	}
 
 	caffeine_queue_clear(queue);
@@ -108,8 +109,9 @@ TESTDEF(queue_clear) {
 	munit_assert(queue->count == 0);
 
 	vec3 tmp;
-	uint8_t res = caffeine_queue_dequeue(queue, &tmp, NULL);
-	munit_assert(res == 0);
+	uint8_t is_empty;
+	SKIP_ON_ERR(caffeine_queue_dequeue(queue, &tmp,&is_empty, NULL));
+	munit_assert(is_empty);
 
 	return MUNIT_OK;
 }
@@ -119,11 +121,11 @@ TESTDEF(queue_copy) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		SKIP_ON_ERR(caffeine_queue_enqueue(queue, &v, NULL));
 	}
 
-	caffeine_queue_create(&tmp_queue, queue->data_size, INI_LEN / 2, NULL);
-	caffeine_queue_copy(queue, &tmp_queue, 0, INI_LEN / 2, NULL);
+	SKIP_ON_ERR(caffeine_queue_create(&tmp_queue, queue->data_size, INI_LEN / 2, NULL));
+	SKIP_ON_ERR(caffeine_queue_copy(queue, &tmp_queue, 0, INI_LEN / 2, NULL));
 
 	for (size_t i = 0; i < INI_LEN/2; i++)
 	{
@@ -140,11 +142,11 @@ TESTDEF(queue_clone) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		SKIP_ON_ERR(caffeine_queue_enqueue(queue, &v, NULL));
 	}
 
-	caffeine_queue_create(&tmp_queue, queue->data_size, INI_LEN, NULL);
-	caffeine_queue_clone(queue, &tmp_queue, NULL);
+	SKIP_ON_ERR(caffeine_queue_create(&tmp_queue, queue->data_size, INI_LEN, NULL));
+	SKIP_ON_ERR(caffeine_queue_clone(queue, &tmp_queue, NULL));
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
@@ -160,13 +162,14 @@ TESTDEF(queue_dequeue) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		SKIP_ON_ERR(caffeine_queue_enqueue(queue, &v, NULL));
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 tmp;
-		caffeine_queue_dequeue(queue, &tmp, NULL);
+		uint8_t is_empty;
+		SKIP_ON_ERR(caffeine_queue_dequeue(queue, &tmp,&is_empty, NULL));
 		munit_assert(tmp.x == i);
 	}
 

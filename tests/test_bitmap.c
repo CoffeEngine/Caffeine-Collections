@@ -12,10 +12,10 @@
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_bitmap* bitmap)
 
-
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 TESTDEF(bitmap_create) {
-	caffeine_bitmap_create(bitmap, BIT_LEN, NULL);
+	SKIP_ON_ERR(caffeine_bitmap_create(bitmap, BIT_LEN, NULL));
 	
 	munit_assert(bitmap->buffer != 0);
 	munit_assert_int64(bitmap->lenght, == , BIT_LEN);
@@ -90,7 +90,7 @@ TESTDEF(bitmap_get) {
 
 TESTDEF(bitmap_resize) {
 
-	caffeine_bitmap_resize(bitmap, 15, NULL);
+	SKIP_ON_ERR(caffeine_bitmap_resize(bitmap, 15, NULL));
 	int bit = munit_rand_int_range(8, 14);
 
 

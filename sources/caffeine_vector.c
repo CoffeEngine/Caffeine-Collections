@@ -4,7 +4,7 @@
 #include "caffeine_assertions.h"
 
 
-void cff_vector_create(cff_vector* vector, uint64_t data_size, uint64_t lenght, AllocatorInterface* allocator) {
+cff_err_e cff_vector_create(cff_vector* vector, uint64_t data_size, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(vector);
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_not_zero(data_size);
@@ -13,17 +13,17 @@ void cff_vector_create(cff_vector* vector, uint64_t data_size, uint64_t lenght, 
 	vector->count = 0;
 	vector->lenght = lenght;
 
-	return caffeine_container_create((cff_container*)vector, data_size, lenght, allocator);
+	return cff_container_create((cff_container*)vector, data_size, lenght, allocator);
 }
 
-void cff_vector_resize(cff_vector* vector, uint64_t lenght, AllocatorInterface* allocator) {
+cff_err_e cff_vector_resize(cff_vector* vector, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(vector);
 	cff_assert_param_not_zero(lenght);
 
 	cff_container_resize((cff_container*)vector, lenght, allocator);
 	vector->lenght = lenght;
 
-	return caffeine_container_resize((cff_container*)vector, lenght, allocator);
+	return cff_container_resize((cff_container*)vector, lenght, allocator);
 }
 
 void cff_vector_get(cff_vector* vector, uint64_t index, uintptr_t out) {
@@ -65,7 +65,7 @@ void cff_vector_remove(cff_vector* vector, uint64_t index, AllocatorInterface* a
 	if (vector->count < vector->lenght / 2) cff_vector_resize(vector, vector->lenght / 2, allocator);
 }
 
-void cff_vector_copy(cff_vector* vector, cff_vector* to, uint64_t start, uint64_t count, AllocatorInterface* allocator) {
+cff_err_e cff_vector_copy(cff_vector* vector, cff_vector* to, uint64_t start, uint64_t count, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(vector);
 	cff_assert_param_not_null(to);
 	cff_assert_param_less((start+ count), vector->count);
@@ -77,12 +77,13 @@ void cff_vector_copy(cff_vector* vector, cff_vector* to, uint64_t start, uint64_
 	return err;
 }
 
-void cff_vector_clone(cff_vector* vector, cff_vector* to, AllocatorInterface* allocator) {
+cff_err_e cff_vector_clone(cff_vector* vector, cff_vector* to, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(vector);
 	cff_assert_param_not_null(to);
 
-	cff_container_clone((cff_container*)vector, (cff_container*)to, to->lenght, allocator);
+	cff_err_e err = cff_container_clone((cff_container*)vector, (cff_container*)to, to->lenght, allocator);
 	to->count = vector->count;
+	return err;
 }
 
 void cff_vector_fill(cff_vector* vector, uintptr_t data_ptr) {
@@ -93,12 +94,13 @@ void cff_vector_fill(cff_vector* vector, uintptr_t data_ptr) {
 	vector->count = vector->lenght;
 }
 
-void cff_vector_join(cff_vector* vector, cff_vector* from, AllocatorInterface* allocator) {
+cff_err_e cff_vector_join(cff_vector* vector, cff_vector* from, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(vector);
 	cff_assert_param_not_null(from);
 
 	if (vector->lenght < vector->count + from->count) {
-		cff_vector_resize(vector, vector->count + from->count, allocator);
+		cff_err_e err = cff_vector_resize(vector, vector->count + from->count, allocator);
+		if(err != CFF_NONE_ERR) return err;
 	}
 	uint64_t size = from->count * from->data_size;
 	cff_memcpy((const void* const)from->buffer, (void* const)resolve_ptr(vector->buffer + (vector->count * vector->data_size)), (size_t)size, (size_t)((vector->lenght * vector->data_size) - (vector->count * vector->data_size)));

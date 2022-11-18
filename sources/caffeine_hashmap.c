@@ -38,7 +38,7 @@ const uint16_t _second_quartil = (PRIME_LENGHT / 4) * 2;
 const uint16_t _third_quartil = (PRIME_LENGHT / 4) * 3;
 
 
-uint16_t binarySearch(const uint16_t arr[], uint16_t l, uint16_t r, uint64_t x)
+uint16_t __binarySearch(const uint16_t arr[], uint16_t l, uint16_t r, uint64_t x)
 {
 	uint16_t m = l + (r - l) / 2;
 	while (l <= r) {
@@ -62,7 +62,7 @@ uint16_t binarySearch(const uint16_t arr[], uint16_t l, uint16_t r, uint64_t x)
 	return m;
 }
 
-int32_t caffeine_binary_search(const uint16_t arr[], uint16_t value, uint16_t start, uint16_t end) {
+int32_t __caffeine_binary_search(const uint16_t arr[], uint16_t value, uint16_t start, uint16_t end) {
 	if (value < _prime_numbers[_first_quartil]) end = _first_quartil;
 	else if (value < _prime_numbers[_second_quartil]) { start = _first_quartil; end = _second_quartil; }
 	else if (value < _prime_numbers[_third_quartil]) { start = _second_quartil; end = _third_quartil; }
@@ -88,9 +88,9 @@ int32_t caffeine_binary_search(const uint16_t arr[], uint16_t value, uint16_t st
 	return -1;
 }
 
-uint8_t caffeine_is_prime(uint64_t value) {
+uint8_t __caffeine_is_prime(uint64_t value) {
 	if (value < _prime_numbers[_prime_len]) {
-		return caffeine_binary_search(_prime_numbers, (uint16_t)value, 0, _prime_len) > 0;
+		return __caffeine_binary_search(_prime_numbers, (uint16_t)value, 0, _prime_len) > 0;
 	}
 	for (uint64_t i = 2; i < (value / 2) + 1; i++) {
 		if (value % i == 0) return 0;
@@ -98,7 +98,7 @@ uint8_t caffeine_is_prime(uint64_t value) {
 	return 1;
 }
 
-uint64_t caffeine_find_prime_below(uint64_t value) {
+uint64_t __caffeine_find_prime_below(uint64_t value) {
 
 	if (value == _prime_numbers[_prime_len]) return _prime_numbers[_prime_len - 1];
 
@@ -109,7 +109,7 @@ uint64_t caffeine_find_prime_below(uint64_t value) {
 		else if (value < _prime_numbers[_third_quartil]) { start = _second_quartil; end = _third_quartil; }
 		else { start = _third_quartil; }
 
-		uint16_t mid = binarySearch(_prime_numbers, start, end, value);
+		uint16_t mid = __binarySearch(_prime_numbers, start, end, value);
 
 		while (_prime_numbers[mid] >= value) mid--;
 		while (_prime_numbers[mid] < value && _prime_numbers[mid + 1] < value) mid++;
@@ -121,7 +121,7 @@ uint64_t caffeine_find_prime_below(uint64_t value) {
 	uint64_t last_prime = _prime_numbers[_prime_len];
 	for (uint64_t i = value - 1; i > last_prime; i--)
 	{
-		if (caffeine_is_prime(i)) {
+		if (__caffeine_is_prime(i)) {
 			return i;
 		}
 	}
@@ -130,25 +130,25 @@ uint64_t caffeine_find_prime_below(uint64_t value) {
 
 
 //---------------- helper -----------------
-uintptr_t caffeine_hashmap_get_bucket(cff_hashmap* hashmap, uint64_t index) {
+uintptr_t __caffeine_hashmap_get_bucket(cff_hashmap* hashmap, uint64_t index) {
 	uintptr_t bucket_ptr = resolve_ptr(hashmap->buffer + index * (hashmap->key_size + hashmap->data_size));
 	return bucket_ptr;
 }
 
-void caffeint_hashmap_copy_key(cff_hashmap* hashmap, uintptr_t bucket, uintptr_t out) {
+void __caffeint_hashmap_copy_key(cff_hashmap* hashmap, uintptr_t bucket, uintptr_t out) {
 	hashmap->cpy_func(bucket, out, hashmap->key_size);
 }
 
-void caffeint_hashmap_copy_value(cff_hashmap* hashmap, uintptr_t bucket, uintptr_t out) {
+void __caffeint_hashmap_copy_value(cff_hashmap* hashmap, uintptr_t bucket, uintptr_t out) {
 	cff_memcpy((const void* const)(bucket + (size_t)hashmap->key_size), (void* const)out, (size_t)hashmap->data_size, (size_t)hashmap->data_size);
 }
 
 void caffeine_hashmap_copy_bucket(cff_hashmap* hashmap, uintptr_t bucket, uintptr_t out) {
-	caffeint_hashmap_copy_key(hashmap, bucket, out);
-	caffeint_hashmap_copy_value(hashmap, bucket, out + hashmap->key_size);
+	__caffeint_hashmap_copy_key(hashmap, bucket, out);
+	__caffeint_hashmap_copy_value(hashmap, bucket, out + hashmap->key_size);
 }
 
-void caffeine_hashmap_set_bucket(cff_hashmap* hashmap, uintptr_t bucket, uintptr_t key, uintptr_t value) {
+void __caffeine_hashmap_set_bucket(cff_hashmap* hashmap, uintptr_t bucket, uintptr_t key, uintptr_t value) {
 	hashmap->cpy_func(key, bucket, hashmap->key_size);
 	cff_memcpy((const void* const)value, (void* const)(bucket + hashmap->key_size), (size_t)hashmap->data_size, (size_t)hashmap->data_size);
 }
@@ -187,7 +187,7 @@ cff_err_e caffeine_hashmap_expand(cff_hashmap* hashmap, AllocatorInterface* allo
 	hashmap->buffer = resolve_ptr(new_hashmap_buffer);
 	hashmap->lenght = new_lenght;
 	hashmap->count = 0;
-	hashmap->prime_value = caffeine_find_prime_below(new_lenght);
+	hashmap->prime_value = __caffeine_find_prime_below(new_lenght);
 	hashmap->collision_count_max = 0;
 
 	for (uint64_t i = 0; i < old_len; i++)
@@ -229,7 +229,7 @@ void caffeine_hashmap_cpy_default(uintptr_t from, uintptr_t to, uint32_t data_si
 	cff_memcpy((const void* const)from, (void* const)to, (size_t)data_size, (size_t)data_size);
 }
 
-inline uint64_t caffeine_second_hash(cff_hashmap* hashmap, uint64_t key, uint64_t collision_count) {
+ uint64_t caffeine_second_hash(cff_hashmap* hashmap, uint64_t key, uint64_t collision_count) {
 	cff_assert_param_not_null(hashmap);
 
 	return ((key + collision_count) * (hashmap->prime_value - (key % hashmap->prime_value))) % hashmap->lenght;
@@ -260,7 +260,7 @@ void cff_hashmap_create(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_s
 	hashmap->cmp_func = (cmp_func != NULL) ? cmp_func : caffeine_hashmap_cmp_default;
 	hashmap->hash_func = (hash_func != NULL) ? hash_func : caffeine_hashmap_hash_default;
 	hashmap->cpy_func = (cpy_func != NULL) ? cpy_func : caffeine_hashmap_cpy_default;
-	hashmap->prime_value = caffeine_find_prime_below(lenght);
+	hashmap->prime_value = __caffeine_find_prime_below(lenght);
 	hashmap->collision_count_max = 0;
 
 
@@ -286,7 +286,7 @@ void cff_hashmap_create_default(cff_hashmap* hashmap, uint32_t key_size, uint32_
 	hashmap->cmp_func = caffeine_hashmap_cmp_default;
 	hashmap->hash_func = caffeine_hashmap_hash_default;
 	hashmap->cpy_func = caffeine_hashmap_cpy_default;
-	hashmap->prime_value = caffeine_find_prime_below(DEFAULT_INIT_LENGHT);
+	hashmap->prime_value = __caffeine_find_prime_below(DEFAULT_INIT_LENGHT);
 	hashmap->collision_count_max = 0;
 
 
@@ -314,11 +314,11 @@ uint8_t cff_hashmap_add(cff_hashmap* hashmap, uintptr_t key, uintptr_t value, Al
 	uint64_t collision_count = 0;
 
 	while (cff_bitmap_get(&hashmap->bitmap, index) != 0) {
-		uintptr_t bucket_ptr = caffeine_hashmap_get_bucket(hashmap, index);
+		uintptr_t bucket_ptr = __caffeine_hashmap_get_bucket(hashmap, index);
 
 		// overwrite 
 		if (hashmap->cmp_func(key, bucket_ptr, hashmap->key_size)) {
-			caffeine_hashmap_set_bucket(hashmap, bucket_ptr, key, value);
+			__caffeine_hashmap_set_bucket(hashmap, bucket_ptr, key, value);
 			return 1;
 		}
 
@@ -340,8 +340,8 @@ uint8_t cff_hashmap_add(cff_hashmap* hashmap, uintptr_t key, uintptr_t value, Al
 	if (collision_count > hashmap->collision_count_max) hashmap->collision_count_max = collision_count;
 
 	cff_bitmap_set(&hashmap->bitmap, index);
-	uintptr_t bucket_ptr = caffeine_hashmap_get_bucket(hashmap, index);
-	caffeine_hashmap_set_bucket(hashmap, bucket_ptr, key, value);
+	uintptr_t bucket_ptr = __caffeine_hashmap_get_bucket(hashmap, index);
+	__caffeine_hashmap_set_bucket(hashmap, bucket_ptr, key, value);
 	hashmap->count++;
 	
 	return CFF_NONE_ERR;
@@ -357,10 +357,10 @@ uint8_t cff_hashmap_get(cff_hashmap* hashmap, uintptr_t key, uintptr_t value) {
 
 
 	while (cff_bitmap_get(&hashmap->bitmap, index) != 0) {
-		uintptr_t bucket_ptr = caffeine_hashmap_get_bucket(hashmap, index);
+		uintptr_t bucket_ptr = __caffeine_hashmap_get_bucket(hashmap, index);
 
 		if (hashmap->cmp_func(key, bucket_ptr, hashmap->key_size)) {
-			caffeint_hashmap_copy_value(hashmap, bucket_ptr, value);
+			__caffeint_hashmap_copy_value(hashmap, bucket_ptr, value);
 			return 1;
 		}
 
@@ -381,7 +381,7 @@ uint8_t cff_hashmap_exist_key(cff_hashmap* hashmap, uintptr_t key) {
 	uintptr_t bucket_ptr = 0;
 
 	while (cff_bitmap_get(&hashmap->bitmap, index) != 0) {
-		bucket_ptr = caffeine_hashmap_get_bucket(hashmap, index);
+		bucket_ptr = __caffeine_hashmap_get_bucket(hashmap, index);
 
 		if (hashmap->cmp_func(key, bucket_ptr, hashmap->key_size)) return 1;
 
@@ -390,7 +390,7 @@ uint8_t cff_hashmap_exist_key(cff_hashmap* hashmap, uintptr_t key) {
 		index = caffeine_second_hash(hashmap, index, collision_count);
 	}
 
-	bucket_ptr = caffeine_hashmap_get_bucket(hashmap, index);
+	bucket_ptr = __caffeine_hashmap_get_bucket(hashmap, index);
 
 	if (hashmap->cmp_func(key, bucket_ptr, hashmap->key_size)) return 1;
 	return 0;
@@ -406,7 +406,7 @@ uint8_t cff_hashmap_remove(cff_hashmap* hashmap, uintptr_t key) {
 
 
 	while (cff_bitmap_get(&hashmap->bitmap, index) != 0) {
-		uintptr_t bucket_ptr = caffeine_hashmap_get_bucket(hashmap, index);
+		uintptr_t bucket_ptr = __caffeine_hashmap_get_bucket(hashmap, index);
 
 		if (hashmap->cmp_func(key, bucket_ptr, hashmap->key_size)) {
 			cff_bitmap_clear(&hashmap->bitmap, index);

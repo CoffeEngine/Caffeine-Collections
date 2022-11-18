@@ -6,7 +6,7 @@
 
 #pragma region UTILS
 
-inline cff_err_e caffeine_container_quick_sort_swap(uintptr_t a, uintptr_t b, uint64_t data_size) {
+cff_err_e __caffeine_container_quick_sort_swap(uintptr_t a, uintptr_t b, uint64_t data_size) {
 	cff_assert_param_not_null(a);
 	cff_assert_param_not_null(b);
 	cff_assert_param_not_zero(data_size);
@@ -20,7 +20,7 @@ inline cff_err_e caffeine_container_quick_sort_swap(uintptr_t a, uintptr_t b, ui
 	return CFF_NONE_ERR;
 }
 
-inline cff_err_e caffeine_container_quick_sort_partition(uintptr_t arr, uint64_t data_size, uint64_t l, uint64_t h, comparer_fn predicate, uint64_t* pivot) {
+cff_err_e __caffeine_container_quick_sort_partition(uintptr_t arr, uint64_t data_size, uint64_t l, uint64_t h, comparer_fn predicate, uint64_t* pivot) {
 	cff_assert_param_not_null(arr);
 	cff_assert_param_not_null(predicate);
 	cff_assert_param_not_zero(data_size);
@@ -32,16 +32,16 @@ inline cff_err_e caffeine_container_quick_sort_partition(uintptr_t arr, uint64_t
 	{
 		if (predicate((void*)resolve_ptr(arr + (j * data_size)), (void*)x, data_size) == CFF_LESS) {
 			i++;
-			caffeine_container_quick_sort_swap(resolve_ptr(arr + (i * data_size)), resolve_ptr(arr + (j * data_size)), data_size);
+			__caffeine_container_quick_sort_swap(resolve_ptr(arr + (i * data_size)), resolve_ptr(arr + (j * data_size)), data_size);
 		}
 	}
-	cff_err_e err = caffeine_container_quick_sort_swap(resolve_ptr(arr + ((i + 1) * data_size)), resolve_ptr(arr + (h * data_size)), data_size);
+	cff_err_e err = __caffeine_container_quick_sort_swap(resolve_ptr(arr + ((i + 1) * data_size)), resolve_ptr(arr + (h * data_size)), data_size);
 	if (err != CFF_NONE_ERR) return err;
 	*pivot = i + 1;
 	return CFF_NONE_ERR;
 }
 
-inline cff_err_e caffeine_container_quick_sort(uintptr_t buffer, uint64_t data_size, comparer_fn predicate, uint64_t left, uint64_t right) {
+cff_err_e __caffeine_container_quick_sort(uintptr_t buffer, uint64_t data_size, comparer_fn predicate, uint64_t left, uint64_t right) {
 	cff_assert_param_not_null(predicate);
 	cff_assert_param_not_null(buffer);
 	cff_assert_param_not_zero(data_size);
@@ -69,7 +69,7 @@ inline cff_err_e caffeine_container_quick_sort(uintptr_t buffer, uint64_t data_s
 		cff_memcpy((const void* const)resolve_ptr(stack + (top--)), (void* const)&l, sizeof(uint64_t), sizeof(uint64_t));
 
 		uint64_t pivot = 0;
-		cff_err_e err = caffeine_container_quick_sort_partition(buffer, data_size, l, h, predicate, &pivot);
+		cff_err_e err = __caffeine_container_quick_sort_partition(buffer, data_size, l, h, predicate, &pivot);
 		if (err != CFF_NONE_ERR) return err;
 
 		int64_t tmp = ((int64_t)pivot) - 1;
@@ -386,7 +386,7 @@ cff_err_e cff_container_sort(cff_container* container, comparer_fn comparer_func
 	cff_assert_param_not_null(comparer_function);
 	cff_assert_param_not_zero(lenght);
 
-	return caffeine_container_quick_sort(container->buffer, container->data_size, comparer_function, 0, lenght - 1);
+	return __caffeine_container_quick_sort(container->buffer, container->data_size, comparer_function, 0, lenght - 1);
 }
 
 void cff_container_free(cff_container* container, AllocatorInterface* allocator) {

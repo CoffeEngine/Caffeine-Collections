@@ -3,7 +3,7 @@
 #include "caffeine_assertions.h"
 
 
-void cff_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
+cff_err_e cff_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_zero(lenght);
 	

@@ -1,4 +1,3 @@
-
 workspace "Caffeine" 
     configurations { "Debug","Release" } 
    
@@ -10,9 +9,9 @@ workspace "Caffeine"
         objdir "build/%{prj.name}/obj/%{cfg.buildcfg}"
         
         files { "sources/**.h","sources/**.c" }
-        includedirs {"headers","../Core/headers"}
+        includedirs {"headers","../Caffeine-Core/headers"}
         
-        links {"Core"}
+       links{"Caffeine-Core"}
 
         filter "configurations:Debug" 
             defines { "DEBUG" }  
@@ -31,7 +30,7 @@ workspace "Caffeine"
         objdir "build/%{prj.name}/obj/%{cfg.buildcfg}"
 
         files { "tests/**.h","tests/**.c" }
-        includedirs {"headers","../Core/headers"}
+        includedirs {"headers","../Caffeine-Core/headers"}
         
         links {"DataStructures"}
 
@@ -43,8 +42,8 @@ workspace "Caffeine"
             defines { "NDEBUG" }      
             optimize "On"
 
-    externalproject "Core"
-       location "../Core"
+    externalproject "Caffeine-Core"
+       location "../Caffeine-Core"
        uuid "6f788d01-ed35-4f0b-bbdd-860c7a311d9b"
        kind "StaticLib"
        language "C"

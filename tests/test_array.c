@@ -126,8 +126,12 @@ TESTDEF(array_get) {
 
 TESTDEF(array_resize) {
 	SKIP_ON_ERR(cff_array_resize(array, INI_LEN * 2, NULL));
+	
+	#ifdef CFF_COMP_MSVC
 	size_t allocked = _msize((void*)array->buffer);
 	munit_assert(allocked == INI_LEN * 2 * array->data_size);
+	#endif
+	
 	return MUNIT_OK;
 }
 

@@ -11,7 +11,7 @@ struct caffeine_bitmap_s
 
 typedef struct caffeine_bitmap_s cff_bitmap;
 
-void cff_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator);
+cff_err_e cff_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator);
 void cff_bitmap_set(cff_bitmap* bmp, uint64_t bit);
 void cff_bitmap_clear(cff_bitmap* bmp, uint64_t bit);
 void cff_bitmap_set_all(cff_bitmap* bmp);

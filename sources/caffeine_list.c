@@ -2,7 +2,7 @@
 
 #pragma region Auxiliar
 
-inline cff_err_e _caffeine_build_bucket(caffeine_list_bucket** bucket, uintptr_t data, uint64_t data_size, AllocatorInterface* allocator) {
+ cff_err_e __caffeine_build_bucket(caffeine_list_bucket** bucket, uintptr_t data, uint64_t data_size, AllocatorInterface* allocator) {
 
 	cff_assert_param_not_null(bucket);
 	cff_assert_param_not_null(allocator);
@@ -19,7 +19,7 @@ inline cff_err_e _caffeine_build_bucket(caffeine_list_bucket** bucket, uintptr_t
 	return CFF_NONE_ERR;
 }
 
-inline caffeine_list_bucket* _caffeine_get_bucket(cff_list* list, uint64_t index) {
+ caffeine_list_bucket* __caffeine_get_bucket(cff_list* list, uint64_t index) {
 	cff_assert_param_not_null(list);
 	cff_assert_param_less(index, list->count);
 
@@ -33,7 +33,7 @@ inline caffeine_list_bucket* _caffeine_get_bucket(cff_list* list, uint64_t index
 	return bucket;
 }
 
-inline void _caffeine_swap(caffeine_list_bucket* prev_a, caffeine_list_bucket* a, caffeine_list_bucket* b) {
+ void __caffeine_swap(caffeine_list_bucket* prev_a, caffeine_list_bucket* a, caffeine_list_bucket* b) {
 
 	cff_assert_param_not_null(prev_a);
 	cff_assert_param_not_null(a);
@@ -66,7 +66,7 @@ cff_err_e cff_list_add(cff_list* list, uintptr_t data, AllocatorInterface* alloc
 	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	caffeine_list_bucket* bucket;
-	if (_caffeine_build_bucket(&bucket, data, list->data_size, allocator) != CFF_NONE_ERR) return CFF_ALLOC_ERR;
+	if (__caffeine_build_bucket(&bucket, data, list->data_size, allocator) != CFF_NONE_ERR) return CFF_ALLOC_ERR;
 
 	if (list->list_start == NULL) {
 		list->list_start = bucket;
@@ -88,7 +88,7 @@ void cff_list_set(cff_list* list, uint64_t index, uintptr_t data) {
 	cff_assert_param_not_null(data);
 	cff_assert_param_not_zero(list->data_size);
 
-	caffeine_list_bucket* bucket = _caffeine_get_bucket(list, index);
+	caffeine_list_bucket* bucket = __caffeine_get_bucket(list, index);
 
 	cff_memcpy((const void* const)data, (void* const)(bucket->data_ptr), (size_t)list->data_size, (size_t)list->data_size);
 }
@@ -105,14 +105,14 @@ cff_err_e cff_list_insert(cff_list* list, uint64_t index, uintptr_t data, Alloca
 		return cff_list_add(list, data, allocator);
 	}
 	caffeine_list_bucket* bucket;
-	if (_caffeine_build_bucket(&bucket, data, list->data_size, allocator) != CFF_NONE_ERR) return CFF_ALLOC_ERR;
+	if (__caffeine_build_bucket(&bucket, data, list->data_size, allocator) != CFF_NONE_ERR) return CFF_ALLOC_ERR;
 
 	if (index == 0) {
 		bucket->next_bucket = list->list_start;
 		list->list_start = bucket;
 	}
 	else {
-		caffeine_list_bucket* prev_bucket = _caffeine_get_bucket(list, index - 1);
+		caffeine_list_bucket* prev_bucket = __caffeine_get_bucket(list, index - 1);
 		caffeine_list_bucket* next_bucket = prev_bucket->next_bucket;
 
 		bucket->next_bucket = next_bucket;
@@ -129,7 +129,7 @@ void cff_list_get(cff_list* list, uint64_t index, uintptr_t data_out) {
 	cff_assert_param_not_null(data_out);
 	cff_assert_param_not_zero(list->data_size);
 
-	caffeine_list_bucket* bucket = _caffeine_get_bucket(list, index);
+	caffeine_list_bucket* bucket = __caffeine_get_bucket(list, index);
 
 	cff_memcpy((const void* const)(bucket->data_ptr), (void* const)data_out, (size_t)list->data_size, (size_t)list->data_size);
 }
@@ -185,7 +185,7 @@ void cff_list_remove(cff_list* list, uint64_t index, AllocatorInterface* allocat
 		list->list_start = bucket_to_remove->next_bucket;
 	}
 	else {
-		caffeine_list_bucket* bucket_prev = _caffeine_get_bucket(list, index - 1);
+		caffeine_list_bucket* bucket_prev = __caffeine_get_bucket(list, index - 1);
 		bucket_to_remove = bucket_prev->next_bucket;
 
 		bucket_prev->next_bucket = bucket_to_remove->next_bucket;
@@ -248,7 +248,7 @@ cff_err_e cff_list_copy(cff_list* list, cff_list* other, uint64_t start, uint64_
 
 	cff_list_create(other, list->data_size);
 
-	caffeine_list_bucket* bucket = _caffeine_get_bucket(list, start);
+	caffeine_list_bucket* bucket = __caffeine_get_bucket(list, start);
 
 	for (uint64_t i = 0; i < count; i++)
 	{

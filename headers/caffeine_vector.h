@@ -24,16 +24,16 @@ struct caffeine_vector_s {
 
 typedef struct caffeine_vector_s cff_vector;
 
-void cff_vector_create(cff_vector* vector, uint64_t data_size, uint64_t lenght, AllocatorInterface* allocator);
-void cff_vector_resize(cff_vector* vector, uint64_t lenght, AllocatorInterface* allocator);
+cff_err_e cff_vector_create(cff_vector* vector, uint64_t data_size, uint64_t lenght, AllocatorInterface* allocator);
+cff_err_e cff_vector_resize(cff_vector* vector, uint64_t lenght, AllocatorInterface* allocator);
 void cff_vector_get(cff_vector* vector, uint64_t index, uintptr_t out);
 void cff_vector_set(cff_vector* vector, uintptr_t data_ptr, uint64_t index);
 void cff_vector_insert(cff_vector* vector, uintptr_t data_ptr, uint64_t index);
 void cff_vector_remove(cff_vector* vector, uint64_t index, AllocatorInterface* allocator);
-void cff_vector_copy(cff_vector* vector, cff_vector* to, uint64_t start, uint64_t count, AllocatorInterface* allocator);
-void cff_vector_clone(cff_vector* vector, cff_vector* to, AllocatorInterface* allocator);
+cff_err_e cff_vector_copy(cff_vector* vector, cff_vector* to, uint64_t start, uint64_t count, AllocatorInterface* allocator);
+cff_err_e cff_vector_clone(cff_vector* vector, cff_vector* to, AllocatorInterface* allocator);
 void cff_vector_fill(cff_vector* vector, uintptr_t data_ptr);
-void cff_vector_join(cff_vector* vector, cff_vector* from, AllocatorInterface* allocator);
+cff_err_e cff_vector_join(cff_vector* vector, cff_vector* from, AllocatorInterface* allocator);
 void cff_vector_reverse(cff_vector* vector);
 void cff_vector_filter(cff_vector* vector, filter_fn func, cff_vector* filter_result, AllocatorInterface* allocator);
 void cff_vector_map(cff_vector* vector, map_fn func, cff_vector* map_result, uint64_t result_data_size, AllocatorInterface* allocator);

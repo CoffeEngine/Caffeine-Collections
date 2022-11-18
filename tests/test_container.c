@@ -147,8 +147,12 @@ TESTDEF(container_desloc) {
 
 TESTDEF(container_resize) {
 	SKIP_ON_ERR(cff_container_resize(container, INI_LEN * 2, NULL));
+	
+	#ifdef CFF_COMP_MSVC
 	size_t allocked = _msize((void*)container->buffer);
 	munit_assert(allocked == INI_LEN * 2 * container->data_size);
+	#endif
+	
 	return MUNIT_OK;
 }
 

@@ -4,7 +4,21 @@
 #include "caffeine_core.h"
 #include "caffeine_types.h"
 
+
+#ifdef CFF_COMP_MSVC
 derive_container(caffeine_array_s, uint64_t lenght;);
+#endif
+
+#ifdef CFF_COMP_GCC
+struct caffeine_array_s { 
+    struct {
+        uintptr_t buffer;
+	    uint64_t data_size;
+    };
+    uint64_t lenght; 
+};
+#endif
+
 typedef struct caffeine_array_s cff_array;
 
 void cff_array_get(cff_array* array, uint64_t index, uintptr_t ptr_out);

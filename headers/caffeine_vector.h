@@ -5,7 +5,22 @@
 #include "caffeine_core.h"
 #include "caffeine_types.h"
 
+#ifdef CFF_COMP_MSVC
 derive_container(caffeine_vector_s, uint64_t lenght; uint64_t count;);
+#endif
+
+#ifdef CFF_COMP_GCC
+
+struct caffeine_vector_s { 
+    struct {
+        uintptr_t buffer;
+	    uint64_t data_size;
+    };
+        uint64_t lenght;
+        uint64_t count; 
+    };
+#endif
+
 
 typedef struct caffeine_vector_s cff_vector;
 

@@ -12,6 +12,8 @@ void cff_vector_create(cff_vector* vector, uint64_t data_size, uint64_t lenght, 
 	cff_container_create((cff_container*)vector, data_size, lenght, allocator);
 	vector->count = 0;
 	vector->lenght = lenght;
+
+	return caffeine_container_create((cff_container*)vector, data_size, lenght, allocator);
 }
 
 void cff_vector_resize(cff_vector* vector, uint64_t lenght, AllocatorInterface* allocator) {
@@ -20,6 +22,8 @@ void cff_vector_resize(cff_vector* vector, uint64_t lenght, AllocatorInterface* 
 
 	cff_container_resize((cff_container*)vector, lenght, allocator);
 	vector->lenght = lenght;
+
+	return caffeine_container_resize((cff_container*)vector, lenght, allocator);
 }
 
 void cff_vector_get(cff_vector* vector, uint64_t index, uintptr_t out) {
@@ -69,6 +73,8 @@ void cff_vector_copy(cff_vector* vector, cff_vector* to, uint64_t start, uint64_
 
 	cff_container_copy((cff_container*)vector, (cff_container*)to, start, count, to->lenght, &to->lenght, allocator);
 	to->count = to->lenght;
+
+	return err;
 }
 
 void cff_vector_clone(cff_vector* vector, cff_vector* to, AllocatorInterface* allocator) {
@@ -97,6 +103,8 @@ void cff_vector_join(cff_vector* vector, cff_vector* from, AllocatorInterface* a
 	uint64_t size = from->count * from->data_size;
 	cff_memcpy((const void* const)from->buffer, (void* const)resolve_ptr(vector->buffer + (vector->count * vector->data_size)), (size_t)size, (size_t)((vector->lenght * vector->data_size) - (vector->count * vector->data_size)));
 	vector->count += from->count;
+
+	return CFF_NONE_ERR;
 }
 
 void cff_vector_reverse(cff_vector* vector) {

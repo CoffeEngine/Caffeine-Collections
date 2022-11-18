@@ -18,6 +18,8 @@ static const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_stack* stack)
 
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
+
 TESTDEF(stack_create) {
 	cff_stack_create(stack, DATA_SIZE, INI_LEN, NULL);
 

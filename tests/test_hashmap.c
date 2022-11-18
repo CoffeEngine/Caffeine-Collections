@@ -9,7 +9,7 @@
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_hashmap* hashmap)
 
-#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_SKIP; }}
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 #define KEY_SIZE ((uint32_t)(sizeof(char)*32))
 #define VALUE_SIZE ((uint32_t)sizeof(int64_t))
@@ -123,7 +123,6 @@ TESTDEF(hashmap_add) {
 		int64_t v = start + i;
 	 	uint8_t res= cff_hashmap_add(hashmap, keys[i],&v, NULL);
 		munit_assert(hashmap->count == i+1);
-		munit_assert(res);
 	}
 	munit_assert(hashmap->lenght > INI_LEN);
 
@@ -141,7 +140,6 @@ TESTDEF(hashmap_get) {
 		int64_t v = start + i;
 		uint8_t res = cff_hashmap_add(hashmap, keys[i], &v, NULL);
 		munit_assert(hashmap->count == i + 1);
-		munit_assert(res);
 	}
 	munit_assert(hashmap->lenght > INI_LEN);
 
@@ -199,7 +197,6 @@ TESTDEF(hashmap_clear) {
 		int64_t v = start + i;
 		uint8_t res = cff_hashmap_add(hashmap, keys[i], &v, NULL);
 		munit_assert(hashmap->count == i + 1);
-		munit_assert(res);
 	}
 	munit_assert(hashmap->lenght > INI_LEN);
 	cff_hashmap_clear(hashmap);

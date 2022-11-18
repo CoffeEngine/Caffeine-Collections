@@ -17,6 +17,8 @@ const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_sparseset* set)
 
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
+
 static void assert_vec3(vec3 a, vec3 b) {
 	munit_assert(a.x == b.x && a.y == b.y && a.z == b.z);
 }

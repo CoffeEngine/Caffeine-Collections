@@ -18,7 +18,7 @@ static const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_vector* vector)
 
-#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_SKIP; }}
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 bool filter_even_x(vec3* data, uint64_t index, uint64_t size) {
 	return data->x % 2 == 0;

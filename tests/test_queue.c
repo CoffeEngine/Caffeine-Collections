@@ -18,6 +18,7 @@ static const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_queue* queue)
 
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 static void assert_vec3(vec3 a, vec3 b) {
 	munit_assert(a.x == b.x && a.y == b.y && a.z == b.z);
@@ -44,7 +45,7 @@ TESTDEF(queue_resize) {
 		cff_queue_enqueue(queue, &v, NULL);
 	}
 
-	for (size_t i = 0; i < INI_LEN; i++)
+	for (size_t i = 0; i < n_size; i++)
 	{
 		vec3* tmp = (vec3*)queue->buffer;
 		munit_assert(tmp[i].x == i);

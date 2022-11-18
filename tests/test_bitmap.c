@@ -12,7 +12,7 @@
 
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_bitmap* bitmap)
 
-
+#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 TESTDEF(bitmap_create) {
 	cff_bitmap_create(bitmap, BIT_LEN, NULL);

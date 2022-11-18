@@ -15,6 +15,8 @@ void cff_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* all
 	bmp->buffer = (uint64_t*)cff_allocator_alloc(allocator,buff_size * sizeof(uint64_t), 8);
 	bmp->lenght = lenght;
 	cff_bitmap_clear_all(bmp);
+
+	return CFF_NONE_ERR;
 }
 
 void cff_bitmap_set(cff_bitmap* bmp, uint64_t bit) {
@@ -95,7 +97,11 @@ void cff_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* all
 	if (cff_allocator_realloc(allocator, bmp->buffer, buff_size, 8, &tmp)) {
 		bmp->buffer = tmp;
 		bmp->lenght = lenght;
+
+		return CFF_NONE_ERR;
 	}
+
+	return CFF_REALLOC_ERR;
 }
 
 void cff_bitmap_free(cff_bitmap* bmp, AllocatorInterface* allocator) {

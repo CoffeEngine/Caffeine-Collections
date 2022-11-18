@@ -291,6 +291,7 @@ cff_err_e cff_container_join(cff_container* container, cff_container* other, uin
 
 cff_err_e cff_container_reverse(cff_container* container, uint64_t lenght) {
 	cff_assert_param_not_null(container);
+	cff_assert_param_not_null(container->buffer);
 	cff_assert_param_not_zero(lenght);
 
 	int64_t start = 0;

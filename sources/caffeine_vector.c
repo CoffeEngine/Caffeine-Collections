@@ -71,7 +71,7 @@ void cff_vector_copy(cff_vector* vector, cff_vector* to, uint64_t start, uint64_
 	cff_assert_param_less((start+ count), vector->count);
 
 
-	cff_container_copy((cff_container*)vector, (cff_container*)to, start, count, to->lenght, &to->lenght, allocator);
+	cff_err_e err = cff_container_copy((cff_container*)vector, (cff_container*)to, start, count, to->lenght, &to->lenght, allocator);
 	to->count = to->lenght;
 
 	return err;

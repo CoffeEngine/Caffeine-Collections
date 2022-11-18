@@ -112,7 +112,7 @@ TESTDEF(list_set) {
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
-		cff_list_set(list, i, (uintptr_t)(&data), NULL);
+		cff_list_set(list, i, (uintptr_t)(&data));
 	}
 
 	caffeine_list_bucket* bucket = list->list_start;

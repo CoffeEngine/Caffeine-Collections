@@ -637,8 +637,8 @@ TESTDEF(vector_count_cmp) {
 		.z = 0
 	};
 
-	uint64_t count = cff_vector_count(vector, &data, compare_vec3);
-	uint64_t count2 = cff_vector_count(vector, &data2, compare_vec3);
+	uint64_t count = cff_vector_count_cmp(vector, &data, compare_vec3);
+	uint64_t count2 = cff_vector_count_cmp(vector, &data2, compare_vec3);
 
 	munit_assert(count == 5);
 	munit_assert(count2 == 0);

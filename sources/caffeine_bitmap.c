@@ -12,7 +12,7 @@ cff_err_e cff_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface
 	size_t buff_size = sizeof(uint64_t) * (((size_t)lenght) / sizeof(uint64_t) * 8);
 	if (buff_size == 0) buff_size = 1;
 
-	bmp->buffer = (uint64_t*)cff_allocator_alloc(allocator,buff_size * sizeof(uint64_t), 8);
+	bmp->buffer = (uint64_t*)cff_allocator_alloc(allocator,buff_size * sizeof(uint64_t));
 	bmp->lenght = lenght;
 	cff_bitmap_clear_all(bmp);
 
@@ -83,7 +83,7 @@ void cff_bitmap_clear_all(cff_bitmap* bmp) {
 
 }
 
-void cff_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
+cff_err_e cff_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_null(bmp->buffer);
 	cff_assert_param_not_zero(lenght);
@@ -94,7 +94,7 @@ void cff_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* all
 	size_t buff_size = sizeof(uint64_t) * ((size_t)(lenght) / sizeof(uint64_t) * 8);
 	if (buff_size == 0) buff_size = 1;
 
-	if (cff_allocator_realloc(allocator, bmp->buffer, buff_size, 8, &tmp)) {
+	if (cff_allocator_realloc(allocator, bmp->buffer, buff_size, &tmp)) {
 		bmp->buffer = tmp;
 		bmp->lenght = lenght;
 
@@ -110,7 +110,7 @@ void cff_bitmap_free(cff_bitmap* bmp, AllocatorInterface* allocator) {
 
 	if (allocator == NULL) allocator = cff_get_default_allocator();
 
-	cff_allocator_free(allocator, bmp->buffer, 8);
+	cff_allocator_free(allocator, bmp->buffer);
 	bmp->buffer = 0;
 	bmp->lenght = 0;
 }

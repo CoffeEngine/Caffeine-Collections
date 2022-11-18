@@ -99,7 +99,7 @@ cff_err_e cff_container_create(cff_container* container, uint64_t data_size, uin
 
 	if (allocator == NULL) allocator = cff_get_default_allocator();
 
-	uintptr_t ptr = (uintptr_t)cff_allocator_alloc(allocator, (size_t)(data_size * lenght), 0);
+	uintptr_t ptr = (uintptr_t)cff_allocator_alloc(allocator, (size_t)(data_size * lenght));
 	if (ptr == 0) return CFF_ALLOC_ERR;
 	container->buffer = ptr;
 	container->data_size = data_size;
@@ -114,7 +114,7 @@ cff_err_e caffeine_container_recreate(cff_container* container, uint64_t data_si
 	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	void* tmp = 0;
-	if (cff_allocator_realloc(allocator, (void*)container->buffer, (size_t)(data_size * lenght), 0, &tmp)) {
+	if (cff_allocator_realloc(allocator, (void*)container->buffer, (size_t)(data_size * lenght), &tmp)) {
 		container->buffer = (uintptr_t)tmp;
 		container->data_size = data_size;
 		return CFF_NONE_ERR;
@@ -156,7 +156,7 @@ cff_err_e cff_container_resize(cff_container* container, uint64_t lenght, Alloca
 	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	void* tmp;
-	if (cff_allocator_realloc(allocator, (void*)container->buffer, (size_t)(container->data_size * lenght), 0, &tmp)) {
+	if (cff_allocator_realloc(allocator, (void*)container->buffer, (size_t)(container->data_size * lenght), &tmp)) {
 		container->buffer = (uintptr_t)tmp;
 		return CFF_NONE_ERR;
 	}
@@ -327,7 +327,6 @@ cff_err_e cff_container_filter(cff_container* container, filter_fn filter_functi
 		uintptr_t ptr = resolve_ptr(ITEM_ADDRESS(container, i));
 		if (filter_function((void*)ptr, i, container->data_size) == true) {
 			cff_container_set(ptr_out, counter, ptr, container_lenght);
-			//cff_memcpy((const void* const)ptr, (void* const)resolve_ptr(container->buffer + counter * filter_result->data_size), (size_t)container->data_size, (size_t)container->data_size);
 			counter++;
 		}
 	}
@@ -394,7 +393,7 @@ void cff_container_free(cff_container* container, AllocatorInterface* allocator)
 
 	if (allocator == NULL) allocator = cff_get_default_allocator();
 
-	cff_allocator_free(allocator, (void*)container->buffer, 0);
+	cff_allocator_free(allocator, (void*)container->buffer);
 	container->buffer = 0;
 	container->data_size = 0;
 }

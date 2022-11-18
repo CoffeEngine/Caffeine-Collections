@@ -14,9 +14,9 @@ cff_err_e caffeine_sparseset_resize(cff_sparseset* set, uint64_t lenght, Allocat
 	uint64_t* dense_index = NULL;
 	void* dense = 0;
 
-	int res_sparse = cff_allocator_realloc(allocator, (void*)set->sparse, (size_t)(sizeof(uint64_t) * lenght), 8, (void**)&sparse);
-	int res_dense_index = cff_allocator_realloc(allocator, (void*)set->dense_index, (size_t)(sizeof(uint64_t) * lenght), 8, (void**)&dense_index);
-	int res_dense = cff_allocator_realloc(allocator, (void*)set->dense, (size_t)(set->data_size * lenght), 8, &dense);
+	int res_sparse = cff_allocator_realloc(allocator, (void*)set->sparse, (size_t)(sizeof(uint64_t) * lenght), (void**)&sparse);
+	int res_dense_index = cff_allocator_realloc(allocator, (void*)set->dense_index, (size_t)(sizeof(uint64_t) * lenght),  (void**)&dense_index);
+	int res_dense = cff_allocator_realloc(allocator, (void*)set->dense, (size_t)(set->data_size * lenght),  &dense);
 	
 	if (
 		res_sparse &&
@@ -36,7 +36,7 @@ cff_err_e caffeine_sparseset_resize(cff_sparseset* set, uint64_t lenght, Allocat
 	return CFF_ALLOC_ERR;
 }
 
-void cff_sparseset_create(cff_sparseset* set, uint64_t lenght, uint64_t data_size, AllocatorInterface* allocator) {
+cff_err_e cff_sparseset_create(cff_sparseset* set, uint64_t lenght, uint64_t data_size, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(set);
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_not_zero(data_size);
@@ -48,13 +48,13 @@ void cff_sparseset_create(cff_sparseset* set, uint64_t lenght, uint64_t data_siz
 	set->lenght = lenght;
 	set->data_size = data_size;
 
-	set->sparse = (uint64_t*)cff_allocator_alloc(allocator, (size_t)(sizeof(uint64_t) * lenght), 8);
+	set->sparse = (uint64_t*)cff_allocator_alloc(allocator, (size_t)(sizeof(uint64_t) * lenght));
 	if (set->sparse == NULL) goto SPARSE_SET_FAIL_SPARSE;
 
-	set->dense_index = (uint64_t*)cff_allocator_alloc(allocator, (size_t)(sizeof(uint64_t) * lenght), 8);
+	set->dense_index = (uint64_t*)cff_allocator_alloc(allocator, (size_t)(sizeof(uint64_t) * lenght));
 	if (set->dense_index == NULL) goto SPARSE_SET_FAIL_DENSE_INDEX;
 
-	set->dense = (uintptr_t)cff_allocator_alloc(allocator, (size_t)(data_size * lenght), 8);
+	set->dense = (uintptr_t)cff_allocator_alloc(allocator, (size_t)(data_size * lenght));
 	if (set->dense == 0) goto SPARSE_SET_FAIL_DENSE;
 
 	cff_assert_msg((void*)set->dense != (uintptr_t)NULL, "[SPARSE SET]: Failed to allocate buffer\n");
@@ -64,14 +64,14 @@ void cff_sparseset_create(cff_sparseset* set, uint64_t lenght, uint64_t data_siz
 	return CFF_NONE_ERR;
 
 SPARSE_SET_FAIL_DENSE:
-	cff_allocator_free(allocator, set->dense_index, 8);
+	cff_allocator_free(allocator, set->dense_index);
 SPARSE_SET_FAIL_DENSE_INDEX:
-	cff_allocator_free(allocator, set->sparse, 8);
+	cff_allocator_free(allocator, set->sparse);
 SPARSE_SET_FAIL_SPARSE:
 	return CFF_ALLOC_ERR;
 }
 
-void cff_sparseset_add(cff_sparseset* set, uint64_t index, uintptr_t data, AllocatorInterface* allocator) {
+cff_err_e cff_sparseset_add(cff_sparseset* set, uint64_t index, uintptr_t data, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(set);
 	cff_assert_param_not_null(data);
 
@@ -139,9 +139,9 @@ void cff_sparseset_free(cff_sparseset* set, AllocatorInterface* allocator) {
 
 	if (allocator == NULL) allocator = cff_get_default_allocator();
 
-	cff_allocator_free(allocator, (void*)set->dense, 8);
-	cff_allocator_free(allocator, (void*)set->sparse, 8);
-	cff_allocator_free(allocator, (void*)set->dense_index, 8);
+	cff_allocator_free(allocator, (void*)set->dense);
+	cff_allocator_free(allocator, (void*)set->sparse);
+	cff_allocator_free(allocator, (void*)set->dense_index);
 	cff_memset((void*)resolve_ptr(set), 0, sizeof(cff_sparseset));
 	set->count = 0;
 	set->data_size = 0;

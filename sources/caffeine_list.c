@@ -9,7 +9,7 @@
 	cff_assert_param_not_zero(data_size);
 	cff_assert_param_not_zero(data);
 
-	*bucket = (caffeine_list_bucket*)cff_allocator_alloc(allocator, sizeof(caffeine_list_bucket) + (size_t)data_size, 8);
+	*bucket = (caffeine_list_bucket*)cff_allocator_alloc(allocator, sizeof(caffeine_list_bucket) + (size_t)data_size);
 	if (*bucket == NULL) return CFF_ALLOC_ERR;
 	(*bucket)->next_bucket = NULL;
 	(*bucket)->data_ptr = ((uintptr_t)(*bucket)) + (uintptr_t)sizeof(caffeine_list_bucket);
@@ -195,7 +195,7 @@ void cff_list_remove(cff_list* list, uint64_t index, AllocatorInterface* allocat
 		}
 	}
 
-	if (bucket_to_remove != NULL) cff_allocator_free(allocator, bucket_to_remove, 8);
+	if (bucket_to_remove != NULL) cff_allocator_free(allocator, bucket_to_remove);
 
 	list->count--;
 }
@@ -211,7 +211,7 @@ void cff_list_clear(cff_list* list, AllocatorInterface* allocator) {
 	{
 		aux = list->list_start;
 		list->list_start = list->list_start->next_bucket;
-		cff_allocator_free(allocator, aux, 8);
+		cff_allocator_free(allocator, aux);
 	}
 
 	list->list_start = NULL;

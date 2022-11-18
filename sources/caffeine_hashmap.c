@@ -167,10 +167,10 @@ cff_err_e caffeine_hashmap_expand(cff_hashmap* hashmap, AllocatorInterface* allo
 	if (bitmap_len == 0) bitmap_len = 1;
 
 
-	uint64_t* new_bitmap_buffer = cff_allocator_alloc(allocator, (size_t)(sizeof(uint64_t) * bitmap_len), 8);
+	uint64_t* new_bitmap_buffer = cff_allocator_alloc(allocator, (size_t)(sizeof(uint64_t) * bitmap_len));
 	if (new_bitmap_buffer == NULL) return CFF_ALLOC_ERR;
 
-	void* new_hashmap_buffer = cff_allocator_alloc(allocator, (size_t)(new_lenght * ((uint64_t)hashmap->data_size + (uint64_t)hashmap->key_size)), 8);
+	void* new_hashmap_buffer = cff_allocator_alloc(allocator, (size_t)(new_lenght * ((uint64_t)hashmap->data_size + (uint64_t)hashmap->key_size)));
 	if (new_hashmap_buffer == NULL) return CFF_ALLOC_ERR;
 
 	cff_memset(new_bitmap_buffer, 0, (size_t)(sizeof(uint64_t) * bitmap_len));
@@ -199,11 +199,13 @@ cff_err_e caffeine_hashmap_expand(cff_hashmap* hashmap, AllocatorInterface* allo
 			cff_hashmap_add(hashmap, key, value, allocator);
 		}
 	}
-	cff_allocator_free(allocator, (void*)old_hashmap, 8);
+	cff_allocator_free(allocator, (void*)old_hashmap);
 	cff_bitmap_free(&old_bitmap, allocator);
+
+	return CFF_NONE_ERR;
 }
 
-uint64_t caffeine_hashmap_hash_default(uintptr_t data_ptr, uint32_t data_size) {
+uint64_t __caffeine_hashmap_hash_default(uintptr_t data_ptr, uint32_t data_size) {
 	cff_assert_param_not_null(data_ptr);
 	cff_assert_param_not_zero(data_size);
 	char* key = (char*)data_ptr;
@@ -217,7 +219,7 @@ uint64_t caffeine_hashmap_hash_default(uintptr_t data_ptr, uint32_t data_size) {
 	return h;
 }
 
-int8_t caffeine_hashmap_cmp_default(uintptr_t key_a, uintptr_t key_b, uint32_t data_size) {
+int8_t __caffeine_hashmap_cmp_default(uintptr_t key_a, uintptr_t key_b, uint32_t data_size) {
 	cff_assert_param_not_null(key_a);
 	cff_assert_param_not_null(key_b);
 	cff_assert_param_not_zero(data_size);
@@ -225,11 +227,11 @@ int8_t caffeine_hashmap_cmp_default(uintptr_t key_a, uintptr_t key_b, uint32_t d
 	return cff_memcmp((const void*)key_a, (const void*)key_b, (size_t)data_size);
 }
 
-void caffeine_hashmap_cpy_default(uintptr_t from, uintptr_t to, uint32_t data_size) {
+void __caffeine_hashmap_cpy_default(uintptr_t from, uintptr_t to, uint32_t data_size) {
 	cff_memcpy((const void* const)from, (void* const)to, (size_t)data_size, (size_t)data_size);
 }
 
- uint64_t caffeine_second_hash(cff_hashmap* hashmap, uint64_t key, uint64_t collision_count) {
+ uint64_t __caffeine_second_hash(cff_hashmap* hashmap, uint64_t key, uint64_t collision_count) {
 	cff_assert_param_not_null(hashmap);
 
 	return ((key + collision_count) * (hashmap->prime_value - (key % hashmap->prime_value))) % hashmap->lenght;
@@ -237,7 +239,7 @@ void caffeine_hashmap_cpy_default(uintptr_t from, uintptr_t to, uint32_t data_si
 
 
 
-void cff_hashmap_create(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_size, uint64_t lenght, cff_hash_key_func hash_func, cff_cmp_key_func cmp_func, cff_cpy_key_func cpy_func, AllocatorInterface* allocator) {
+ cff_err_e cff_hashmap_create(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_size, uint64_t lenght, cff_hash_key_func hash_func, cff_cmp_key_func cmp_func, cff_cpy_key_func cpy_func, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(hashmap);
 	cff_assert_param_not_null(hash_func);
 	cff_assert_param_not_null(cmp_func);
@@ -249,7 +251,7 @@ void cff_hashmap_create(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_s
 
 	if (allocator == NULL) allocator = cff_get_default_allocator();
 
-	hashmap->buffer = (uintptr_t)cff_allocator_alloc(allocator, (size_t)(((uint64_t)data_size + (uint64_t)key_size) * lenght), 8);
+	hashmap->buffer = (uintptr_t)cff_allocator_alloc(allocator, (size_t)(((uint64_t)data_size + (uint64_t)key_size) * lenght));
 
 	if (hashmap->buffer == 0) return CFF_ALLOC_ERR;
 
@@ -257,17 +259,21 @@ void cff_hashmap_create(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_s
 	hashmap->key_size = key_size;
 	hashmap->lenght = lenght;
 	hashmap->count = 0;
-	hashmap->cmp_func = (cmp_func != NULL) ? cmp_func : caffeine_hashmap_cmp_default;
-	hashmap->hash_func = (hash_func != NULL) ? hash_func : caffeine_hashmap_hash_default;
-	hashmap->cpy_func = (cpy_func != NULL) ? cpy_func : caffeine_hashmap_cpy_default;
+	hashmap->cmp_func = (cmp_func != NULL) ? cmp_func : __caffeine_hashmap_cmp_default;
+	hashmap->hash_func = (hash_func != NULL) ? hash_func : __caffeine_hashmap_hash_default;
+	hashmap->cpy_func = (cpy_func != NULL) ? cpy_func : __caffeine_hashmap_cpy_default;
 	hashmap->prime_value = __caffeine_find_prime_below(lenght);
 	hashmap->collision_count_max = 0;
 
 
-	cff_bitmap_create(&hashmap->bitmap, lenght, allocator);
+	cff_err_e err = cff_bitmap_create(&hashmap->bitmap, lenght, allocator);
+	if (err != CFF_NONE_ERR) {
+		cff_hashmap_free(hashmap, allocator);
+	}
+	return err;
 }
 
-void cff_hashmap_create_default(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_size, AllocatorInterface* allocator) {
+ cff_err_e cff_hashmap_create_default(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_size, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(hashmap);
 
 	cff_assert_param_not_zero(key_size);
@@ -275,7 +281,7 @@ void cff_hashmap_create_default(cff_hashmap* hashmap, uint32_t key_size, uint32_
 
 	if (allocator == NULL) allocator = cff_get_default_allocator();
 
-	hashmap->buffer = (uintptr_t)cff_allocator_alloc(allocator, (size_t)((data_size + key_size) * DEFAULT_INIT_LENGHT), 8);
+	hashmap->buffer = (uintptr_t)cff_allocator_alloc(allocator, (size_t)((data_size + key_size) * DEFAULT_INIT_LENGHT));
 
 	if (hashmap->buffer == 0) return CFF_ALLOC_ERR;
 
@@ -283,21 +289,19 @@ void cff_hashmap_create_default(cff_hashmap* hashmap, uint32_t key_size, uint32_
 	hashmap->key_size = key_size;
 	hashmap->lenght = DEFAULT_INIT_LENGHT;
 	hashmap->count = 0;
-	hashmap->cmp_func = caffeine_hashmap_cmp_default;
-	hashmap->hash_func = caffeine_hashmap_hash_default;
-	hashmap->cpy_func = caffeine_hashmap_cpy_default;
+	hashmap->cmp_func = __caffeine_hashmap_cmp_default;
+	hashmap->hash_func = __caffeine_hashmap_hash_default;
+	hashmap->cpy_func = __caffeine_hashmap_cpy_default;
 	hashmap->prime_value = __caffeine_find_prime_below(DEFAULT_INIT_LENGHT);
 	hashmap->collision_count_max = 0;
 
 
-	cff_err_e err = caffeine_bitmap_create(&hashmap->bitmap, DEFAULT_INIT_LENGHT, allocator);
+	cff_err_e err = cff_bitmap_create(&hashmap->bitmap, DEFAULT_INIT_LENGHT, allocator);
 
 	if (err != CFF_NONE_ERR) {
-		caffeine_hashmap_free(hashmap, allocator);
-		return err;
+		cff_hashmap_free(hashmap, allocator);
 	}
-
-	cff_bitmap_create(&hashmap->bitmap, DEFAULT_INIT_LENGHT, allocator);
+	return err;
 }
 
 uint8_t cff_hashmap_add(cff_hashmap* hashmap, uintptr_t key, uintptr_t value, AllocatorInterface* allocator) {
@@ -333,7 +337,7 @@ uint8_t cff_hashmap_add(cff_hashmap* hashmap, uintptr_t key, uintptr_t value, Al
 			collision_count = 0;
 		}
 		else
-			index = caffeine_second_hash(hashmap, index, collision_count);
+			index = __caffeine_second_hash(hashmap, index, collision_count);
 	}
 
 
@@ -366,7 +370,7 @@ uint8_t cff_hashmap_get(cff_hashmap* hashmap, uintptr_t key, uintptr_t value) {
 
 		if (++collision_count > hashmap->collision_count_max) return 0;
 
-		index = caffeine_second_hash(hashmap, index, collision_count);
+		index = __caffeine_second_hash(hashmap, index, collision_count);
 	}
 
 	return 0;
@@ -387,7 +391,7 @@ uint8_t cff_hashmap_exist_key(cff_hashmap* hashmap, uintptr_t key) {
 
 		if (++collision_count > hashmap->collision_count_max) return 0;
 
-		index = caffeine_second_hash(hashmap, index, collision_count);
+		index = __caffeine_second_hash(hashmap, index, collision_count);
 	}
 
 	bucket_ptr = __caffeine_hashmap_get_bucket(hashmap, index);
@@ -415,7 +419,7 @@ uint8_t cff_hashmap_remove(cff_hashmap* hashmap, uintptr_t key) {
 
 		if (++collision_count > hashmap->collision_count_max) return 0;
 
-		index = caffeine_second_hash(hashmap, index, collision_count);
+		index = __caffeine_second_hash(hashmap, index, collision_count);
 	}
 
 	return 0;
@@ -427,7 +431,7 @@ void cff_hashmap_free(cff_hashmap* hashmap, AllocatorInterface* allocator) {
 	cff_bitmap_free(&(hashmap->bitmap), allocator);
 
 	if (allocator == NULL) allocator = cff_get_default_allocator();
-	cff_allocator_free(allocator, (void*)hashmap->buffer, 8);
+	cff_allocator_free(allocator, (void*)hashmap->buffer);
 
 	cff_memset((void*)hashmap, 0, sizeof(hashmap));
 }

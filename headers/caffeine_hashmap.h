@@ -26,8 +26,8 @@ struct caffeine_hashmap_s {
 
 typedef struct caffeine_hashmap_s cff_hashmap;
 
-void cff_hashmap_create(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_size,uint64_t lenght, cff_hash_key_func hash_func, cff_cmp_key_func cmp_func, cff_cpy_key_func cpy_func, AllocatorInterface* allocator);
-void cff_hashmap_create_default(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_size, AllocatorInterface* allocator);
+cff_err_e cff_hashmap_create(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_size,uint64_t lenght, cff_hash_key_func hash_func, cff_cmp_key_func cmp_func, cff_cpy_key_func cpy_func, AllocatorInterface* allocator);
+cff_err_e cff_hashmap_create_default(cff_hashmap* hashmap, uint32_t key_size, uint32_t data_size, AllocatorInterface* allocator);
 
 uint8_t cff_hashmap_add(cff_hashmap* hashmap, uintptr_t key, uintptr_t value, AllocatorInterface* allocator);
 uint8_t cff_hashmap_get(cff_hashmap* hashmap, uintptr_t key, uintptr_t value);

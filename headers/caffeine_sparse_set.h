@@ -17,8 +17,8 @@ struct caffeine_sparse_set
 
 typedef struct caffeine_sparse_set cff_sparseset;
 
-void cff_sparseset_create(cff_sparseset* set, uint64_t lenght, uint64_t data_size, AllocatorInterface* allocator);
-void cff_sparseset_add(cff_sparseset* set, uint64_t index, uintptr_t data, AllocatorInterface* allocator);
+cff_err_e cff_sparseset_create(cff_sparseset* set, uint64_t lenght, uint64_t data_size, AllocatorInterface* allocator);
+cff_err_e cff_sparseset_add(cff_sparseset* set, uint64_t index, uintptr_t data, AllocatorInterface* allocator);
 void cff_sparseset_get(cff_sparseset* set, uint64_t index, uintptr_t data);
 void cff_sparseset_remove(cff_sparseset* set, uint64_t index);
 void cff_sparseset_clear(cff_sparseset* set);

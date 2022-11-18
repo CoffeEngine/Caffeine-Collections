@@ -25,7 +25,7 @@ void dbg_callback(char* str, uint64_t str_len) {
 uint64_t parse_key(uintptr_t pointer, uint64_t data_size, char** buffer, AllocatorInterface* allocator) {
 	const char* str = (const char*)pointer;
 	size_t str_len = strnlen(str, 32);
-	*buffer = cff_allocator_alloc(allocator, str_len, 1);
+	*buffer = cff_allocator_alloc(allocator, str_len);
 	strncpy(*buffer, str, str_len);
 	return str_len;
 }
@@ -33,7 +33,7 @@ uint64_t parse_key(uintptr_t pointer, uint64_t data_size, char** buffer, Allocat
 uint64_t parse_value(uintptr_t pointer, uint64_t data_size, char** buffer, AllocatorInterface* allocator) {
 	int64_t value = *(int64_t*)pointer;
 	size_t str_len = snprintf(NULL, 0, "%lld", value);
-	*buffer = cff_allocator_alloc(allocator, str_len + 1, 1);
+	*buffer = cff_allocator_alloc(allocator, str_len + 1);
 	snprintf(*buffer, str_len, "%lld", value);
 	*buffer[str_len] = '\0';
 	return str_len;

@@ -16,7 +16,7 @@ void cff_bitmap_set(cff_bitmap* bmp, uint64_t bit);
 void cff_bitmap_clear(cff_bitmap* bmp, uint64_t bit);
 void cff_bitmap_set_all(cff_bitmap* bmp);
 void cff_bitmap_clear_all(cff_bitmap* bmp);
-void cff_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator);
+cff_err_e cff_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator);
 void cff_bitmap_free(cff_bitmap* bmp, AllocatorInterface* allocator);
 uint8_t cff_bitmap_get(cff_bitmap* bmp, uint64_t bit);
 

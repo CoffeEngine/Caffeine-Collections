@@ -11,14 +11,14 @@ struct caffeine_bitmap_s
 
 typedef struct caffeine_bitmap_s cff_bitmap;
 
-void caffeine_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator);
-void caffeine_bitmap_set(cff_bitmap* bmp, uint64_t bit);
-void caffeine_bitmap_clear(cff_bitmap* bmp, uint64_t bit);
-void caffeine_bitmap_set_all(cff_bitmap* bmp);
-void caffeine_bitmap_clear_all(cff_bitmap* bmp);
-void caffeine_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator);
-void caffeine_bitmap_free(cff_bitmap* bmp, AllocatorInterface* allocator);
-uint8_t caffeine_bitmap_get(cff_bitmap* bmp, uint64_t bit);
+void cff_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator);
+void cff_bitmap_set(cff_bitmap* bmp, uint64_t bit);
+void cff_bitmap_clear(cff_bitmap* bmp, uint64_t bit);
+void cff_bitmap_set_all(cff_bitmap* bmp);
+void cff_bitmap_clear_all(cff_bitmap* bmp);
+void cff_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator);
+void cff_bitmap_free(cff_bitmap* bmp, AllocatorInterface* allocator);
+uint8_t cff_bitmap_get(cff_bitmap* bmp, uint64_t bit);
 
 
 

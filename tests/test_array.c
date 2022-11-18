@@ -25,26 +25,26 @@ static void print_vec3(void* data, uint64_t i) {
 	printf("{ %d %d %d }, ", vec->x, vec->y, vec->z);
 }
 
-static void print_array(cff_array* array) {
-	caffeine_array_foreach(array, print_vec3);
-	printf("\n");
-}
-
 static void assert_vec3(vec3 a, vec3 b) {
 	munit_assert(a.x == b.x && a.y == b.y && a.z == b.z);
+}
+
+static void print_array(cff_array* array) {
+	cff_array_foreach(array, print_vec3);
+	printf("\n");
 }
 
 static void array_arange(cff_array* array, int start, int end) {
 	for (int i = start, j = 0; i < end; i++, j++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
-		caffeine_array_set(array, j, (uintptr_t)(&data));
+		cff_array_set(array, j, (uintptr_t)(&data));
 	}
 }
 
 #pragma region CALLBACKS
 
-static cff_cmp_e find_cmp(void* ptr_a, void* ptr_b, uint64_t data_size) {
+static cff_cmp_e vec_cmp(void* ptr_a, void* ptr_b, uint64_t data_size) {
 	vec3* a = (vec3*)ptr_a;
 	vec3* b = (vec3*)ptr_b;
 
@@ -80,7 +80,7 @@ static void map_vec(vec3* from_ptr, int* to_ptr, uint64_t index) {
 #pragma endregion
 
 TESTDEF(array_create) {
-	SKIP_ON_ERR(caffeine_array_create(array, DATA_SIZE, INI_LEN,NULL));
+	SKIP_ON_ERR(cff_array_create(array, DATA_SIZE, INI_LEN,NULL));
 
 	munit_assert(array->buffer != 0);
 	munit_assert_int64(array->data_size, == , DATA_SIZE);
@@ -96,7 +96,7 @@ TESTDEF(array_set) {
 
 	vec3 data = { .x = x,.y = y,.z = z };
 
-	caffeine_array_set(array, (uint64_t)index, (uintptr_t)(&data));
+	cff_array_set(array, (uint64_t)index, (uintptr_t)(&data));
 
 	vec3 get_data = ((vec3*)array->buffer)[index];
 
@@ -113,18 +113,18 @@ TESTDEF(array_get) {
 
 	vec3 data = { .x = x,.y = y,.z = z };
 
-	caffeine_array_set(array, (uint64_t)index, (uintptr_t)(&data));
+	cff_array_set(array, (uint64_t)index, (uintptr_t)(&data));
 
 	vec3 get_data = {0};
 
-	caffeine_array_get(array, (uint64_t)index, (uintptr_t)(&get_data));
+	cff_array_get(array, (uint64_t)index, (uintptr_t)(&get_data));
 
 	assert_vec3(get_data, data);
 	return MUNIT_OK;
 }
 
 TESTDEF(array_resize) {
-	SKIP_ON_ERR(caffeine_array_resize(array, INI_LEN * 2, NULL));
+	SKIP_ON_ERR(cff_array_resize(array, INI_LEN * 2, NULL));
 	size_t allocked = _msize((void*)array->buffer);
 	munit_assert(allocked == INI_LEN * 2 * array->data_size);
 	return MUNIT_OK;
@@ -136,8 +136,8 @@ TESTDEF(array_insert) {
 	vec3 data = { .x = 0,.y = 0,.z = 0 };
 	vec3 get_data = {0};
 	int insert_index = 5;
-	caffeine_array_insert(array, insert_index, (uintptr_t)(&data));
-	caffeine_array_get(array, insert_index, (uintptr_t)(&get_data));
+	cff_array_insert(array, insert_index, (uintptr_t)(&data));
+	cff_array_get(array, insert_index, (uintptr_t)(&get_data));
 
 	assert_vec3(get_data, data);
 	return MUNIT_OK;
@@ -148,8 +148,8 @@ TESTDEF(array_remove) {
 
 	int index_remove = 5;
 	vec3 get_data = {0};
-	caffeine_array_remove(array, index_remove);
-	caffeine_array_get(array, index_remove, (uintptr_t)(&get_data));
+	cff_array_remove(array, index_remove);
+	cff_array_get(array, index_remove, (uintptr_t)(&get_data));
 	vec3 data = (vec3){ .x = (index_remove + 1) * 3, .y = (index_remove + 1) * 5, .z = (index_remove + 1) * 7 };
 	assert_vec3(get_data, data);
 	return MUNIT_OK;
@@ -160,19 +160,19 @@ TESTDEF(array_copy) {
 
 	cff_array dest = { 0 };
 	uint64_t start = 3;
-	uint64_t end = 7;
+	uint64_t count = 4;
 
 	
-	SKIP_ON_ERR(caffeine_array_copy(array, &dest, start, end, NULL));
-	for (uint64_t i = start, j = 0; i < end; i++, j++)
+	SKIP_ON_ERR(cff_array_copy(array, &dest, start, count, NULL));
+	for (uint64_t i = start, j = 0; i < start+count; i++, j++)
 	{
 		vec3 a = { 0 };
 		vec3 b = { 0 };
-		caffeine_array_get(array, i, (uintptr_t)(&a));
-		caffeine_array_get(&dest, j, (uintptr_t)(&b));
+		cff_array_get(array, i, (uintptr_t)(&a));
+		cff_array_get(&dest, j, (uintptr_t)(&b));
 		assert_vec3(a, b);
 	}
-	caffeine_array_free(&dest, NULL);
+	cff_array_free(&dest, NULL);
 	return MUNIT_OK;
 }
 
@@ -181,29 +181,29 @@ TESTDEF(array_clone) {
 
 	cff_array dest = { 0 };
 
-	SKIP_ON_ERR(caffeine_array_clone(array, &dest, NULL));
+	SKIP_ON_ERR(cff_array_clone(array, &dest, NULL));
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 a = { 0 };
 		vec3 b = { 0 };
-		caffeine_array_get(array, i, (uintptr_t)(&a));
-		caffeine_array_get(&dest, i, (uintptr_t)(&b));
+		cff_array_get(array, i, (uintptr_t)(&a));
+		cff_array_get(&dest, i, (uintptr_t)(&b));
 		assert_vec3(a, b);
 	}
-	caffeine_array_free(&dest, NULL);
+	cff_array_free(&dest, NULL);
 	return MUNIT_OK;
 }
 
 TESTDEF(array_reverse) {
 	array_arange(array, 0, (int)INI_LEN);
 
-	SKIP_ON_ERR(caffeine_array_reverse(array));
+	SKIP_ON_ERR(cff_array_reverse(array));
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 out = { 0 };
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
-		caffeine_array_get(array, (uint64_t)(INI_LEN - i - 1), (uintptr_t)(&out));
+		cff_array_get(array, (uint64_t)(INI_LEN - i - 1), (uintptr_t)(&out));
 		assert_vec3(data, out);
 	}
 	return MUNIT_OK;
@@ -211,11 +211,11 @@ TESTDEF(array_reverse) {
 
 TESTDEF(array_fill) {
 	vec3 data = { .x = 555,.y = 777,.z = 999 };
-	caffeine_array_fill(array, (uintptr_t)(&data));
+	cff_array_fill(array, (uintptr_t)(&data));
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 out = { 0 };
-		caffeine_array_get(array, i, (uintptr_t)(&out));
+		cff_array_get(array, i, (uintptr_t)(&out));
 		assert_vec3(data, out);
 	}
 	return MUNIT_OK;
@@ -223,18 +223,18 @@ TESTDEF(array_fill) {
 
 TESTDEF(array_join) {
 	cff_array other = { 0 };
-	SKIP_ON_ERR(caffeine_array_create(&other, DATA_SIZE, INI_LEN / 2, NULL));
+	SKIP_ON_ERR(cff_array_create(&other, DATA_SIZE, INI_LEN / 2, NULL));
 
 	array_arange(array, 0, (int)INI_LEN / 2);
 	array_arange(&other, (int)INI_LEN / 2, (int)INI_LEN);
 
-	SKIP_ON_ERR(caffeine_array_join(array, &other, INI_LEN / 2, NULL));
+	SKIP_ON_ERR(cff_array_join(array, &other, INI_LEN / 2, NULL));
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
 		vec3 out = { 0 };
-		caffeine_array_get(array, i, (uintptr_t)(&out));
+		cff_array_get(array, i, (uintptr_t)(&out));
 		assert_vec3(data, out);
 	}
 	return MUNIT_OK;
@@ -246,16 +246,16 @@ TESTDEF(array_filter) {
 	array_arange(array, 0, (int)INI_LEN);
 
 	
-	SKIP_ON_ERR(caffeine_array_filter(array, filter_even, &other, NULL));
+	SKIP_ON_ERR(cff_array_filter(array, filter_even, &other, NULL));
 
 	for (size_t i = 0; i < other.lenght; i++)
 	{
 		vec3 out = { 0 };
-		caffeine_array_get(&other, i, (uintptr_t)(&out));
+		cff_array_get(&other, i, (uintptr_t)(&out));
 		munit_assert(out.x % 2 == 0);
 	}
 
-	if(other.lenght) caffeine_array_free(&other, NULL);
+	if(other.lenght) cff_array_free(&other, NULL);
 	return MUNIT_OK;
 }
 
@@ -263,15 +263,15 @@ TESTDEF(array_map) {
 	cff_array other = { 0 };
 
 	array_arange(array, 0, (int)INI_LEN);
-	SKIP_ON_ERR(caffeine_array_map(array, map_vec, &other, sizeof(int), NULL));
+	SKIP_ON_ERR(cff_array_map(array, map_vec, &other, sizeof(int), NULL));
 
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { 0 };
 		int sum = 0;
-		caffeine_array_get(array, (uint64_t)i, (uintptr_t)(&data));
-		caffeine_array_get(&other, (uint64_t)i, (uintptr_t)&sum);
+		cff_array_get(array, (uint64_t)i, (uintptr_t)(&data));
+		cff_array_get(&other, (uint64_t)i, (uintptr_t)&sum);
 		int data_sum = data.x + data.y + data.z;
 
 		assert(data_sum == sum);
@@ -282,7 +282,7 @@ TESTDEF(array_map) {
 
 TESTDEF(array_foreach) {
 	array_arange(array, 0, (int)INI_LEN);
-	caffeine_array_foreach(array, foreach_func);
+	cff_array_foreach(array, foreach_func);
 	return MUNIT_OK;
 }
 
@@ -290,19 +290,19 @@ TESTDEF(array_sort) {
 	cff_array other = { 0 };
 
 	array_arange(array, 0, (int)INI_LEN);
-	SKIP_ON_ERR(caffeine_array_clone(array, &other, NULL));
-	SKIP_ON_ERR(caffeine_array_reverse(&other));
-	SKIP_ON_ERR(caffeine_array_sort(&other, find_cmp));
+	SKIP_ON_ERR(cff_array_clone(array, &other, NULL));
+	SKIP_ON_ERR(cff_array_reverse(&other));
+	SKIP_ON_ERR(cff_array_sort(&other, vec_cmp));
 
-	uint8_t eq = caffeine_array_equal(array, &other);
-	caffeine_array_free(&other, NULL);
+	uint8_t eq = cff_array_equal(array, &other);
+	cff_array_free(&other, NULL);
 
 	munit_assert(eq == 0);
 	return MUNIT_OK;
 }
 
 TESTDEF(array_free) {
-	caffeine_array_free(array, NULL);
+	cff_array_free(array, NULL);
 	munit_assert(array->data_size == 0);
 	munit_assert(array->buffer == 0);
 	free(array);
@@ -311,13 +311,13 @@ TESTDEF(array_free) {
 
 TESTDEF(array_equal) {
 	cff_array other;
-	SKIP_ON_ERR(caffeine_array_create(&other, DATA_SIZE, INI_LEN, NULL));
+	SKIP_ON_ERR(cff_array_create(&other, DATA_SIZE, INI_LEN, NULL));
 
 	array_arange(array, 0, (int)INI_LEN);
 	array_arange(&other, 0, (int)INI_LEN);
 
-	uint8_t eq = caffeine_array_equal(array, &other);
-	caffeine_array_free(&other, NULL);
+	uint8_t eq = cff_array_equal(array, &other);
+	cff_array_free(&other, NULL);
 
 	munit_assert(eq == 0);
 	return MUNIT_OK;
@@ -329,7 +329,7 @@ TESTDEF(array_find) {
 	int index = 5;
 	vec3 data = { .x = index * 3,.y = index * 5,.z = index * 7 };
 	uint64_t found = 0;
-	uint8_t f = caffeine_array_find(array, (uintptr_t)(&data), &found);
+	uint8_t f = cff_array_find(array, (uintptr_t)(&data), &found);
 	munit_assert(found == index);
 	return MUNIT_OK;
 }
@@ -340,7 +340,7 @@ TESTDEF(array_find_cmp) {
 	int index = 5;
 	vec3 data = { .x = index * 3,.y = index * 5,.z = index * 7 };
 	uint64_t found = 0;
-	caffeine_array_find_cmp(array, (uintptr_t)(&data), &found, find_cmp);
+	cff_array_find_cmp(array, (uintptr_t)(&data), &found, vec_cmp);
 	munit_assert(found == index);
 	return MUNIT_OK;
 }
@@ -351,10 +351,10 @@ TESTDEF(array_count) {
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
 		cc += i % 2;
-		caffeine_array_set(array, i, (uintptr_t)(&data));
+		cff_array_set(array, i, (uintptr_t)(&data));
 	}
 	vec3 data = { .x = 1,.y = 1,.z = 1 };
-	uint64_t count = caffeine_array_count(array, (uintptr_t)(&data));
+	uint64_t count = cff_array_count(array, (uintptr_t)(&data));
 	munit_assert(cc == count);
 	return MUNIT_OK;
 }
@@ -366,10 +366,10 @@ TESTDEF(array_count_cmp) {
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
 		cc += i % 2;
-		caffeine_array_set(array, i, (uintptr_t)(&data));
+		cff_array_set(array, i, (uintptr_t)(&data));
 	}
 	vec3 data = { .x = 1,.y = 1,.z = 1 };
-	uint64_t count = caffeine_array_count_cmp(array, (uintptr_t)(&data), find_cmp);
+	uint64_t count = cff_array_count_cmp(array, (uintptr_t)(&data), vec_cmp);
 	munit_assert(cc == count);
 	return MUNIT_OK;
 }
@@ -378,10 +378,10 @@ TESTDEF(array_any) {
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
-		caffeine_array_set(array, i, (uintptr_t)(&data));
+		cff_array_set(array, i, (uintptr_t)(&data));
 	}
 	vec3 data = { .x = 1,.y = 1,.z = 1 };
-	uint8_t exist = caffeine_array_any(array, (uintptr_t)(&data));
+	uint8_t exist = cff_array_any(array, (uintptr_t)(&data));
 	munit_assert(exist);
 	return MUNIT_OK;
 }
@@ -391,10 +391,10 @@ TESTDEF(array_any_cmp) {
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
-		caffeine_array_set(array, i, (uintptr_t)(&data));
+		cff_array_set(array, i, (uintptr_t)(&data));
 	}
 	vec3 data = { .x = 1,.y = 1,.z = 1 };
-	uint8_t exist = caffeine_array_any_cmp(array, (uintptr_t)(&data), find_cmp);
+	uint8_t exist = cff_array_any_cmp(array, (uintptr_t)(&data), vec_cmp);
 	munit_assert(exist);
 	return MUNIT_OK;
 }
@@ -403,10 +403,10 @@ TESTDEF(array_all) {
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
-		caffeine_array_set(array, i, (uintptr_t)(&data));
+		cff_array_set(array, i, (uintptr_t)(&data));
 	}
 	vec3 data = { .x = 1,.y = 1,.z = 1 };
-	uint8_t exist = caffeine_array_all(array, (uintptr_t)(&data));
+	uint8_t exist = cff_array_all(array, (uintptr_t)(&data));
 	munit_assert_false(exist);
 	return MUNIT_OK;
 }
@@ -415,10 +415,10 @@ TESTDEF(array_all_cmp) {
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
-		caffeine_array_set(array, i, (uintptr_t)(&data));
+		cff_array_set(array, i, (uintptr_t)(&data));
 	}
 	vec3 data = { .x = 1,.y = 1,.z = 1 };
-	uint8_t exist = caffeine_array_all_cmp(array, (uintptr_t)(&data), find_cmp);
+	uint8_t exist = cff_array_all_cmp(array, (uintptr_t)(&data), vec_cmp);
 	munit_assert_false(exist);
 	return MUNIT_OK;
 }
@@ -431,12 +431,12 @@ static void* test_setup_create(const MunitParameter params[], void* user_data) {
 
 static void* test_setup(const MunitParameter params[], void* user_data) {
 	cff_array* array = malloc(sizeof(cff_array));
-	caffeine_array_create(array, DATA_SIZE, INI_LEN, NULL);
+	cff_array_create(array, DATA_SIZE, INI_LEN, NULL);
 	return array;
 }
 
 static void test_tear_down(void* fixture) {
-	caffeine_array_free(fixture, NULL);
+	cff_array_free(fixture, NULL);
 	free(fixture);
 }
 

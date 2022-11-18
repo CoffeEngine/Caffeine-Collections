@@ -19,7 +19,7 @@ static const uint64_t DATA_SIZE = sizeof(vec3);
 #define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_stack* stack)
 
 TESTDEF(stack_create) {
-	caffeine_stack_create(stack, DATA_SIZE, INI_LEN, NULL);
+	cff_stack_create(stack, DATA_SIZE, INI_LEN, NULL);
 
 	munit_assert(stack->buffer != 0);
 	munit_assert(stack->count == 0);
@@ -30,12 +30,12 @@ TESTDEF(stack_create) {
 }
 TESTDEF(stack_resize) {
 	uint64_t n_size = (uint64_t)munit_rand_int_range(10, 100);
-	caffeine_stack_resize(stack, n_size, NULL);
+	cff_stack_resize(stack, n_size, NULL);
 
 	for (size_t i = 0; i < n_size; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		cff_stack_push(stack, &v, NULL);
 	}
 
 	vec3* buffer = (vec3*)stack->buffer;
@@ -52,7 +52,7 @@ TESTDEF(stack_push) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		cff_stack_push(stack, &v, NULL);
 	}
 
 	munit_assert(stack->count == INI_LEN);
@@ -70,13 +70,13 @@ TESTDEF(stack_pop) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		cff_stack_push(stack, &v, NULL);
 	}
 
 	for (size_t i = 0, v = INI_LEN - 1; i < INI_LEN; v--, i++)
 	{
 		vec3 out;
-		caffeine_stack_pop(stack, &out, NULL);
+		cff_stack_pop(stack, &out, NULL);
 
 		munit_assert(out.x == v);
 	}
@@ -90,10 +90,10 @@ TESTDEF(stack_reverse) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		cff_stack_push(stack, &v, NULL);
 	}
 
-	caffeine_stack_reverse(stack);
+	cff_stack_reverse(stack);
 
 	vec3* buffer = (vec3*)stack->buffer;
 
@@ -105,7 +105,7 @@ TESTDEF(stack_reverse) {
 	return MUNIT_OK;
 }
 TESTDEF(stack_free) {
-	caffeine_stack_free(stack, NULL);
+	cff_stack_free(stack, NULL);
 
 	munit_assert_null(stack->buffer);
 	munit_assert(stack->count == 0);
@@ -119,15 +119,15 @@ TESTDEF(stack_clear) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		cff_stack_push(stack, &v, NULL);
 	}
 
-	caffeine_stack_clear(stack);
+	cff_stack_clear(stack);
 
 	munit_assert(stack->count == 0);
 
 	vec3 tmp;
-	uint8_t res = caffeine_stack_pop(stack, &tmp, NULL);
+	uint8_t res = cff_stack_pop(stack, &tmp, NULL);
 	munit_assert(res == 0);
 
 	return MUNIT_OK;
@@ -137,11 +137,11 @@ TESTDEF(stack_copy) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		cff_stack_push(stack, &v, NULL);
 	}
 
-	caffeine_stack_create(&tmp_stack, stack->data_size, INI_LEN / 2, NULL);
-	caffeine_stack_copy(stack, &tmp_stack, 0, INI_LEN / 2, NULL);
+	cff_stack_create(&tmp_stack, stack->data_size, INI_LEN / 2, NULL);
+	cff_stack_copy(stack, &tmp_stack, 0, INI_LEN / 2, NULL);
 
 	for (size_t i = 0; i < INI_LEN / 2; i++)
 	{
@@ -149,7 +149,7 @@ TESTDEF(stack_copy) {
 		munit_assert(tmp[i].x == i);
 	}
 
-	caffeine_stack_free(&tmp_stack, NULL);
+	cff_stack_free(&tmp_stack, NULL);
 	return MUNIT_OK;
 }
 TESTDEF(stack_clone) {
@@ -157,11 +157,11 @@ TESTDEF(stack_clone) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		cff_stack_push(stack, &v, NULL);
 	}
 
-	caffeine_stack_create(&tmp_stack, stack->data_size, INI_LEN, NULL);
-	caffeine_stack_clone(stack, &tmp_stack, NULL);
+	cff_stack_create(&tmp_stack, stack->data_size, INI_LEN, NULL);
+	cff_stack_clone(stack, &tmp_stack, NULL);
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
@@ -169,17 +169,17 @@ TESTDEF(stack_clone) {
 		munit_assert(tmp[i].x == i);
 	}
 
-	caffeine_stack_free(&tmp_stack, NULL);
+	cff_stack_free(&tmp_stack, NULL);
 	return MUNIT_OK;
 }
 TESTDEF(stack_top) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_stack_push(stack, &v, NULL);
+		cff_stack_push(stack, &v, NULL);
 
 		vec3 out;
-		caffeine_stack_top(stack, &out);
+		cff_stack_top(stack, &out);
 
 		munit_assert(v.x == out.x);
 	}
@@ -193,12 +193,12 @@ static void* test_setup_create(const MunitParameter params[], void* user_data) {
 
 static void* test_setup(const MunitParameter params[], void* user_data) {
 	cff_stack* stack = malloc(sizeof(cff_stack));
-	caffeine_stack_create(stack, DATA_SIZE, INI_LEN, NULL);
+	cff_stack_create(stack, DATA_SIZE, INI_LEN, NULL);
 	return stack;
 }
 
 static void test_tear_down(void* fixture) {
-	caffeine_stack_free(fixture, NULL);
+	cff_stack_free(fixture, NULL);
 	free(fixture);
 }
 
@@ -206,7 +206,7 @@ static void test_tear_down_free(void* fixture) {
 	free(fixture);
 }
 
-int test_stack(int argc, char* const argv[]) {
+int test_stack(int argc, const char* argv[]) {
 
 	MunitTest tests[] = {
 		{ "/stack_create", test_stack_create, test_setup_create, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL },

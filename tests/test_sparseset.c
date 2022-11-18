@@ -25,13 +25,13 @@ static void sparseset_arange(cff_sparseset* set, int start, int end) {
 	for (int i = start, j = 0; i < end; i++, j++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
-		caffeine_sparseset_add(set, (uint64_t)i, (uintptr_t) & (vec3) { .x = i, .y = i + 1, .z = i + 2 }, NULL);
+		cff_sparseset_add(set, (uint64_t)i, (uintptr_t) & (vec3) { .x = i, .y = i + 1, .z = i + 2 }, NULL);
 		assert_uint64(set->count, == , i + 1);
 	}
 }
 
 TESTDEF(sparse_set_create) {
-	caffeine_sparseset_create(set, INI_LEN, DATA_SIZE, NULL);
+	cff_sparseset_create(set, INI_LEN, DATA_SIZE, NULL);
 	assert_uint64(set->lenght, == , INI_LEN);
 	assert_uint64(set->count, == , 0);
 	assert_uint64(set->data_size, == , DATA_SIZE);
@@ -59,7 +59,7 @@ TESTDEF(sparse_set_get) {
 	int index = 5;
 	vec3 data = (vec3){ .x = index, .y = index + 1, .z = index + 2 };
 	vec3 found = { 0 };
-	caffeine_sparseset_get(set, (uint64_t)index, (uintptr_t)&found);
+	cff_sparseset_get(set, (uint64_t)index, (uintptr_t)&found);
 	assert_vec3(data, found);
 	return MUNIT_OK;
 }
@@ -72,11 +72,11 @@ TESTDEF(sparse_set_remove) {
 
 	vec3 data = {0};
 	vec3 last = { 0 };
-	caffeine_sparseset_get(set,set->count-1, (uintptr_t)&last);
+	cff_sparseset_get(set,set->count-1, (uintptr_t)&last);
 
-	caffeine_sparseset_remove(set, index);
+	cff_sparseset_remove(set, index);
 
-	caffeine_sparseset_get(set, index, (uintptr_t)&data);
+	cff_sparseset_get(set, index, (uintptr_t)&data);
 
 	assert_vec3(data, last);
 	return MUNIT_OK;
@@ -86,7 +86,7 @@ TESTDEF(sparse_set_clear) {
 	sparseset_arange(set, 0, INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
-	caffeine_sparseset_clear(set);
+	cff_sparseset_clear(set);
 
 	munit_assert(set->count == 0);
 	return MUNIT_OK;
@@ -96,7 +96,7 @@ TESTDEF(sparse_set_free) {
 	sparseset_arange(set, 0, INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
-	caffeine_sparseset_free(set, NULL);
+	cff_sparseset_free(set, NULL);
 
 	munit_assert(set->count == 0);
 	munit_assert(set->lenght == 0);
@@ -108,7 +108,7 @@ TESTDEF(sparse_set_free) {
 TESTDEF(sparse_set_get_dense) {
 	
 
-	uintptr_t dense = caffeine_sparseset_get_dense(set);
+	uintptr_t dense = cff_sparseset_get_dense(set);
 
 	munit_assert(dense != 0);
 	return MUNIT_OK;
@@ -125,12 +125,12 @@ static void* test_setup(const MunitParameter params[], void* user_data) {
 	cff_sparseset* set = munit_malloc(sizeof(cff_sparseset));
 	assert_not_null(set);
 	memset(set, 0, sizeof(cff_sparseset));
-	caffeine_sparseset_create(set, INI_LEN, DATA_SIZE, NULL);
+	cff_sparseset_create(set, INI_LEN, DATA_SIZE, NULL);
 	return set;
 }
 
 static void test_tear_down(void* fixture) {
-	caffeine_sparseset_free((cff_sparseset*)fixture, NULL);
+	cff_sparseset_free((cff_sparseset*)fixture, NULL);
 	free(fixture);
 }
 

@@ -56,7 +56,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>headers;..\Memory\headers;..\Utils\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>headers;..\Core\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
     </ClCompile>
@@ -70,7 +70,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>headers;..\Memory\headers;..\Utils\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>headers;..\Core\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -87,16 +87,16 @@
     <ClCompile Include="sources\caffeine_array.c" />
     <ClCompile Include="sources\caffeine_bitmap.c" />
     <ClCompile Include="sources\caffeine_container.c" />
-    <ClCompile Include="sources\caffeine_core.c" />
     <ClCompile Include="sources\caffeine_hashmap.c" />
+    <ClCompile Include="sources\caffeine_list.c" />
     <ClCompile Include="sources\caffeine_queue.c" />
     <ClCompile Include="sources\caffeine_sparse_set.c" />
     <ClCompile Include="sources\caffeine_stack.c" />
     <ClCompile Include="sources\caffeine_vector.c" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Memory\Memory.vcxproj">
-      <Project>{57940020-8E99-AEB6-271F-61E0F7F6B73B}</Project>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{6F788D01-ED35-4F0B-BBDD-860C7A311D9B}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

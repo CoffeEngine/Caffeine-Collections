@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "..\Core\Core.vcxproj", "{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataStructures", "DataStructures.vcxproj", "{039EC1FD-EF6B-B503-D8FF-252AC46C9168}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataStructuresTests", "build\DataStructuresTests\DataStructuresTests.vcxproj", "{163D9D5A-829E-7A68-0B0C-C11A776CB127}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Memory", "..\Memory\Memory.vcxproj", "{57940020-8E99-AEB6-271F-61E0F7F6B73B}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utils", "..\Utils\Utils.vcxproj", "{F68B420E-62A0-6ABF-2B22-0E1F97F566F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +15,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Debug|Win32.Build.0 = Debug|Win32
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Release|Win32.ActiveCfg = Release|Win32
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Release|Win32.Build.0 = Release|Win32
 		{039EC1FD-EF6B-B503-D8FF-252AC46C9168}.Debug|Win32.ActiveCfg = Debug|Win32
 		{039EC1FD-EF6B-B503-D8FF-252AC46C9168}.Debug|Win32.Build.0 = Debug|Win32
 		{039EC1FD-EF6B-B503-D8FF-252AC46C9168}.Release|Win32.ActiveCfg = Release|Win32
@@ -25,19 +27,11 @@ Global
 		{163D9D5A-829E-7A68-0B0C-C11A776CB127}.Debug|Win32.Build.0 = Debug|Win32
 		{163D9D5A-829E-7A68-0B0C-C11A776CB127}.Release|Win32.ActiveCfg = Release|Win32
 		{163D9D5A-829E-7A68-0B0C-C11A776CB127}.Release|Win32.Build.0 = Release|Win32
-		{57940020-8E99-AEB6-271F-61E0F7F6B73B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{57940020-8E99-AEB6-271F-61E0F7F6B73B}.Debug|Win32.Build.0 = Debug|Win32
-		{57940020-8E99-AEB6-271F-61E0F7F6B73B}.Release|Win32.ActiveCfg = Release|Win32
-		{57940020-8E99-AEB6-271F-61E0F7F6B73B}.Release|Win32.Build.0 = Release|Win32
-		{F68B420E-62A0-6ABF-2B22-0E1F97F566F0}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F68B420E-62A0-6ABF-2B22-0E1F97F566F0}.Debug|Win32.Build.0 = Debug|Win32
-		{F68B420E-62A0-6ABF-2B22-0E1F97F566F0}.Release|Win32.ActiveCfg = Release|Win32
-		{F68B420E-62A0-6ABF-2B22-0E1F97F566F0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {535489AD-6B58-4E59-A1BE-CBAE93AA58EA}
+		SolutionGuid = {45DD9C7C-2B84-4D8C-9DC1-21EA81B246A9}
 	EndGlobalSection
 EndGlobal

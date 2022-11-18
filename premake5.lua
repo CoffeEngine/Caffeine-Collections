@@ -10,9 +10,9 @@ workspace "Caffeine"
         objdir "build/%{prj.name}/obj/%{cfg.buildcfg}"
         
         files { "sources/**.h","sources/**.c" }
-        includedirs {"headers","../Memory/headers","../Utils/headers"}
+        includedirs {"headers","../Core/headers"}
         
-        links {"Memory"}
+        links {"Core"}
 
         filter "configurations:Debug" 
             defines { "DEBUG" }  
@@ -31,7 +31,7 @@ workspace "Caffeine"
         objdir "build/%{prj.name}/obj/%{cfg.buildcfg}"
 
         files { "tests/**.h","tests/**.c" }
-        includedirs {"headers","../Memory/headers","../Utils/headers"}
+        includedirs {"headers","../Core/headers"}
         
         links {"DataStructures"}
 
@@ -43,14 +43,8 @@ workspace "Caffeine"
             defines { "NDEBUG" }      
             optimize "On"
 
-    externalproject "Memory"
-       location "../Memory"
-       uuid "57940020-8E99-AEB6-271F-61E0F7F6B73B"
-       kind "StaticLib"
-       language "C"
-
-    externalproject "Utils"
-       location "../Utils"
+    externalproject "Core"
+       location "../Core"
        uuid "6f788d01-ed35-4f0b-bbdd-860c7a311d9b"
        kind "StaticLib"
        language "C"

@@ -25,7 +25,7 @@ static void assert_vec3(vec3 a, vec3 b) {
 
 
 TESTDEF(queue_create) {
-	caffeine_queue_create(queue, DATA_SIZE, INI_LEN, NULL);
+	cff_queue_create(queue, DATA_SIZE, INI_LEN, NULL);
 	munit_assert_not_null(queue->buffer);
 	munit_assert(queue->count == 0);
 	munit_assert(queue->data_size == DATA_SIZE);
@@ -35,13 +35,13 @@ TESTDEF(queue_create) {
 
 TESTDEF(queue_resize) {
 	uint64_t n_size = (uint64_t)munit_rand_int_range(10, 100);
-	caffeine_queue_resize(queue, n_size, NULL);
+	cff_queue_resize(queue, n_size, NULL);
 	munit_assert(n_size == queue->lenght);
 
 	for (size_t i = 0; i < n_size; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, &v, NULL);
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
@@ -58,7 +58,7 @@ TESTDEF(queue_enqueue) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v,NULL);
+		cff_queue_enqueue(queue, &v,NULL);
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
@@ -74,9 +74,9 @@ TESTDEF(queue_reverse) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, &v, NULL);
 	}
-	caffeine_queue_reverse(queue);
+	cff_queue_reverse(queue);
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3* tmp = (vec3*)queue->buffer;
@@ -87,7 +87,7 @@ TESTDEF(queue_reverse) {
 }
 
 TESTDEF(queue_free) {
-	caffeine_queue_free(queue, NULL);
+	cff_queue_free(queue, NULL);
 	
 	munit_assert_null(queue->buffer);
 	munit_assert(queue->count == 0);
@@ -100,15 +100,15 @@ TESTDEF(queue_clear) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, &v, NULL);
 	}
 
-	caffeine_queue_clear(queue);
+	cff_queue_clear(queue);
 
 	munit_assert(queue->count == 0);
 
 	vec3 tmp;
-	uint8_t res = caffeine_queue_dequeue(queue, &tmp, NULL);
+	uint8_t res = cff_queue_dequeue(queue, &tmp, NULL);
 	munit_assert(res == 0);
 
 	return MUNIT_OK;
@@ -119,11 +119,11 @@ TESTDEF(queue_copy) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, &v, NULL);
 	}
 
-	caffeine_queue_create(&tmp_queue, queue->data_size, INI_LEN / 2, NULL);
-	caffeine_queue_copy(queue, &tmp_queue, 0, INI_LEN / 2, NULL);
+	cff_queue_create(&tmp_queue, queue->data_size, INI_LEN / 2, NULL);
+	cff_queue_copy(queue, &tmp_queue, 0, INI_LEN / 2, NULL);
 
 	for (size_t i = 0; i < INI_LEN/2; i++)
 	{
@@ -131,7 +131,7 @@ TESTDEF(queue_copy) {
 		munit_assert(tmp[i].x == i);
 	}
 
-	caffeine_queue_free(&tmp_queue, NULL);
+	cff_queue_free(&tmp_queue, NULL);
 	return MUNIT_OK;
 }
 
@@ -140,11 +140,11 @@ TESTDEF(queue_clone) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, &v, NULL);
 	}
 
-	caffeine_queue_create(&tmp_queue, queue->data_size, INI_LEN, NULL);
-	caffeine_queue_clone(queue, &tmp_queue, NULL);
+	cff_queue_create(&tmp_queue, queue->data_size, INI_LEN, NULL);
+	cff_queue_clone(queue, &tmp_queue, NULL);
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
@@ -152,7 +152,7 @@ TESTDEF(queue_clone) {
 		munit_assert(tmp[i].x == i);
 	}
 
-	caffeine_queue_free(&tmp_queue, NULL);
+	cff_queue_free(&tmp_queue, NULL);
 	return MUNIT_OK;
 }
 
@@ -160,13 +160,13 @@ TESTDEF(queue_dequeue) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		caffeine_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, &v, NULL);
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 tmp;
-		caffeine_queue_dequeue(queue, &tmp, NULL);
+		cff_queue_dequeue(queue, &tmp, NULL);
 		munit_assert(tmp.x == i);
 	}
 
@@ -180,12 +180,12 @@ static void* test_setup_create(const MunitParameter params[], void* user_data) {
 
 static void* test_setup(const MunitParameter params[], void* user_data) {
 	cff_queue* queue = malloc(sizeof(cff_queue));
-	caffeine_queue_create(queue, DATA_SIZE, INI_LEN, NULL);
+	cff_queue_create(queue, DATA_SIZE, INI_LEN, NULL);
 	return queue;
 }
 
 static void test_tear_down(void* fixture) {
-	caffeine_queue_free(fixture, NULL);
+	cff_queue_free(fixture, NULL);
 	free(fixture);
 }
 

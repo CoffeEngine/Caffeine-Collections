@@ -44,7 +44,7 @@ static void assert_vec3(vec3 a, vec3 b) {
 }
 
 TESTDEF(vector_create) {
-	caffeine_vector_create(vector, DATA_SIZE, INI_LEN, NULL);
+	cff_vector_create(vector, DATA_SIZE, INI_LEN, NULL);
 
 	munit_assert_not_null(vector->buffer);
 	munit_assert(vector->count == 0);
@@ -55,7 +55,7 @@ TESTDEF(vector_create) {
 }
 
 TESTDEF(vector_free) {
-	caffeine_vector_free(vector, NULL);
+	cff_vector_free(vector, NULL);
 
 	munit_assert_null(vector->buffer);
 	munit_assert(vector->count == 0);
@@ -67,7 +67,7 @@ TESTDEF(vector_free) {
 
 TESTDEF(vector_resize) {
 	int n_size = INI_LEN * 2;
-	caffeine_vector_resize(vector, n_size, NULL);
+	cff_vector_resize(vector, n_size, NULL);
 
 	munit_assert(vector->count == 0);
 	munit_assert(vector->lenght == INI_LEN * 2);
@@ -84,7 +84,7 @@ TESTDEF(vector_get) {
 	vector->count = 1;
 
 	vec3 out;
-	caffeine_vector_get(vector, 0, &out);
+	cff_vector_get(vector, 0, &out);
 
 	assert_vec3(value, out);
 
@@ -98,10 +98,10 @@ TESTDEF(vector_set) {
 		int rnd_value = munit_rand_uint32();
 		vec3 value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
-		caffeine_vector_set(vector, &value, i);
+		cff_vector_set(vector, &value, i);
 
 		vec3 out;
-		caffeine_vector_get(vector, i, &out);
+		cff_vector_get(vector, i, &out);
 
 		assert_vec3(value, out);
 	}
@@ -118,14 +118,14 @@ TESTDEF(vector_insert) {
 	rnd_value = munit_rand_uint32();
 	vec3 value2 = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
-	caffeine_vector_insert(vector, &value1, 0);
-	caffeine_vector_insert(vector, &value2, 0);
+	cff_vector_insert(vector, &value1, 0);
+	cff_vector_insert(vector, &value2, 0);
 
 	vec3 out;
-	caffeine_vector_get(vector, 1, &out);
+	cff_vector_get(vector, 1, &out);
 	assert_vec3(value1, out);
 
-	caffeine_vector_get(vector, 0, &out);
+	cff_vector_get(vector, 0, &out);
 	assert_vec3(value2, out);
 
 	return MUNIT_OK;
@@ -140,13 +140,13 @@ TESTDEF(vector_remove) {
 	rnd_value = munit_rand_uint32();
 	vec3 value2 = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
-	caffeine_vector_insert(vector, &value1, 0);
-	caffeine_vector_insert(vector, &value2, 0);
+	cff_vector_insert(vector, &value1, 0);
+	cff_vector_insert(vector, &value2, 0);
 
-	caffeine_vector_remove(vector, 0, NULL);
+	cff_vector_remove(vector, 0, NULL);
 
 	vec3 out;
-	caffeine_vector_get(vector, 0, &out);
+	cff_vector_get(vector, 0, &out);
 	assert_vec3(value1, out);
 
 	return MUNIT_OK;
@@ -160,23 +160,23 @@ TESTDEF(vector_copy) {
 		int rnd_value = munit_rand_uint32();
 		vec3 value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
-		caffeine_vector_set(vector, &value, i);
+		cff_vector_set(vector, &value, i);
 	}
 
-	caffeine_vector_create(&tmp_vec, vector->data_size, INI_LEN / 2, NULL);
-	caffeine_vector_copy(vector, &tmp_vec, 0, INI_LEN / 2, NULL);
+	cff_vector_create(&tmp_vec, vector->data_size, INI_LEN / 2, NULL);
+	cff_vector_copy(vector, &tmp_vec, 0, INI_LEN / 2, NULL);
 
 	for (size_t i = 0; i < INI_LEN / 2; i++)
 	{
 		vec3 out1, out2;
 
-		caffeine_vector_get(vector, i, &out1);
-		caffeine_vector_get(&tmp_vec, i, &out2);
+		cff_vector_get(vector, i, &out1);
+		cff_vector_get(&tmp_vec, i, &out2);
 
 		assert_vec3(out1, out2);
 	}
 
-	caffeine_vector_free(&tmp_vec, NULL);
+	cff_vector_free(&tmp_vec, NULL);
 	return MUNIT_OK;
 }
 
@@ -187,34 +187,34 @@ TESTDEF(vector_clone) {
 		int rnd_value = munit_rand_uint32();
 		vec3 value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
-		caffeine_vector_set(vector, &value, i);
+		cff_vector_set(vector, &value, i);
 	}
-	caffeine_vector_create(&tmp_vec, vector->data_size, INI_LEN, NULL);
-	caffeine_vector_clone(vector, &tmp_vec, NULL);
+	cff_vector_create(&tmp_vec, vector->data_size, INI_LEN, NULL);
+	cff_vector_clone(vector, &tmp_vec, NULL);
 
 	for (size_t i = 0; i < INI_LEN - 1; i++)
 	{
 		vec3 out1, out2;
 
-		caffeine_vector_get(vector, i, &out1);
-		caffeine_vector_get(&tmp_vec, i, &out2);
+		cff_vector_get(vector, i, &out1);
+		cff_vector_get(&tmp_vec, i, &out2);
 
 		assert_vec3(out1, out2);
 	}
 
-	caffeine_vector_free(&tmp_vec, NULL);
+	cff_vector_free(&tmp_vec, NULL);
 	return MUNIT_OK;
 }
 
 TESTDEF(vector_fill) {
 	int v = munit_rand_uint32();
 	vec3 data = { .x = v, .y = 3 * v, .z = 7 * v };
-	caffeine_vector_fill(vector, &data);
+	cff_vector_fill(vector, &data);
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 out;
-		caffeine_vector_get(vector, i, &out);
+		cff_vector_get(vector, i, &out);
 		assert_vec3(data, out);
 	}
 
@@ -226,25 +226,25 @@ TESTDEF(vector_join) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_set(vector, &data, i);
+		cff_vector_set(vector, &data, i);
 	}
-	caffeine_vector_create(&vector2, DATA_SIZE, INI_LEN, NULL);
+	cff_vector_create(&vector2, DATA_SIZE, INI_LEN, NULL);
 	for (size_t i = INI_LEN; i < INI_LEN * 2; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_set(&vector2, &data, i - INI_LEN);
+		cff_vector_set(&vector2, &data, i - INI_LEN);
 	}
 
-	caffeine_vector_join(vector, &vector2, NULL);
+	cff_vector_join(vector, &vector2, NULL);
 
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 data;
-		caffeine_vector_get(vector, i, &data);
+		cff_vector_get(vector, i, &data);
 		munit_assert(data.x == i);
 	}
 
-	caffeine_vector_free(&vector2, NULL);
+	cff_vector_free(&vector2, NULL);
 
 	return MUNIT_OK;
 }
@@ -253,14 +253,14 @@ TESTDEF(vector_reverse) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_set(vector, &data, i);
+		cff_vector_set(vector, &data, i);
 	}
-	caffeine_vector_reverse(vector);
+	cff_vector_reverse(vector);
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 data;
-		caffeine_vector_get(vector, i, &data);
+		cff_vector_get(vector, i, &data);
 		munit_assert(data.x == (INI_LEN - 1) - i);
 	}
 
@@ -274,19 +274,19 @@ TESTDEF(vector_filter) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_set(vector, &data, i);
+		cff_vector_set(vector, &data, i);
 	}
 
-	caffeine_vector_filter(vector, filter_even_x, &vector2, NULL);
+	cff_vector_filter(vector, filter_even_x, &vector2, NULL);
 
 	for (size_t i = 0; i < vector2.count; i++)
 	{
 		vec3 out;
-		caffeine_vector_get(&vector2, i, &out);
+		cff_vector_get(&vector2, i, &out);
 		munit_assert(out.x % 2 == 0);
 	}
 
-	if (vector2.count > 0) caffeine_vector_free(&vector2, NULL);
+	if (vector2.count > 0) cff_vector_free(&vector2, NULL);
 
 	return MUNIT_OK;
 }
@@ -295,7 +295,7 @@ TESTDEF(vector_push_back) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	munit_assert(vector->lenght == INI_LEN * 2);
@@ -303,7 +303,7 @@ TESTDEF(vector_push_back) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 out;
-		caffeine_vector_get(vector, i, &out);
+		cff_vector_get(vector, i, &out);
 		munit_assert(out.x == i);
 	}
 
@@ -314,7 +314,7 @@ TESTDEF(vector_push_front) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_push_front(vector, &data, NULL);
+		cff_vector_push_front(vector, &data, NULL);
 	}
 
 	munit_assert(vector->lenght == INI_LEN * 2);
@@ -322,7 +322,7 @@ TESTDEF(vector_push_front) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 out;
-		caffeine_vector_get(vector, i, &out);
+		cff_vector_get(vector, i, &out);
 		munit_assert(out.x == ((INI_LEN * 2) - 1) - i);
 	}
 
@@ -333,7 +333,7 @@ TESTDEF(vector_pop_back) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	munit_assert(vector->lenght == INI_LEN * 2);
@@ -341,7 +341,7 @@ TESTDEF(vector_pop_back) {
 	for (int i = (INI_LEN * 2) - 1; i >= 0; --i)
 	{
 		vec3 out;
-		caffeine_vector_pop_back(vector, &out, NULL);
+		cff_vector_pop_back(vector, &out, NULL);
 		munit_assert(out.x == i);
 	}
 
@@ -352,7 +352,7 @@ TESTDEF(vector_pop_front) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 data = { .x = i, .y = i, .z = i };
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	munit_assert(vector->lenght == INI_LEN * 2);
@@ -360,7 +360,7 @@ TESTDEF(vector_pop_front) {
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
 		vec3 out = { .x = i, .y = i, .z = i };
-		caffeine_vector_pop_front(vector, &out, NULL);
+		cff_vector_pop_front(vector, &out, NULL);
 		munit_assert(out.x == i);
 	}
 
@@ -378,23 +378,23 @@ TESTDEF(vector_map) {
 			.y = munit_rand_int_range(0,100),
 			.z = munit_rand_int_range(0,100)
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
-	caffeine_vector_map(vector, map_to_lenght, &len_vector, sizeof(float), NULL);
+	cff_vector_map(vector, map_to_lenght, &len_vector, sizeof(float), NULL);
 
 	for (size_t i = 0; i < INI_LEN; i++) {
 		vec3 v;
 		float l;
-		caffeine_vector_get(vector, i, &v);
-		caffeine_vector_get(&len_vector, i, &l);
+		cff_vector_get(vector, i, &v);
+		cff_vector_get(&len_vector, i, &l);
 
 		float calc_l = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
 
 		munit_assert(calc_l == l);
 	}
 
-	caffeine_vector_free(&len_vector, NULL);
+	cff_vector_free(&len_vector, NULL);
 	return MUNIT_OK;
 }
 
@@ -406,15 +406,15 @@ TESTDEF(vector_foreach) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
-	caffeine_vector_foreach(vector, double_y);
+	cff_vector_foreach(vector, double_y);
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 data;
-		caffeine_vector_get(vector, i, &data);
+		cff_vector_get(vector, i, &data);
 
 		munit_assert(data.y == (i + 1) * 2);
 	}
@@ -430,15 +430,15 @@ TESTDEF(vector_sort) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_front(vector, &data, NULL);
+		cff_vector_push_front(vector, &data, NULL);
 	}
 
-	caffeine_vector_sort(vector, compare_vec3);
+	cff_vector_sort(vector, compare_vec3);
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 data;
-		caffeine_vector_get(vector, i, &data);
+		cff_vector_get(vector, i, &data);
 		munit_assert(data.x == i);
 	}
 
@@ -453,10 +453,10 @@ TESTDEF(vector_clear) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
-	caffeine_vector_clear(vector);
+	cff_vector_clear(vector);
 
 	munit_assert(vector->count == 0);
 
@@ -467,13 +467,13 @@ TESTDEF(vector_clear) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 data;
-		caffeine_vector_get(vector, i, &data);
+		cff_vector_get(vector, i, &data);
 
 		munit_assert(data.x = i + INI_LEN);
 	}
@@ -491,16 +491,16 @@ TESTDEF(vector_equal) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
-	caffeine_vector_clone(vector, &vector2, NULL);
+	cff_vector_clone(vector, &vector2, NULL);
 
-	uint8_t eq = caffeine_vector_equal(vector, &vector2);
+	uint8_t eq = cff_vector_equal(vector, &vector2);
 
 	munit_assert(eq);
 
-	caffeine_vector_free(&vector2, NULL);
+	cff_vector_free(&vector2, NULL);
 	return MUNIT_OK;
 }
 
@@ -514,7 +514,7 @@ TESTDEF(vector_find) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	vec3 data_ok = {
@@ -531,8 +531,8 @@ TESTDEF(vector_find) {
 	};
 	uint64_t nok_index = -1;
 
-	uint8_t f_ok = caffeine_vector_find(vector, &data_ok, &ok_index);
-	uint8_t f_nok = caffeine_vector_find(vector, &data_nok, &nok_index);
+	uint8_t f_ok = cff_vector_find(vector, &data_ok, &ok_index);
+	uint8_t f_nok = cff_vector_find(vector, &data_nok, &nok_index);
 
 	munit_assert(f_ok);
 	munit_assert(ok_index == 0);
@@ -553,7 +553,7 @@ TESTDEF(vector_find_cmp) {
 			.y = i + 1,
 			.z = i + 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	vec3 data_ok = {
@@ -570,8 +570,8 @@ TESTDEF(vector_find_cmp) {
 	};
 	uint64_t nok_index = -1;
 
-	uint8_t f_ok = caffeine_vector_find_cmp(vector, &data_ok, &ok_index, compare_vec3);
-	uint8_t f_nok = caffeine_vector_find_cmp(vector, &data_nok, &nok_index, compare_vec3);
+	uint8_t f_ok = cff_vector_find_cmp(vector, &data_ok, &ok_index, compare_vec3);
+	uint8_t f_nok = cff_vector_find_cmp(vector, &data_nok, &nok_index, compare_vec3);
 
 	munit_assert(f_ok);
 	munit_assert(ok_index == 0);
@@ -590,7 +590,7 @@ TESTDEF(vector_count) {
 			.y = i % 2,
 			.z = i % 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	vec3 data = {
@@ -605,8 +605,8 @@ TESTDEF(vector_count) {
 		.z = 0
 	};
 
-	uint64_t count = caffeine_vector_count(vector, &data);
-	uint64_t count2 = caffeine_vector_count(vector, &data2);
+	uint64_t count = cff_vector_count(vector, &data);
+	uint64_t count2 = cff_vector_count(vector, &data2);
 
 	munit_assert(count == 5);
 	munit_assert(count2 == 0);
@@ -622,7 +622,7 @@ TESTDEF(vector_count_cmp) {
 			.y = i % 2,
 			.z = i % 2
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	vec3 data = {
@@ -637,8 +637,8 @@ TESTDEF(vector_count_cmp) {
 		.z = 0
 	};
 
-	uint64_t count = caffeine_vector_count(vector, &data, compare_vec3);
-	uint64_t count2 = caffeine_vector_count(vector, &data2, compare_vec3);
+	uint64_t count = cff_vector_count(vector, &data, compare_vec3);
+	uint64_t count2 = cff_vector_count(vector, &data2, compare_vec3);
 
 	munit_assert(count == 5);
 	munit_assert(count2 == 0);
@@ -654,7 +654,7 @@ TESTDEF(vector_any) {
 			.y = i,
 			.z = i
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	vec3 data = {
@@ -663,7 +663,7 @@ TESTDEF(vector_any) {
 		.z = 0
 	};
 
-	uint8_t result = caffeine_vector_any(vector, &data);
+	uint8_t result = cff_vector_any(vector, &data);
 
 	munit_assert(result);
 
@@ -678,7 +678,7 @@ TESTDEF(vector_any_cmp) {
 			.y = i,
 			.z = i
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	vec3 data = {
@@ -687,7 +687,7 @@ TESTDEF(vector_any_cmp) {
 		.z = 0
 	};
 
-	uint8_t result = caffeine_vector_any_cmp(vector, &data,compare_vec3);
+	uint8_t result = cff_vector_any_cmp(vector, &data,compare_vec3);
 
 	munit_assert(result);
 
@@ -702,7 +702,7 @@ TESTDEF(vector_all) {
 			.y = 5,
 			.z = 5
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	vec3 data = {
@@ -717,8 +717,8 @@ TESTDEF(vector_all) {
 		.z = 0
 	};
 
-	uint8_t result1 = caffeine_vector_all(vector, &data);
-	uint8_t result2 = caffeine_vector_all(vector, &data2);
+	uint8_t result1 = cff_vector_all(vector, &data);
+	uint8_t result2 = cff_vector_all(vector, &data2);
 
 	munit_assert(result1);
 	munit_assert(!result2);
@@ -734,7 +734,7 @@ TESTDEF(vector_all_cmp) {
 			.y = 5,
 			.z = 5
 		};
-		caffeine_vector_push_back(vector, &data, NULL);
+		cff_vector_push_back(vector, &data, NULL);
 	}
 
 	vec3 data = {
@@ -749,8 +749,8 @@ TESTDEF(vector_all_cmp) {
 		.z = 0
 	};
 
-	uint8_t result1 = caffeine_vector_all_cmp(vector, &data, compare_vec3);
-	uint8_t result2 = caffeine_vector_all_cmp(vector, &data2, compare_vec3);
+	uint8_t result1 = cff_vector_all_cmp(vector, &data, compare_vec3);
+	uint8_t result2 = cff_vector_all_cmp(vector, &data2, compare_vec3);
 
 	munit_assert(result1);
 	munit_assert(!result2);
@@ -765,12 +765,12 @@ static void* test_setup_create(const MunitParameter params[], void* user_data) {
 
 static void* test_setup(const MunitParameter params[], void* user_data) {
 	cff_vector* vector = malloc(sizeof(cff_vector));
-	caffeine_vector_create(vector, DATA_SIZE, INI_LEN, NULL);
+	cff_vector_create(vector, DATA_SIZE, INI_LEN, NULL);
 	return vector;
 }
 
 static void test_tear_down(void* fixture) {
-	caffeine_vector_free(fixture, NULL);
+	cff_vector_free(fixture, NULL);
 	free(fixture);
 }
 

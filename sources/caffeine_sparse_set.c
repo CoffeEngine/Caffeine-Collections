@@ -1,6 +1,5 @@
 #include "caffeine_sparse_set.h"
 #include "caffeine_assertions.h"
-#include "caffeine_default_allocator.h"
 #include "caffeine_memory.h"
 #include <stdio.h>
 
@@ -8,7 +7,7 @@ void caffeine_sparseset_resize(cff_sparseset* set, uint64_t lenght, AllocatorInt
 	cff_assert_param_not_null(set);
 	cff_assert_param_not_zero(lenght);
 	
-	if (allocator == NULL) allocator = cff_default_allocator_get();
+	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	uint64_t* sparse = NULL;
 	uint64_t* dense_index = NULL;
@@ -32,12 +31,12 @@ void caffeine_sparseset_resize(cff_sparseset* set, uint64_t lenght, AllocatorInt
 	}
 }
 
-void caffeine_sparseset_create(cff_sparseset* set, uint64_t lenght, uint64_t data_size, AllocatorInterface* allocator) {
+void cff_sparseset_create(cff_sparseset* set, uint64_t lenght, uint64_t data_size, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(set);
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_not_zero(data_size);
 	
-	if (allocator == NULL) allocator = cff_default_allocator_get();
+	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	set->count = 0;
 	set->lenght = lenght;
@@ -52,7 +51,7 @@ void caffeine_sparseset_create(cff_sparseset* set, uint64_t lenght, uint64_t dat
 	cff_assert_msg((void*)set->dense_index != (uintptr_t)NULL, "[SPARSE SET]: Failed to allocate buffer\n");
 }
 
-void caffeine_sparseset_add(cff_sparseset* set, uint64_t index, uintptr_t data, AllocatorInterface* allocator) {
+void cff_sparseset_add(cff_sparseset* set, uint64_t index, uintptr_t data, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(set);
 	cff_assert_param_not_null(data);
 	
@@ -71,7 +70,7 @@ void caffeine_sparseset_add(cff_sparseset* set, uint64_t index, uintptr_t data, 
 	cff_memcpy((const void* const)data,(void* const) resolve_ptr(set->dense + (set->sparse[index] * set->data_size)), (size_t)set->data_size, (size_t)set->data_size);
 }
 
-void caffeine_sparseset_get(cff_sparseset* set, uint64_t index, uintptr_t data) {
+void cff_sparseset_get(cff_sparseset* set, uint64_t index, uintptr_t data) {
 	cff_assert_param_not_null(set);
 	cff_assert_param_not_null(data);
 	cff_assert_param_less(index, set->lenght);
@@ -83,7 +82,7 @@ void caffeine_sparseset_get(cff_sparseset* set, uint64_t index, uintptr_t data) 
 	cff_memcpy((const void* const)resolve_ptr(set->dense + (set->sparse[index] * set->data_size)), (void* const)data, (size_t)set->data_size, (size_t)set->data_size);
 }
 
-void caffeine_sparseset_remove(cff_sparseset* set, uint64_t index) {
+void cff_sparseset_remove(cff_sparseset* set, uint64_t index) {
 	cff_assert_param_not_null(set);
 	cff_assert_param_less(index, set->lenght);
 
@@ -100,20 +99,20 @@ void caffeine_sparseset_remove(cff_sparseset* set, uint64_t index) {
 	set->count--;
 }
 
-void caffeine_sparseset_clear(cff_sparseset* set) {
+void cff_sparseset_clear(cff_sparseset* set) {
 	cff_assert_param_not_null(set);
 
 	set->count = 0;
 }
 
-void caffeine_sparseset_free(cff_sparseset* set, AllocatorInterface* allocator) {
+void cff_sparseset_free(cff_sparseset* set, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(set);
 
 	cff_assert_msg((void*)set->dense != NULL, "[SPARSE SET]: Set->Dense can not be NULL\n");
 	cff_assert_msg((void*)set->sparse != NULL, "[SPARSE SET]: Set->Sparse can not be NULL\n");
 	cff_assert_msg((void*)set->dense_index != NULL, "[SPARSE SET]: Set->DenseIndex can not be NULL\n");
 
-	if (allocator == NULL) allocator = cff_default_allocator_get();
+	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	cff_allocator_free(allocator, (void*)set->dense, 8);
 	cff_allocator_free(allocator, (void*)set->sparse, 8);
@@ -124,7 +123,7 @@ void caffeine_sparseset_free(cff_sparseset* set, AllocatorInterface* allocator) 
 	set->lenght = 0;
 }
 
-uintptr_t caffeine_sparseset_get_dense(cff_sparseset* set) {
+uintptr_t cff_sparseset_get_dense(cff_sparseset* set) {
 	cff_assert_param_not_null(set);
 
 	cff_assert_msg((void*)set->dense != NULL, "[SPARSE SET]: Set->Dense can not be NULL\n");

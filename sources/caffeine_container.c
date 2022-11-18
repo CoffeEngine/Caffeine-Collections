@@ -1,5 +1,4 @@
 #include "caffeine_container.h"
-#include "caffeine_default_allocator.h"
 #include "caffeine_memory.h"
 #include "caffeine_assertions.h"
 
@@ -17,7 +16,7 @@ inline cff_err_e caffeine_container_quick_sort_swap(uintptr_t a, uintptr_t b, ui
 	cff_memcpy((const void* const)a, (void* const)tmp, (size_t)data_size, (size_t)data_size);
 	cff_memcpy((const void* const)b, (void* const)a, (size_t)data_size, (size_t)data_size);
 	cff_memcpy((const void* const)tmp, (void* const)b, (size_t)data_size, (size_t)data_size);
-	cff_stack_free((void*)tmp);
+	cff_stack_alloc_free((void*)tmp);
 	return CFF_NONE_ERR;
 }
 
@@ -86,19 +85,19 @@ inline cff_err_e caffeine_container_quick_sort(uintptr_t buffer, uint64_t data_s
 		}
 	}
 
-	cff_stack_free((void*)stack);
+	cff_stack_alloc_free((void*)stack);
 	return CFF_NONE_ERR;
 }
 
 #pragma endregion
 
 
-cff_err_e caffeine_container_create(cff_container* container, uint64_t data_size, uint64_t lenght, AllocatorInterface* allocator) {
+cff_err_e cff_container_create(cff_container* container, uint64_t data_size, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_not_zero(data_size);
 
-	if (allocator == NULL) allocator = cff_default_allocator_get();
+	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	uintptr_t ptr = (uintptr_t)cff_allocator_alloc(allocator, (size_t)(data_size * lenght), 0);
 	if (ptr == 0) return CFF_ALLOC_ERR;
@@ -112,7 +111,7 @@ cff_err_e caffeine_container_recreate(cff_container* container, uint64_t data_si
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_not_zero(data_size);
 
-	if (allocator == NULL) allocator = cff_default_allocator_get();
+	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	void* tmp = 0;
 	if (cff_allocator_realloc(allocator, (void*)container->buffer, (size_t)(data_size * lenght), 0, &tmp)) {
@@ -123,7 +122,7 @@ cff_err_e caffeine_container_recreate(cff_container* container, uint64_t data_si
 	return CFF_REALLOC_ERR;
 }
 
-void caffeine_container_desloc(cff_container* container, uint64_t from, int64_t steps, uint64_t lenght) {
+void cff_container_desloc(cff_container* container, uint64_t from, int64_t steps, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_greater_eq(from + steps, 0);
@@ -150,11 +149,11 @@ void caffeine_container_desloc(cff_container* container, uint64_t from, int64_t 
 	}
 }
 
-cff_err_e caffeine_container_resize(cff_container* container, uint64_t lenght, AllocatorInterface* allocator) {
+cff_err_e cff_container_resize(cff_container* container, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_zero(lenght);
 
-	if (allocator == NULL) allocator = cff_default_allocator_get();
+	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	void* tmp;
 	if (cff_allocator_realloc(allocator, (void*)container->buffer, (size_t)(container->data_size * lenght), 0, &tmp)) {
@@ -164,18 +163,18 @@ cff_err_e caffeine_container_resize(cff_container* container, uint64_t lenght, A
 	return CFF_REALLOC_ERR;
 }
 
-void caffeine_container_insert(cff_container* container, uint64_t index, uintptr_t ptr_in, uint64_t lenght) {
+void cff_container_insert(cff_container* container, uint64_t index, uintptr_t ptr_in, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_in);
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_less(index, lenght);
 
 
-	caffeine_container_desloc(container, index, 1, lenght);
+	cff_container_desloc(container, index, 1, lenght);
 	cff_memcpy((const void* const)ptr_in, (void* const)resolve_ptr(ITEM_ADDRESS(container, index)), (size_t)(container->data_size), (size_t)(container->data_size));
 }
 
-void caffeine_container_set(cff_container* container, uint64_t index, uintptr_t ptr_in, uint64_t lenght) {
+void cff_container_set(cff_container* container, uint64_t index, uintptr_t ptr_in, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_in);
 	cff_assert_param_less(index, lenght);
@@ -183,7 +182,7 @@ void caffeine_container_set(cff_container* container, uint64_t index, uintptr_t 
 	cff_memcpy((const void* const)ptr_in, (void* const)resolve_ptr(ITEM_ADDRESS(container, index)), (size_t)(container->data_size), (size_t)(container->data_size));
 }
 
-void caffeine_container_get(cff_container* container, uint64_t index, uintptr_t ptr_out, uint64_t lenght) {
+void cff_container_get(cff_container* container, uint64_t index, uintptr_t ptr_out, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_out);
 	cff_assert_param_less(index, lenght);
@@ -192,7 +191,7 @@ void caffeine_container_get(cff_container* container, uint64_t index, uintptr_t 
 	cff_memcpy((const void* const)from, (void* const)ptr_out, (size_t)container->data_size, (size_t)container->data_size);
 }
 
-uint8_t caffeine_container_remove(cff_container* container, uint64_t index, uint64_t lenght) {
+uint8_t cff_container_remove(cff_container* container, uint64_t index, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_less(index, lenght);
@@ -208,19 +207,18 @@ uint8_t caffeine_container_remove(cff_container* container, uint64_t index, uint
 	return 0;
 }
 
-cff_err_e caffeine_container_copy(cff_container* container, cff_container* ptr_out, uint64_t start, uint64_t end, uint64_t to_lenght, uint64_t* copied_count, AllocatorInterface* allocator) {
+cff_err_e cff_container_copy(cff_container* container, cff_container* ptr_out, uint64_t start, uint64_t count, uint64_t to_lenght, uint64_t* copied_count, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_zero(to_lenght);
 	cff_assert_param_not_null(ptr_out);
-	cff_assert_param_less(start, end);
-	cff_assert_param_less_eq(end - start, to_lenght);
+	cff_assert_param_less_eq((count + start), to_lenght);
 
-	uint64_t n_len = end - start;
+	uint64_t n_len = count;
 	uint64_t mv_size = container->data_size * n_len;
 	cff_err_e err = CFF_NONE_ERR;
 
 	if (ptr_out->buffer == 0) {
-		err = caffeine_container_create(ptr_out, container->data_size, n_len, allocator);
+		err = cff_container_create(ptr_out, container->data_size, n_len, allocator);
 		to_lenght = n_len;
 	}
 	else if (to_lenght < n_len || container->data_size != ptr_out->data_size) {
@@ -236,13 +234,13 @@ cff_err_e caffeine_container_copy(cff_container* container, cff_container* ptr_o
 	return CFF_NONE_ERR;
 }
 
-cff_err_e caffeine_container_clone(cff_container* container, cff_container* ptr_out, uint64_t lenght, AllocatorInterface* allocator) {
+cff_err_e cff_container_clone(cff_container* container, cff_container* ptr_out, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_not_null(ptr_out);
 
 	cff_err_e err = CFF_NONE_ERR;
-	if (ptr_out->buffer == 0) err = caffeine_container_create(ptr_out, container->data_size, lenght, allocator);
+	if (ptr_out->buffer == 0) err = cff_container_create(ptr_out, container->data_size, lenght, allocator);
 	else err = caffeine_container_recreate(ptr_out, container->data_size, lenght, allocator);
 	if (err != CFF_NONE_ERR) return err;
 
@@ -264,7 +262,7 @@ void caffeine_container_overwrite(cff_container* container, cff_container* ptr_o
 	cff_memcpy((const void* const)resolve_ptr(container->buffer + start), (void* const)ptr_out->buffer, (size_t)mv_size, (size_t)mv_size);
 }
 
-void caffeine_container_fill(cff_container* container, uintptr_t ptr_in, uint64_t lenght) {
+void cff_container_fill(cff_container* container, uintptr_t ptr_in, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_not_null(ptr_in);
@@ -275,7 +273,7 @@ void caffeine_container_fill(cff_container* container, uintptr_t ptr_in, uint64_
 	}
 }
 
-cff_err_e caffeine_container_join(cff_container* container, cff_container* other, uint64_t start, uint64_t container_lenght, uint64_t other_lenght, AllocatorInterface* allocator) {
+cff_err_e cff_container_join(cff_container* container, cff_container* other, uint64_t start, uint64_t container_lenght, uint64_t other_lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(other);
 	cff_assert_param_not_zero(container_lenght);
@@ -284,14 +282,14 @@ cff_err_e caffeine_container_join(cff_container* container, cff_container* other
 	cff_assert_param_equals(container->data_size, other->data_size);
 
 	cff_err_e err = CFF_NONE_ERR;
-	if (start + other_lenght >= container_lenght) err = caffeine_container_resize(container, start + other_lenght, allocator);
+	if (start + other_lenght >= container_lenght) err = cff_container_resize(container, start + other_lenght, allocator);
 	if (err != CFF_NONE_ERR) return err;
 	uint64_t size = other_lenght * container->data_size;
 	cff_memcpy((const void* const)other->buffer, (void* const)resolve_ptr(ITEM_ADDRESS(container, start)), (size_t)size, (size_t)size);
 	return CFF_NONE_ERR;
 }
 
-cff_err_e caffeine_container_reverse(cff_container* container, uint64_t lenght) {
+cff_err_e cff_container_reverse(cff_container* container, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_zero(lenght);
 
@@ -309,17 +307,17 @@ cff_err_e caffeine_container_reverse(cff_container* container, uint64_t lenght) 
 		start++;
 		end--;
 	}
-	cff_stack_free((void*)tmp);
+	cff_stack_alloc_free((void*)tmp);
 	return CFF_NONE_ERR;
 }
 
-cff_err_e caffeine_container_filter(cff_container* container, filter_fn filter_function, cff_container* ptr_out, uint64_t container_lenght, uint64_t* out_lenght, AllocatorInterface* allocator) {
+cff_err_e cff_container_filter(cff_container* container, filter_fn filter_function, cff_container* ptr_out, uint64_t container_lenght, uint64_t* out_lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_zero(container_lenght);
 	cff_assert_param_not_null(filter_function);
 	cff_assert_param_not_null(ptr_out);
 
-	cff_err_e err = caffeine_container_create(ptr_out, container->data_size, container_lenght, allocator);
+	cff_err_e err = cff_container_create(ptr_out, container->data_size, container_lenght, allocator);
 	if (err != CFF_NONE_ERR) return err;
 
 	uint64_t counter = 0;
@@ -327,18 +325,18 @@ cff_err_e caffeine_container_filter(cff_container* container, filter_fn filter_f
 	{
 		uintptr_t ptr = resolve_ptr(ITEM_ADDRESS(container, i));
 		if (filter_function((void*)ptr, i, container->data_size) == true) {
-			caffeine_container_set(ptr_out, counter, ptr, container_lenght);
+			cff_container_set(ptr_out, counter, ptr, container_lenght);
 			//cff_memcpy((const void* const)ptr, (void* const)resolve_ptr(container->buffer + counter * filter_result->data_size), (size_t)container->data_size, (size_t)container->data_size);
 			counter++;
 		}
 	}
 
 	if (counter > 0) {
-		err = caffeine_container_resize(ptr_out, counter, allocator);
+		err = cff_container_resize(ptr_out, counter, allocator);
 		if (err != CFF_NONE_ERR) return err;
 	}
 	else {
-		caffeine_container_free(ptr_out, 0);
+		cff_container_free(ptr_out, 0);
 	}
 
 	if (out_lenght != NULL) *out_lenght = counter;
@@ -346,14 +344,14 @@ cff_err_e caffeine_container_filter(cff_container* container, filter_fn filter_f
 	return CFF_NONE_ERR;
 }
 
-cff_err_e caffeine_container_map(cff_container* container, map_fn map_function, cff_container* ptr_out, uint64_t out_data_size, uint64_t lenght, AllocatorInterface* allocator) {
+cff_err_e cff_container_map(cff_container* container, map_fn map_function, cff_container* ptr_out, uint64_t out_data_size, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(map_function);
 	cff_assert_param_not_null(ptr_out);
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_not_zero(out_data_size);
 
-	cff_err_e err = caffeine_container_create(ptr_out, out_data_size, lenght, allocator);
+	cff_err_e err = cff_container_create(ptr_out, out_data_size, lenght, allocator);
 	if (err != CFF_NONE_ERR) return err;
 
 	uintptr_t tmp_ptr_out = (uintptr_t)cff_stack_alloc((size_t)out_data_size);
@@ -364,14 +362,14 @@ cff_err_e caffeine_container_map(cff_container* container, map_fn map_function, 
 
 		uintptr_t data = resolve_ptr(container->buffer + i * container->data_size);
 		map_function((void*)data, (void*)tmp_ptr_out, i);
-		caffeine_container_set(ptr_out, i, (uintptr_t)tmp_ptr_out, lenght);
+		cff_container_set(ptr_out, i, (uintptr_t)tmp_ptr_out, lenght);
 	}
-	cff_stack_free((void*)tmp_ptr_out);
+	cff_stack_alloc_free((void*)tmp_ptr_out);
 
 	return CFF_NONE_ERR;
 }
 
-void caffeine_container_foreach(cff_container* container, foreach_fn foreach_function, uint64_t lenght) {
+void cff_container_foreach(cff_container* container, foreach_fn foreach_function, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(foreach_function);
 	cff_assert_param_not_zero(lenght);
@@ -382,7 +380,7 @@ void caffeine_container_foreach(cff_container* container, foreach_fn foreach_fun
 	}
 }
 
-cff_err_e caffeine_container_sort(cff_container* container, comparer_fn comparer_function, uint64_t lenght) {
+cff_err_e cff_container_sort(cff_container* container, comparer_fn comparer_function, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(comparer_function);
 	cff_assert_param_not_zero(lenght);
@@ -390,17 +388,17 @@ cff_err_e caffeine_container_sort(cff_container* container, comparer_fn comparer
 	return caffeine_container_quick_sort(container->buffer, container->data_size, comparer_function, 0, lenght - 1);
 }
 
-void caffeine_container_free(cff_container* container, AllocatorInterface* allocator) {
+void cff_container_free(cff_container* container, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(container);
 
-	if (allocator == NULL) allocator = cff_default_allocator_get();
+	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	cff_allocator_free(allocator, (void*)container->buffer, 0);
 	container->buffer = 0;
 	container->data_size = 0;
 }
 
-uint8_t caffeine_container_equal(cff_container* container, cff_container* other, uint64_t lenght) {
+uint8_t cff_container_equal(cff_container* container, cff_container* other, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(other);
 	cff_assert_param_not_zero(lenght);
@@ -410,7 +408,7 @@ uint8_t caffeine_container_equal(cff_container* container, cff_container* other,
 	return (cff_cmp_e)cff_memcmp((const void*)container->buffer, (const void*)other->buffer, (size_t)size);
 }
 
-uint8_t caffeine_container_find(cff_container* container, uintptr_t ptr_in, uint64_t* out_index, uint64_t lenght) {
+uint8_t cff_container_find(cff_container* container, uintptr_t ptr_in, uint64_t* out_index, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_in);
 	cff_assert_param_not_null(out_index);
@@ -426,7 +424,7 @@ uint8_t caffeine_container_find(cff_container* container, uintptr_t ptr_in, uint
 	return 0;
 }
 
-uint8_t caffeine_container_find_cmp(cff_container* container, uintptr_t ptr_in, uint64_t* out_index, comparer_fn comparer_function, uint64_t lenght) {
+uint8_t cff_container_find_cmp(cff_container* container, uintptr_t ptr_in, uint64_t* out_index, comparer_fn comparer_function, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_in);
 	cff_assert_param_not_null(out_index);
@@ -443,7 +441,7 @@ uint8_t caffeine_container_find_cmp(cff_container* container, uintptr_t ptr_in, 
 	return 0;
 }
 
-uint64_t caffeine_container_count(cff_container* container, uintptr_t ptr_in, uint64_t lenght) {
+uint64_t cff_container_count(cff_container* container, uintptr_t ptr_in, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_in);
 	cff_assert_param_not_zero(lenght);
@@ -458,7 +456,7 @@ uint64_t caffeine_container_count(cff_container* container, uintptr_t ptr_in, ui
 	return count;
 }
 
-uint64_t caffeine_container_count_cmp(cff_container* container, uintptr_t ptr_in, comparer_fn comparer_function, uint64_t lenght) {
+uint64_t cff_container_count_cmp(cff_container* container, uintptr_t ptr_in, comparer_fn comparer_function, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_in);
 	cff_assert_param_not_null(comparer_function);
@@ -474,7 +472,7 @@ uint64_t caffeine_container_count_cmp(cff_container* container, uintptr_t ptr_in
 	return count;
 }
 
-uint8_t caffeine_container_any(cff_container* container, uintptr_t ptr_in, uint64_t lenght) {
+uint8_t cff_container_any(cff_container* container, uintptr_t ptr_in, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_in);
 	cff_assert_param_not_zero(lenght);
@@ -488,7 +486,7 @@ uint8_t caffeine_container_any(cff_container* container, uintptr_t ptr_in, uint6
 	return 0;
 }
 
-uint8_t caffeine_container_any_cmp(cff_container* container, uintptr_t ptr_in, comparer_fn comparer_function, uint64_t lenght) {
+uint8_t cff_container_any_cmp(cff_container* container, uintptr_t ptr_in, comparer_fn comparer_function, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_in);
 	cff_assert_param_not_null(comparer_function);
@@ -503,7 +501,7 @@ uint8_t caffeine_container_any_cmp(cff_container* container, uintptr_t ptr_in, c
 	return 0;
 }
 
-uint8_t caffeine_container_all(cff_container* container, uintptr_t ptr_in, uint64_t lenght) {
+uint8_t cff_container_all(cff_container* container, uintptr_t ptr_in, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_in);
 	cff_assert_param_not_zero(lenght);
@@ -517,7 +515,7 @@ uint8_t caffeine_container_all(cff_container* container, uintptr_t ptr_in, uint6
 	return 1;
 }
 
-uint8_t caffeine_container_all_cmp(cff_container* container, uintptr_t ptr_in, comparer_fn comparer_function, uint64_t lenght) {
+uint8_t cff_container_all_cmp(cff_container* container, uintptr_t ptr_in, comparer_fn comparer_function, uint64_t lenght) {
 	cff_assert_param_not_null(container);
 	cff_assert_param_not_null(ptr_in);
 	cff_assert_param_not_null(comparer_function);

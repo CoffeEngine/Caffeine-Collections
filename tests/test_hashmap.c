@@ -98,7 +98,7 @@ void cpy_string(uintptr_t from, uintptr_t to, uint32_t data_size) {
 }
 
 TESTDEF(hashmap_create) {
-	caffeine_hashmap_create(hashmap, KEY_SIZE, VALUE_SIZE, INI_LEN, hash_string, cmp_string, cpy_string, NULL);
+	cff_hashmap_create(hashmap, KEY_SIZE, VALUE_SIZE, INI_LEN, hash_string, cmp_string, cpy_string, NULL);
 
 	munit_assert(hashmap->cmp_func == cmp_string);
 	munit_assert(hashmap->hash_func == hash_string);
@@ -121,7 +121,7 @@ TESTDEF(hashmap_add) {
 	for (size_t i = 0; i < KEYS_LEN; i++)
 	{
 		int64_t v = start + i;
-	 	uint8_t res= caffeine_hashmap_add(hashmap, keys[i],&v, NULL);
+	 	uint8_t res= cff_hashmap_add(hashmap, keys[i],&v, NULL);
 		munit_assert(hashmap->count == i+1);
 		munit_assert(res);
 	}
@@ -139,7 +139,7 @@ TESTDEF(hashmap_get) {
 	for (size_t i = 0; i < KEYS_LEN; i++)
 	{
 		int64_t v = start + i;
-		uint8_t res = caffeine_hashmap_add(hashmap, keys[i], &v, NULL);
+		uint8_t res = cff_hashmap_add(hashmap, keys[i], &v, NULL);
 		munit_assert(hashmap->count == i + 1);
 		munit_assert(res);
 	}
@@ -147,7 +147,7 @@ TESTDEF(hashmap_get) {
 
 	for (size_t i = 0; i < KEYS_LEN; i++) {
 		int64_t value = 0;
-		uint8_t res = caffeine_hashmap_get(hashmap, keys[i], (uintptr_t)&value);
+		uint8_t res = cff_hashmap_get(hashmap, keys[i], (uintptr_t)&value);
 		munit_assert(value == start + i);
 		munit_assert(res);
 	}
@@ -163,11 +163,11 @@ TESTDEF(hashmap_remove) {
 	int64_t value = 0;
 	int64_t index = munit_rand_int_range(1, KEYS_LEN-1);
 
-	uint8_t res = caffeine_hashmap_add(hashmap, keys[index], &v, NULL);
+	uint8_t res = cff_hashmap_add(hashmap, keys[index], &v, NULL);
 	munit_assert(res);
-	res = caffeine_hashmap_remove(hashmap, keys[index]);
+	res = cff_hashmap_remove(hashmap, keys[index]);
 	munit_assert(res);
-	res = caffeine_hashmap_get(hashmap, keys[index], (uintptr_t)&value);
+	res = cff_hashmap_get(hashmap, keys[index], (uintptr_t)&value);
 	munit_assert(res == 0);
 
 	free_keys(keys);
@@ -179,11 +179,11 @@ TESTDEF(hashmap_exist_key) {
 	int64_t v = munit_rand_uint32();
 	int64_t index = munit_rand_int_range(1, KEYS_LEN-1);
 
-	uint8_t res = caffeine_hashmap_add(hashmap, keys[index], &v, NULL);
+	uint8_t res = cff_hashmap_add(hashmap, keys[index], &v, NULL);
 	munit_assert(res);
-	res = caffeine_hashmap_exist_key(hashmap, keys[index]);
+	res = cff_hashmap_exist_key(hashmap, keys[index]);
 	munit_assert(res);
-	res = caffeine_hashmap_remove(hashmap, keys[index]);
+	res = cff_hashmap_remove(hashmap, keys[index]);
 	munit_assert(res);
 
 	free_keys(keys);
@@ -197,15 +197,15 @@ TESTDEF(hashmap_clear) {
 	for (size_t i = 0; i < KEYS_LEN; i++)
 	{
 		int64_t v = start + i;
-		uint8_t res = caffeine_hashmap_add(hashmap, keys[i], &v, NULL);
+		uint8_t res = cff_hashmap_add(hashmap, keys[i], &v, NULL);
 		munit_assert(hashmap->count == i + 1);
 		munit_assert(res);
 	}
 	munit_assert(hashmap->lenght > INI_LEN);
-	caffeine_hashmap_clear(hashmap);
+	cff_hashmap_clear(hashmap);
 	for (size_t i = 0; i < KEYS_LEN; i++) {
 		int64_t value = 0;
-		uint8_t res = caffeine_hashmap_get(hashmap, keys[i], (uintptr_t)&value);
+		uint8_t res = cff_hashmap_get(hashmap, keys[i], (uintptr_t)&value);
 		munit_assert(value == 0);
 		munit_assert(res == 0);
 	}
@@ -216,7 +216,7 @@ TESTDEF(hashmap_clear) {
 
 static void* test_setup(const MunitParameter params[], void* user_data) {
 	cff_hashmap* hashmap = malloc(sizeof(cff_hashmap));
-	caffeine_hashmap_create(hashmap, KEY_SIZE, VALUE_SIZE, INI_LEN, hash_string, cmp_string, cpy_string, NULL);
+	cff_hashmap_create(hashmap, KEY_SIZE, VALUE_SIZE, INI_LEN, hash_string, cmp_string, cpy_string, NULL);
 	return hashmap;
 }
 
@@ -226,7 +226,7 @@ static void* test_setup_create(const MunitParameter params[], void* user_data) {
 }
 
 static void test_tear_down(void* fixture) {
-	caffeine_hashmap_free(fixture, NULL);
+	cff_hashmap_free(fixture, NULL);
 	free(fixture);
 }
 

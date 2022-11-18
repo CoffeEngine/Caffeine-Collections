@@ -1,24 +1,23 @@
 #include "caffeine_bitmap.h"
-#include "caffeine_default_allocator.h"
 #include "caffeine_memory.h"
 #include "caffeine_assertions.h"
 
 
-void caffeine_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
+void cff_bitmap_create(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_zero(lenght);
 	
-	if (allocator == NULL) allocator = cff_default_allocator_get();
+	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	size_t buff_size = sizeof(uint64_t) * (((size_t)lenght) / sizeof(uint64_t) * 8);
 	if (buff_size == 0) buff_size = 1;
 
 	bmp->buffer = (uint64_t*)cff_allocator_alloc(allocator,buff_size * sizeof(uint64_t), 8);
 	bmp->lenght = lenght;
-	caffeine_bitmap_clear_all(bmp);
+	cff_bitmap_clear_all(bmp);
 }
 
-void caffeine_bitmap_set(cff_bitmap* bmp, uint64_t bit) {
+void cff_bitmap_set(cff_bitmap* bmp, uint64_t bit) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_null(bmp->buffer);
 	cff_assert_param_less(bit, bmp->lenght);
@@ -30,7 +29,7 @@ void caffeine_bitmap_set(cff_bitmap* bmp, uint64_t bit) {
 	bmp->buffer[index] |= v;
 }
 
-void caffeine_bitmap_clear(cff_bitmap* bmp, uint64_t bit) {
+void cff_bitmap_clear(cff_bitmap* bmp, uint64_t bit) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_null(bmp->buffer);
 	cff_assert_param_less(bit, bmp->lenght);
@@ -42,7 +41,7 @@ void caffeine_bitmap_clear(cff_bitmap* bmp, uint64_t bit) {
 	bmp->buffer[index] &= ~((uint64_t)1 << pos);
 }
 
-uint8_t caffeine_bitmap_get(cff_bitmap* bmp, uint64_t bit) {
+uint8_t cff_bitmap_get(cff_bitmap* bmp, uint64_t bit) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_null(bmp->buffer);
 	cff_assert_param_less(bit, bmp->lenght);
@@ -55,7 +54,7 @@ uint8_t caffeine_bitmap_get(cff_bitmap* bmp, uint64_t bit) {
 	return ret;
 }
 
-void caffeine_bitmap_set_all(cff_bitmap* bmp) {
+void cff_bitmap_set_all(cff_bitmap* bmp) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_null(bmp->buffer);
 
@@ -68,7 +67,7 @@ void caffeine_bitmap_set_all(cff_bitmap* bmp) {
 	}
 }
 
-void caffeine_bitmap_clear_all(cff_bitmap* bmp) {
+void cff_bitmap_clear_all(cff_bitmap* bmp) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_null(bmp->buffer);
 
@@ -82,12 +81,12 @@ void caffeine_bitmap_clear_all(cff_bitmap* bmp) {
 
 }
 
-void caffeine_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
+void cff_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_null(bmp->buffer);
 	cff_assert_param_not_zero(lenght);
 
-	if (allocator == NULL) allocator = cff_default_allocator_get();
+	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	uint64_t* tmp = NULL;
 	size_t buff_size = sizeof(uint64_t) * ((size_t)(lenght) / sizeof(uint64_t) * 8);
@@ -99,11 +98,11 @@ void caffeine_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface
 	}
 }
 
-void caffeine_bitmap_free(cff_bitmap* bmp, AllocatorInterface* allocator) {
+void cff_bitmap_free(cff_bitmap* bmp, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(bmp);
 	cff_assert_param_not_null(bmp->buffer);
 
-	if (allocator == NULL) allocator = cff_default_allocator_get();
+	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	cff_allocator_free(allocator, bmp->buffer, 8);
 	bmp->buffer = 0;

@@ -76,8 +76,7 @@ void cff_bitmap_clear_all(cff_bitmap* bmp) {
 	for (size_t i = 0; i < bmp->lenght; i++)
 	{
 		uint64_t index = i / ((uint64_t)sizeof(uint64_t) * 8);
-		uint64_t pos = i % ((uint64_t)sizeof(uint64_t) * 8);
-
+		
 		bmp->buffer[index] = 0;
 	}
 

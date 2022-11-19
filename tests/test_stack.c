@@ -207,6 +207,7 @@ TESTDEF(stack_top) {
 
 static void* test_setup_create(const MunitParameter params[], void* user_data) {
 	cff_stack* stack = malloc(sizeof(cff_stack));
+	if (stack) *stack = (cff_stack){ 0 };
 	return stack;
 }
 

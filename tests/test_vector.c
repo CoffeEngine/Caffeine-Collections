@@ -813,6 +813,7 @@ TESTDEF(vector_all_cmp) {
 
 static void* test_setup_create(const MunitParameter params[], void* user_data) {
 	cff_vector* vector = malloc(sizeof(cff_vector));
+	if (vector) *vector = (cff_vector){ 0 };
 	return vector;
 }
 

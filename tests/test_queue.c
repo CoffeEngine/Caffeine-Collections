@@ -193,6 +193,7 @@ TESTDEF(queue_dequeue) {
 
 static void* test_setup_create(const MunitParameter params[], void* user_data) {
 	cff_queue* queue = malloc(sizeof(cff_queue));
+	if (queue) *queue = (cff_queue){ 0 };
 	return queue;
 }
 

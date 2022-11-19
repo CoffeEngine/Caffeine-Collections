@@ -35,7 +35,7 @@ static void assert_vec3(vec3 a, vec3 b) {
 }
 
 static void container_arange(cff_container* container, int start, int end) {
-	for (int i = start, j = 0; i < end; i++,j++)
+	for (int i = start, j = 0; i < end; i++, j++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
 		cff_container_set(container, j, (uintptr_t)(&data), INI_LEN);
@@ -90,12 +90,12 @@ TESTDEF(container_create) {
 
 TESTDEF(container_set) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	int x = munit_rand_uint32();
 	int y = munit_rand_uint32();
 	int z = munit_rand_uint32();
 
-	int index = munit_rand_int_range(0, (int)(INI_LEN -1));
+	int index = munit_rand_int_range(0, (int)(INI_LEN - 1));
 
 	vec3 data = { .x = x,.y = y,.z = z };
 
@@ -109,7 +109,7 @@ TESTDEF(container_set) {
 
 TESTDEF(container_get) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	int x = munit_rand_uint32();
 	int y = munit_rand_uint32();
 	int z = munit_rand_uint32();
@@ -120,7 +120,7 @@ TESTDEF(container_get) {
 
 	cff_container_set(container, (uint64_t)index, (uintptr_t)(&data), INI_LEN);
 
-	vec3 get_data = {0};
+	vec3 get_data = { 0 };
 
 	cff_container_get(container, (uint64_t)index, (uintptr_t)(&get_data), INI_LEN);
 
@@ -129,14 +129,14 @@ TESTDEF(container_get) {
 }
 
 TESTDEF(container_desloc) {
-cff_container* container = (cff_container*)munit_data;
-	
+	cff_container* container = (cff_container*)munit_data;
+
 	container_arange(container, 0, (int)INI_LEN);
 
 	int index = 3;
 	int step = 2;
 	cff_container_desloc(container, (uint64_t)index, (int64_t)step, INI_LEN);
-	vec3 get_data = {0};
+	vec3 get_data = { 0 };
 	cff_container_get(container, (uint64_t)index + step, (uintptr_t)(&get_data), INI_LEN);
 	vec3 data = (vec3){ .x = index * 3, .y = index * 5, .z = index * 7 };
 	assert_vec3(get_data, data);
@@ -145,7 +145,6 @@ cff_container* container = (cff_container*)munit_data;
 	index = 3;
 	step = -2;
 	cff_container_desloc(container, (uint64_t)index, (int64_t)step, INI_LEN);
-	get_data;
 	cff_container_get(container, (uint64_t)index + step, (uintptr_t)(&get_data), INI_LEN);
 	data = (vec3){ .x = index * 3, .y = index * 5, .z = index * 7 };
 	assert_vec3(get_data, data);
@@ -154,26 +153,26 @@ cff_container* container = (cff_container*)munit_data;
 
 TESTDEF(container_resize) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	SKIP_ON_ERR(cff_container_resize(container, INI_LEN * 2, NULL));
-	
-	#ifdef CFF_COMP_MSVC
+
+#ifdef CFF_COMP_MSVC
 	size_t allocked = _msize((void*)container->buffer);
 	munit_assert(allocked == INI_LEN * 2 * container->data_size);
-	#endif
-	
+#endif
+
 	return MUNIT_OK;
 }
 
 TESTDEF(container_insert) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	container_arange(container, 0, (int)INI_LEN);
 
 	vec3 data = { .x = 0,.y = 0,.z = 0 };
-	vec3 get_data = {0};
+	vec3 get_data = { 0 };
 	int insert_index = 5;
-	cff_container_insert(container, insert_index,(uintptr_t)(&data), INI_LEN);
+	cff_container_insert(container, insert_index, (uintptr_t)(&data), INI_LEN);
 	cff_container_get(container, insert_index, (uintptr_t)(&get_data), INI_LEN);
 
 	assert_vec3(get_data, data);
@@ -182,28 +181,28 @@ TESTDEF(container_insert) {
 
 TESTDEF(container_remove) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	container_arange(container, 0, (int)INI_LEN);
-	
-	uint64_t index_remove = (uint64_t)munit_rand_int_range(0,(int)(INI_LEN-1));
-	vec3 get_data = {0};
+
+	uint64_t index_remove = (uint64_t)munit_rand_int_range(0, (int)(INI_LEN - 1));
+	vec3 get_data = { 0 };
 	uint8_t res = cff_container_remove(container, index_remove, INI_LEN);
-	
-	munit_assert_false(index_remove != (INI_LEN-1) && res == 0);
-	munit_assert_false(index_remove == (INI_LEN-1) && res == 1);
+
+	munit_assert_false(index_remove != (INI_LEN - 1) && res == 0);
+	munit_assert_false(index_remove == (INI_LEN - 1) && res == 1);
 
 	if (res) {
 		cff_container_get(container, index_remove, (uintptr_t)(&get_data), INI_LEN);
 		vec3 data = (vec3){ .x = (int)(index_remove + 1) * 3, .y = (int)(index_remove + 1) * 5, .z = (int)(index_remove + 1) * 7 };
 		assert_vec3(get_data, data);
 	}
-	
+
 	return MUNIT_OK;
 }
 
 TESTDEF(container_copy) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	container_arange(container, 0, (int)INI_LEN);
 
 	cff_container dest = { 0 };
@@ -212,7 +211,7 @@ TESTDEF(container_copy) {
 
 	uint64_t n_len = 0;
 	SKIP_ON_ERR(cff_container_copy(container, &dest, start, count, INI_LEN, &n_len, NULL));
-	for (uint64_t i = start, j = 0; i < (start+ count); i++, j++)
+	for (uint64_t i = start, j = 0; i < (start + count); i++, j++)
 	{
 		vec3 a = { 0 };
 		vec3 b = { 0 };
@@ -226,7 +225,7 @@ TESTDEF(container_copy) {
 
 TESTDEF(container_clone) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	container_arange(container, 0, (int)INI_LEN);
 
 	cff_container dest = { 0 };
@@ -247,7 +246,7 @@ TESTDEF(container_clone) {
 
 TESTDEF(container_reverse) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	container_arange(container, 0, (int)INI_LEN);
 
 	SKIP_ON_ERR(cff_container_reverse(container, INI_LEN));
@@ -263,7 +262,7 @@ TESTDEF(container_reverse) {
 
 TESTDEF(container_fill) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	vec3 data = { .x = 555,.y = 777,.z = 999 };
 	cff_container_fill(container, (uintptr_t)(&data), INI_LEN);
 	for (size_t i = 0; i < INI_LEN; i++)
@@ -277,12 +276,12 @@ TESTDEF(container_fill) {
 
 TESTDEF(container_join) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	cff_container other = { 0 };
 	SKIP_ON_ERR(cff_container_create(&other, DATA_SIZE, INI_LEN / 2, NULL));
 
 	container_arange(container, 0, (int)(INI_LEN / 2));
-	container_arange(&other,(int)( INI_LEN / 2),(int)(INI_LEN));
+	container_arange(&other, (int)(INI_LEN / 2), (int)(INI_LEN));
 
 	SKIP_ON_ERR(cff_container_join(container, &other, INI_LEN / 2, INI_LEN, INI_LEN / 2, NULL));
 
@@ -298,7 +297,7 @@ TESTDEF(container_join) {
 
 TESTDEF(container_filter) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	cff_container other = { 0 };
 
 	container_arange(container, 0, (int)INI_LEN);
@@ -318,7 +317,7 @@ TESTDEF(container_filter) {
 
 TESTDEF(container_map) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	cff_container other = { 0 };
 
 	container_arange(container, 0, (int)INI_LEN);
@@ -341,7 +340,7 @@ TESTDEF(container_map) {
 
 TESTDEF(container_foreach) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	container_arange(container, 0, (int)INI_LEN);
 	cff_container_foreach(container, foreach_func, INI_LEN);
 	return MUNIT_OK;
@@ -349,7 +348,7 @@ TESTDEF(container_foreach) {
 
 TESTDEF(container_sort) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	cff_container other = { 0 };
 
 	container_arange(container, 0, (int)INI_LEN);
@@ -366,7 +365,7 @@ TESTDEF(container_sort) {
 
 TESTDEF(container_free) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	cff_container_free(container, NULL);
 	munit_assert(container->data_size == 0);
 	munit_assert(container->buffer == 0);
@@ -376,7 +375,7 @@ TESTDEF(container_free) {
 
 TESTDEF(container_equal) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	cff_container other;
 	SKIP_ON_ERR(cff_container_create(&other, DATA_SIZE, INI_LEN, NULL));
 
@@ -392,20 +391,21 @@ TESTDEF(container_equal) {
 
 TESTDEF(container_find) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	container_arange(container, 0, (int)INI_LEN);
 
 	int index = 5;
 	vec3 data = { .x = index * 3,.y = index * 5,.z = index * 7 };
 	uint64_t found = 0;
 	uint8_t f = cff_container_find(container, (uintptr_t)(&data), &found, INI_LEN);
+	munit_assert(f);
 	munit_assert(found == index);
 	return MUNIT_OK;
 }
 
 TESTDEF(container_find_cmp) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	container_arange(container, 0, (int)INI_LEN);
 
 	int index = 5;
@@ -418,7 +418,7 @@ TESTDEF(container_find_cmp) {
 
 TESTDEF(container_count) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	uint64_t cc = 0;
 	for (int i = 0; i < INI_LEN; i++)
 	{
@@ -434,7 +434,7 @@ TESTDEF(container_count) {
 
 TESTDEF(container_count_cmp) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	uint64_t cc = 0;
 	for (int i = 0; i < INI_LEN; i++)
 	{
@@ -450,7 +450,7 @@ TESTDEF(container_count_cmp) {
 
 TESTDEF(container_any) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
@@ -463,8 +463,8 @@ TESTDEF(container_any) {
 }
 
 TESTDEF(container_any_cmp) {
-cff_container* container = (cff_container*)munit_data;
-	
+	cff_container* container = (cff_container*)munit_data;
+
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
@@ -478,7 +478,7 @@ cff_container* container = (cff_container*)munit_data;
 
 TESTDEF(container_all) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
@@ -492,7 +492,7 @@ TESTDEF(container_all) {
 
 TESTDEF(container_all_cmp) {
 	cff_container* container = (cff_container*)munit_data;
-	
+
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
@@ -512,6 +512,7 @@ static void* test_setup(const MunitParameter params[], void* user_data) {
 
 static void* test_setup_create(const MunitParameter params[], void* user_data) {
 	cff_container* container = malloc(sizeof(cff_container));
+	if (container)*container = (cff_container){ 0 };
 	return container;
 }
 

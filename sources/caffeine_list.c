@@ -2,7 +2,7 @@
 
 #pragma region Auxiliar
 
- cff_err_e __caffeine_build_bucket(caffeine_list_bucket** bucket, uintptr_t data, uint64_t data_size, AllocatorInterface* allocator) {
+cff_err_e __caffeine_build_bucket(caffeine_list_bucket** bucket, uintptr_t data, uint64_t data_size, AllocatorInterface* allocator) {
 
 	cff_assert_param_not_null(bucket);
 	cff_assert_param_not_null(allocator);
@@ -19,7 +19,7 @@
 	return CFF_NONE_ERR;
 }
 
- caffeine_list_bucket* __caffeine_get_bucket(cff_list* list, uint64_t index) {
+caffeine_list_bucket* __caffeine_get_bucket(cff_list* list, uint64_t index) {
 	cff_assert_param_not_null(list);
 	cff_assert_param_less(index, list->count);
 
@@ -33,7 +33,7 @@
 	return bucket;
 }
 
- void __caffeine_swap(caffeine_list_bucket* prev_a, caffeine_list_bucket* a, caffeine_list_bucket* b) {
+void __caffeine_swap(caffeine_list_bucket* prev_a, caffeine_list_bucket* a, caffeine_list_bucket* b) {
 
 	cff_assert_param_not_null(prev_a);
 	cff_assert_param_not_null(a);
@@ -420,7 +420,7 @@ uint8_t cff_list_find_cmp(cff_list* list, uintptr_t data_f, uint64_t* out_index,
 
 	for (uint64_t i = 0; i < list->count; i++)
 	{
-		if (comparer_function(( void*)bucket->data_ptr, ( void*)data_f, list->data_size) == CFF_EQUALS) {
+		if (comparer_function((void*)bucket->data_ptr, (void*)data_f, list->data_size) == CFF_EQUALS) {
 			if (data_out != 0) cff_memcpy((const void* const)bucket->data_ptr, (void* const)data_out, (size_t)list->data_size, (size_t)list->data_size);
 			*out_index = i;
 			return 1;
@@ -561,10 +561,11 @@ void cff_list_reverse(cff_list* list) {
 
 	if (list->count < 2) return;
 
+
 	caffeine_list_bucket* start = list->list_end;
 	caffeine_list_bucket* end = list->list_start;
 
-
+	if (list->list_start == NULL) return;
 	caffeine_list_bucket* current = list->list_start->next_bucket;
 	caffeine_list_bucket* last_current = list->list_start;
 	caffeine_list_bucket* next_current = NULL;
@@ -611,7 +612,7 @@ void cff_list_sort(cff_list* list, comparer_fn comparer_function) {
 			while (--_tmp_count && helve_a_end->next_bucket != NULL) helve_a_end = helve_a_end->next_bucket;
 
 
-			caffeine_list_bucket* helve_b_start = helve_a_end->next_bucket;
+			caffeine_list_bucket* helve_b_start = helve_a_end ? helve_a_end->next_bucket : NULL;
 			caffeine_list_bucket* helve_b_end = helve_b_start;
 			_tmp_count = gap;
 
@@ -620,7 +621,7 @@ void cff_list_sort(cff_list* list, comparer_fn comparer_function) {
 				next_group = helve_b_end->next_bucket;
 				helve_b_end->next_bucket = NULL;
 			}
-			else next_group = (helve_a_end != NULL) ? helve_a_end->next_bucket : NULL;
+			else next_group = NULL;
 
 			if ((helve_a_end != NULL)) helve_a_end->next_bucket = NULL;
 

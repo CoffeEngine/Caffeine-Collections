@@ -26,9 +26,8 @@ static void assert_vec3(vec3 a, vec3 b) {
 static void sparseset_arange(cff_sparseset* set, int start, int end) {
 	for (int i = start, j = 0; i < end; i++, j++)
 	{
-		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
 		cff_sparseset_add(set, (uint64_t)i, (uintptr_t) & (vec3) { .x = i, .y = i + 1, .z = i + 2 }, NULL);
-		assert_uint64(set->count, == , i + 1);
+		assert_uint64(set->count, == , i + (uint64_t)1);
 	}
 }
 

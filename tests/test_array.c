@@ -370,6 +370,7 @@ TESTDEF(array_find) {
 	vec3 data = { .x = index * 3,.y = index * 5,.z = index * 7 };
 	uint64_t found = 0;
 	uint8_t f = cff_array_find(array, (uintptr_t)(&data), &found);
+	munit_assert(f);
 	munit_assert(found == index);
 	return MUNIT_OK;
 }
@@ -478,6 +479,7 @@ TESTDEF(array_all_cmp) {
 
 static void* test_setup_create(const MunitParameter params[], void* user_data) {
 	cff_array* array = malloc(sizeof(cff_array));
+	if (array) *array = (cff_array){0};
 	return array;
 }
 

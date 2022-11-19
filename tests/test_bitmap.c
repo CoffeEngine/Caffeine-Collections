@@ -135,6 +135,7 @@ static void* test_setup(const MunitParameter params[], void* user_data) {
 
 static void* test_setup_create(const MunitParameter params[], void* user_data) {
 	cff_bitmap* bitmap = malloc(sizeof(cff_bitmap));
+	if (bitmap) *bitmap = (cff_bitmap){ 0 };
 	return bitmap;
 }
 

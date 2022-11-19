@@ -162,8 +162,8 @@ TESTDEF(list_insert_mid) {
 	
 	list_arange(list, 0, 5);
 
-	int index_offset = 3;
-	for (size_t i = 0; i < 5; i++)
+	uint64_t index_offset = 3;
+	for (uint64_t i = 0; i < 5; i++)
 	{
 		vec3 data = { .x = 0,.y = 0,.z = 0 };
 		SKIP_ON_ERR(cff_list_insert(list, index_offset + i, (uintptr_t)(&data), NULL));
@@ -515,7 +515,7 @@ TESTDEF(list_find) {
 	uint64_t idx;
 	cff_list_find(list, (uintptr_t)&s, &idx, (uintptr_t)&out);
 
-	munit_assert(idx = 3);
+	munit_assert(idx == 3);
 	assert_vec3(s, out);
 
 	return MUNIT_OK;
@@ -531,7 +531,7 @@ TESTDEF(list_find_cmp) {
 	uint64_t idx;
 	cff_list_find_cmp(list, (uintptr_t)&s, &idx, (uintptr_t)&out, vec_cmp);
 
-	munit_assert(idx = 3);
+	munit_assert(idx == 3);
 	assert_vec3(s, out);
 
 	return MUNIT_OK;
@@ -726,6 +726,7 @@ TESTDEF(list_sort) {
 
 static void* test_setup_create(const MunitParameter params[], void* user_data) {
 	cff_list* list = malloc(sizeof(cff_list));
+	if (list) *list = (cff_list){ 0 };
 	return list;
 }
 

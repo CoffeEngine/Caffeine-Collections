@@ -68,7 +68,7 @@ int32_t __caffeine_binary_search(const uint16_t arr[], uint16_t value, uint16_t 
 	else if (value < _prime_numbers[_third_quartil]) { start = _second_quartil; end = _third_quartil; }
 	else { start = _third_quartil; }
 
-	uint16_t index = (end - start) / 2;
+	uint16_t index = 0;
 
 	while (end != start) {
 
@@ -79,7 +79,7 @@ int32_t __caffeine_binary_search(const uint16_t arr[], uint16_t value, uint16_t 
 		if (value < arr[index]) {
 			end = index - 1;
 		}
-		else if (value > arr[index]) {
+		else {
 			start = index + 1;
 		}
 

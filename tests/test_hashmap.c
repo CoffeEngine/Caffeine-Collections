@@ -148,11 +148,11 @@ TESTDEF(hashmap_add) {
 	char** keys = get_random_keys();
 	int64_t start = munit_rand_uint32();
 
-	for (size_t i = 0; i < KEYS_LEN; i++)
+	for (int i = 0; i < KEYS_LEN; i++)
 	{
 		int64_t v = start + i;
-		uint8_t res = cff_hashmap_add(hashmap, (uintptr_t)keys[i], (uintptr_t)(&v), NULL);
-		munit_assert(hashmap->count == i + 1);
+		SKIP_ON_ERR(cff_hashmap_add(hashmap, (uintptr_t)keys[i], (uintptr_t)(&v), NULL));
+		munit_assert(hashmap->count == i + (uint64_t)1);
 	}
 	munit_assert(hashmap->lenght > INI_LEN);
 
@@ -167,18 +167,18 @@ TESTDEF(hashmap_get) {
 	char** keys = get_random_keys();
 	int64_t start = munit_rand_uint32();
 
-	for (size_t i = 0; i < KEYS_LEN; i++)
+	for (int i = 0; i < KEYS_LEN; i++)
 	{
 		int64_t v = start + i;
-		uint8_t res = cff_hashmap_add(hashmap, (uintptr_t)keys[i], (uintptr_t)(&v), NULL);
-		munit_assert(hashmap->count == i + 1);
+		SKIP_ON_ERR(cff_hashmap_add(hashmap, (uintptr_t)keys[i], (uintptr_t)(&v), NULL));
+		munit_assert(hashmap->count ==i + (uint64_t)1);
 	}
 	munit_assert(hashmap->lenght > INI_LEN);
 
-	for (size_t i = 0; i < KEYS_LEN; i++) {
+	for (int i = 0; i < KEYS_LEN; i++) {
 		int64_t value = 0;
 		uint8_t res = cff_hashmap_get(hashmap, (uintptr_t)keys[i], (uintptr_t)&value);
-		munit_assert(value == start + i);
+		munit_assert(value == (int64_t)(start + i));
 		munit_assert(res);
 	}
 
@@ -229,11 +229,11 @@ TESTDEF(hashmap_clear) {
 	char** keys = get_random_keys();
 	int64_t start = munit_rand_uint32();
 
-	for (size_t i = 0; i < KEYS_LEN; i++)
+	for (int i = 0; i < KEYS_LEN; i++)
 	{
 		int64_t v = start + i;
-		uint8_t res = cff_hashmap_add(hashmap, (uintptr_t)keys[i], (uintptr_t)&v, NULL);
-		munit_assert(hashmap->count == i + 1);
+		SKIP_ON_ERR(cff_hashmap_add(hashmap, (uintptr_t)keys[i], (uintptr_t)&v, NULL));
+		munit_assert(hashmap->count == i + (uint64_t)1);
 	}
 	munit_assert(hashmap->lenght > INI_LEN);
 	cff_hashmap_clear(hashmap);
@@ -256,6 +256,7 @@ static void* test_setup(const MunitParameter params[], void* user_data) {
 
 static void* test_setup_create(const MunitParameter params[], void* user_data) {
 	cff_hashmap* hashmap = malloc(sizeof(cff_hashmap));
+	if(hashmap!= NULL) *hashmap = (cff_hashmap){0};
 	return hashmap;
 }
 

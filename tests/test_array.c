@@ -60,8 +60,7 @@ static cff_cmp_e vec_cmp(const void* const ptr_a, const void* const ptr_b, uint6
 
 static bool filter_even(const void* const data, uint64_t index, uint64_t data_size) {
 	vec3* vec = (vec3*)data;
-	if (vec->x % 2 == 0) return CFF_EQUALS;
-	return CFF_NOT_EQUAL;
+	return vec->x % 2 == 0;
 }
 
 static void foreach_func(void* data, uint64_t i) {

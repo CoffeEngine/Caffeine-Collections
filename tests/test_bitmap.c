@@ -41,7 +41,7 @@ TESTDEF(bitmap_set) {
 TESTDEF(bitmap_clear) {
 cff_bitmap* bitmap = (cff_bitmap*)munit_data;
 	
-	memset(bitmap->buffer, (int)UINT64_MAX,bitmap->lenght * sizeof(uint64_t));
+	memset(bitmap->buffer, (int)UINT64_MAX,sizeof(uint64_t));
 
 	int bit = munit_rand_int_range(0, BIT_LEN - 1);
 	uint64_t bit_value = UINT64_MAX ^ ((uint64_t)pow(2, bit));
@@ -68,7 +68,7 @@ cff_bitmap* bitmap = (cff_bitmap*)munit_data;
 TESTDEF(bitmap_clear_all) {
 cff_bitmap* bitmap = (cff_bitmap*)munit_data;
 	
-	memset(bitmap->buffer, (int)UINT64_MAX,bitmap->lenght * sizeof(uint64_t));
+	memset(bitmap->buffer, (int)UINT64_MAX,sizeof(uint64_t));
 	cff_bitmap_clear_all(bitmap);
 
 	uint64_t buffer_value = bitmap->buffer[0];

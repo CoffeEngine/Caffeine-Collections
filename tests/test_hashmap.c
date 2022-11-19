@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "caffeine_hashmap.h"
 #include "caffeine_memory.h"
+#include <inttypes.h>
 
 #define MUNIT_ENABLE_ASSERT_ALIASES
 #include "munit.h"
@@ -39,9 +40,9 @@ uint64_t parse_key(uintptr_t pointer, uint64_t data_size, char** buffer, Allocat
 
 uint64_t parse_value(uintptr_t pointer, uint64_t data_size, char** buffer, AllocatorInterface* allocator) {
 	int64_t value = *(int64_t*)pointer;
-	size_t str_len = snprintf(NULL, 0, "%ld", value);
+	size_t str_len = snprintf(NULL, 0, "%"PRId64, value);
 	*buffer = cff_allocator_alloc(allocator, str_len + 1);
-	snprintf(*buffer, str_len, "%ld", value);
+	snprintf(*buffer, str_len, "%"PRId64, value);
 	*buffer[str_len] = '\0';
 	return str_len;
 }

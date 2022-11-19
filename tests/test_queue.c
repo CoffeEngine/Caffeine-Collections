@@ -16,7 +16,7 @@ static const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
 
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_queue* queue)
+#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], void* munit_data)
 
 #define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
@@ -26,6 +26,8 @@ static void assert_vec3(vec3 a, vec3 b) {
 
 
 TESTDEF(queue_create) {
+	cff_queue* queue = (cff_queue*)munit_data;
+
 	cff_queue_create(queue, DATA_SIZE, INI_LEN, NULL);
 	munit_assert_not_null((void*)(queue->buffer));
 	munit_assert(queue->count == 0);
@@ -35,6 +37,8 @@ TESTDEF(queue_create) {
 }
 
 TESTDEF(queue_resize) {
+	cff_queue* queue = (cff_queue*)munit_data;
+	
 	uint64_t n_size = (uint64_t)munit_rand_int_range(10, 100);
 	cff_queue_resize(queue, n_size, NULL);
 	munit_assert(n_size == queue->lenght);
@@ -55,7 +59,8 @@ TESTDEF(queue_resize) {
 }
 
 TESTDEF(queue_enqueue) {
-
+cff_queue* queue = (cff_queue*)munit_data;
+	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
@@ -72,6 +77,8 @@ TESTDEF(queue_enqueue) {
 }
 
 TESTDEF(queue_reverse) {
+	cff_queue* queue = (cff_queue*)munit_data;
+	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
@@ -88,6 +95,8 @@ TESTDEF(queue_reverse) {
 }
 
 TESTDEF(queue_free) {
+	cff_queue* queue = (cff_queue*)munit_data;
+	
 	cff_queue_free(queue, NULL);
 	
 	munit_assert_null((void*)queue->buffer);
@@ -98,6 +107,8 @@ TESTDEF(queue_free) {
 }
 
 TESTDEF(queue_clear) {
+	cff_queue* queue = (cff_queue*)munit_data;
+	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
@@ -116,6 +127,8 @@ TESTDEF(queue_clear) {
 }
 
 TESTDEF(queue_copy) {
+	cff_queue* queue = (cff_queue*)munit_data;
+	
 	cff_queue tmp_queue;
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
@@ -137,6 +150,8 @@ TESTDEF(queue_copy) {
 }
 
 TESTDEF(queue_clone) {
+	cff_queue* queue = (cff_queue*)munit_data;
+	
 	cff_queue tmp_queue;
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
@@ -158,6 +173,8 @@ TESTDEF(queue_clone) {
 }
 
 TESTDEF(queue_dequeue) {
+	cff_queue* queue = (cff_queue*)munit_data;
+	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };

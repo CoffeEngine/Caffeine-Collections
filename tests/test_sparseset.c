@@ -15,7 +15,7 @@ const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
 
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_sparseset* set)
+#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], void* munit_data)
 
 #define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
@@ -33,6 +33,8 @@ static void sparseset_arange(cff_sparseset* set, int start, int end) {
 }
 
 TESTDEF(sparse_set_create) {
+	cff_sparseset* set = (cff_sparseset*)munit_data;
+
 	cff_sparseset_create(set, INI_LEN, DATA_SIZE, NULL);
 	assert_uint64(set->lenght, == , INI_LEN);
 	assert_uint64(set->count, == , 0);
@@ -44,7 +46,8 @@ TESTDEF(sparse_set_create) {
 }
 
 TESTDEF(sparse_set_add){
-
+cff_sparseset* set = (cff_sparseset*)munit_data;
+	
 	sparseset_arange(set, 0, (int)INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
@@ -55,6 +58,8 @@ TESTDEF(sparse_set_add){
 }
 
 TESTDEF(sparse_set_get) {
+	cff_sparseset* set = (cff_sparseset*)munit_data;
+	
 	sparseset_arange(set, 0, (int)INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
@@ -67,6 +72,8 @@ TESTDEF(sparse_set_get) {
 }
 
 TESTDEF(sparse_set_remove) {
+	cff_sparseset* set = (cff_sparseset*)munit_data;
+	
 	sparseset_arange(set, 0, (int)INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
@@ -85,6 +92,8 @@ TESTDEF(sparse_set_remove) {
 }
 
 TESTDEF(sparse_set_clear) {
+	cff_sparseset* set = (cff_sparseset*)munit_data;
+	
 	sparseset_arange(set, 0, (int)INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
@@ -95,6 +104,8 @@ TESTDEF(sparse_set_clear) {
 }
 
 TESTDEF(sparse_set_free) {
+	cff_sparseset* set = (cff_sparseset*)munit_data;
+	
 	sparseset_arange(set, 0, (int)INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
@@ -108,8 +119,8 @@ TESTDEF(sparse_set_free) {
 }
 
 TESTDEF(sparse_set_get_dense) {
+	cff_sparseset* set = (cff_sparseset*)munit_data;
 	
-
 	uintptr_t dense = cff_sparseset_get_dense(set);
 
 	munit_assert(dense != 0);

@@ -10,11 +10,13 @@
 
 #define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
 
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_bitmap* bitmap)
+#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], void* munit_data)
 
 #define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 TESTDEF(bitmap_create) {
+	cff_bitmap* bitmap = (cff_bitmap*)munit_data;
+
 	cff_bitmap_create(bitmap, BIT_LEN, NULL);
 	
 	munit_assert(bitmap->buffer != 0);
@@ -23,6 +25,8 @@ TESTDEF(bitmap_create) {
 }
 
 TESTDEF(bitmap_set) {
+	cff_bitmap* bitmap = (cff_bitmap*)munit_data;
+	
 	int bit = munit_rand_int_range(0, BIT_LEN - 1);
 	uint64_t bit_value = (uint64_t)pow(2, bit);
 
@@ -35,8 +39,9 @@ TESTDEF(bitmap_set) {
 }
 
 TESTDEF(bitmap_clear) {
-
-	memset(bitmap->buffer, UINT64_MAX, sizeof(uint64_t));
+cff_bitmap* bitmap = (cff_bitmap*)munit_data;
+	
+	memset(bitmap->buffer, (int)UINT64_MAX,bitmap->lenght * sizeof(uint64_t));
 
 	int bit = munit_rand_int_range(0, BIT_LEN - 1);
 	uint64_t bit_value = UINT64_MAX ^ ((uint64_t)pow(2, bit));
@@ -51,7 +56,8 @@ TESTDEF(bitmap_clear) {
 }
 
 TESTDEF(bitmap_set_all) {
-
+cff_bitmap* bitmap = (cff_bitmap*)munit_data;
+	
 	cff_bitmap_set_all(bitmap);
 	uint64_t buffer_value = bitmap->buffer[0];
 
@@ -60,8 +66,9 @@ TESTDEF(bitmap_set_all) {
 }
 
 TESTDEF(bitmap_clear_all) {
-
-	memset(bitmap->buffer, UINT64_MAX, sizeof(uint64_t));
+cff_bitmap* bitmap = (cff_bitmap*)munit_data;
+	
+	memset(bitmap->buffer, (int)UINT64_MAX,bitmap->lenght * sizeof(uint64_t));
 	cff_bitmap_clear_all(bitmap);
 
 	uint64_t buffer_value = bitmap->buffer[0];
@@ -71,7 +78,8 @@ TESTDEF(bitmap_clear_all) {
 }
 
 TESTDEF(bitmap_get) {
-
+cff_bitmap* bitmap = (cff_bitmap*)munit_data;
+	
 	int bit = munit_rand_int_range(0, BIT_LEN - 1);
 
 	cff_bitmap_set(bitmap, bit);
@@ -89,7 +97,8 @@ TESTDEF(bitmap_get) {
 }
 
 TESTDEF(bitmap_resize) {
-
+cff_bitmap* bitmap = (cff_bitmap*)munit_data;
+	
 	cff_bitmap_resize(bitmap, 15, NULL);
 	int bit = munit_rand_int_range(8, 14);
 
@@ -109,6 +118,8 @@ TESTDEF(bitmap_resize) {
 }
 
 TESTDEF(bitmap_free) {
+	cff_bitmap* bitmap = (cff_bitmap*)munit_data;
+	
 	cff_bitmap_free(bitmap, NULL);
 
 	munit_assert(bitmap->buffer == NULL);

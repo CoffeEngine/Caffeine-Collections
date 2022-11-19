@@ -7,7 +7,7 @@
 
 #define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
 
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_hashmap* hashmap)
+#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], void* munit_data)
 
 #define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
@@ -39,9 +39,9 @@ uint64_t parse_key(uintptr_t pointer, uint64_t data_size, char** buffer, Allocat
 
 uint64_t parse_value(uintptr_t pointer, uint64_t data_size, char** buffer, AllocatorInterface* allocator) {
 	int64_t value = *(int64_t*)pointer;
-	size_t str_len = snprintf(NULL, 0, "%lld", value);
+	size_t str_len = snprintf(NULL, 0, "%ld", value);
 	*buffer = cff_allocator_alloc(allocator, str_len + 1);
-	snprintf(*buffer, str_len, "%lld", value);
+	snprintf(*buffer, str_len, "%ld", value);
 	*buffer[str_len] = '\0';
 	return str_len;
 }
@@ -123,6 +123,8 @@ void cpy_string(uintptr_t from, uintptr_t to, uint32_t data_size) {
 }
 
 TESTDEF(hashmap_create) {
+	cff_hashmap* hashmap = (cff_hashmap*)munit_data;
+
 	cff_hashmap_create(hashmap, KEY_SIZE, VALUE_SIZE, INI_LEN, hash_string, cmp_string, cpy_string, NULL);
 
 	munit_assert(hashmap->cmp_func == cmp_string);
@@ -140,6 +142,8 @@ TESTDEF(hashmap_create) {
 }
 
 TESTDEF(hashmap_add) {
+	cff_hashmap* hashmap = (cff_hashmap*)munit_data;
+	
 	char** keys = get_random_keys();
 	int64_t start = munit_rand_uint32();
 
@@ -157,6 +161,8 @@ TESTDEF(hashmap_add) {
 }
 
 TESTDEF(hashmap_get) {
+	cff_hashmap* hashmap = (cff_hashmap*)munit_data;
+	
 	char** keys = get_random_keys();
 	int64_t start = munit_rand_uint32();
 
@@ -181,6 +187,8 @@ TESTDEF(hashmap_get) {
 }
 
 TESTDEF(hashmap_remove) {
+	cff_hashmap* hashmap = (cff_hashmap*)munit_data;
+	
 	char** keys = get_random_keys();
 	int64_t v = munit_rand_uint32();
 	int64_t value = 0;
@@ -198,6 +206,8 @@ TESTDEF(hashmap_remove) {
 }
 
 TESTDEF(hashmap_exist_key) {
+	cff_hashmap* hashmap = (cff_hashmap*)munit_data;
+	
 	char** keys = get_random_keys();
 	int64_t v = munit_rand_uint32();
 	int64_t index = munit_rand_int_range(1, KEYS_LEN - 1);
@@ -213,6 +223,8 @@ TESTDEF(hashmap_exist_key) {
 }
 
 TESTDEF(hashmap_clear) {
+	cff_hashmap* hashmap = (cff_hashmap*)munit_data;
+	
 	char** keys = get_random_keys();
 	int64_t start = munit_rand_uint32();
 

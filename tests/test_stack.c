@@ -16,11 +16,13 @@ static const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
 
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_stack* stack)
+#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], void* munit_data)
 
 #define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 TESTDEF(stack_create) {
+	cff_stack* stack = (cff_stack*)munit_data;
+
 	cff_stack_create(stack, DATA_SIZE, INI_LEN, NULL);
 
 	munit_assert(stack->buffer != 0);
@@ -31,6 +33,8 @@ TESTDEF(stack_create) {
 	return MUNIT_OK;
 }
 TESTDEF(stack_resize) {
+	cff_stack* stack = (cff_stack*)munit_data;
+	
 	uint64_t n_size = (uint64_t)munit_rand_int_range(10, 100);
 	cff_stack_resize(stack, n_size, NULL);
 
@@ -50,7 +54,8 @@ TESTDEF(stack_resize) {
 	return MUNIT_OK;
 }
 TESTDEF(stack_push) {
-
+cff_stack* stack = (cff_stack*)munit_data;
+	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
@@ -69,6 +74,8 @@ TESTDEF(stack_push) {
 	return MUNIT_OK;
 }
 TESTDEF(stack_pop) {
+	cff_stack* stack = (cff_stack*)munit_data;
+	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
@@ -88,7 +95,8 @@ TESTDEF(stack_pop) {
 	return MUNIT_OK;
 }
 TESTDEF(stack_reverse) {
-
+	cff_stack* stack = (cff_stack*)munit_data;
+	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
@@ -107,6 +115,8 @@ TESTDEF(stack_reverse) {
 	return MUNIT_OK;
 }
 TESTDEF(stack_free) {
+	cff_stack* stack = (cff_stack*)munit_data;
+	
 	cff_stack_free(stack, NULL);
 
 	munit_assert_null((void*)stack->buffer);
@@ -117,7 +127,8 @@ TESTDEF(stack_free) {
 	return MUNIT_OK;
 }
 TESTDEF(stack_clear) {
-
+cff_stack* stack = (cff_stack*)munit_data;
+	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
@@ -135,6 +146,8 @@ TESTDEF(stack_clear) {
 	return MUNIT_OK;
 }
 TESTDEF(stack_copy) {
+	cff_stack* stack = (cff_stack*)munit_data;
+	
 	cff_stack tmp_stack;
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
@@ -155,6 +168,8 @@ TESTDEF(stack_copy) {
 	return MUNIT_OK;
 }
 TESTDEF(stack_clone) {
+	cff_stack* stack = (cff_stack*)munit_data;
+	
 	cff_stack tmp_stack;
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
@@ -175,6 +190,8 @@ TESTDEF(stack_clone) {
 	return MUNIT_OK;
 }
 TESTDEF(stack_top) {
+	cff_stack* stack = (cff_stack*)munit_data;
+	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };

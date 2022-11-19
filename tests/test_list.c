@@ -15,7 +15,7 @@ static const uint64_t DATA_SIZE = sizeof(vec3);
 
 #define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
 
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], cff_list* list)
+#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[],void* munit_data)
 
 #define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_SKIP; }}
 
@@ -70,7 +70,7 @@ static void foreach_func(void* data, uint64_t i) {
 	assert_vec3(vec, other);
 }
 
-static void map_vec(const void* const from_ptr, int* to_ptr, uint64_t index) {
+static void map_vec(const void* const from_ptr, void* to_ptr, uint64_t index) {
 	vec3* from = (vec3*)from_ptr;
 	int* to = (int*)to_ptr;
 
@@ -80,6 +80,8 @@ static void map_vec(const void* const from_ptr, int* to_ptr, uint64_t index) {
 #pragma endregion
 
 TESTDEF(list_create) {
+	cff_list* list = (cff_list*)munit_data;
+
 	cff_list_create(list, DATA_SIZE);
 
 	munit_assert_int64(list->data_size, == , DATA_SIZE);
@@ -87,6 +89,8 @@ TESTDEF(list_create) {
 }
 
 TESTDEF(list_add) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
@@ -107,6 +111,8 @@ TESTDEF(list_add) {
 }
 
 TESTDEF(list_set) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	list_arange(list, 0, (int)INI_LEN);
 
 	for (int i = 0; i < INI_LEN; i++)
@@ -130,6 +136,8 @@ TESTDEF(list_set) {
 }
 
 TESTDEF(list_insert_front) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
@@ -150,6 +158,8 @@ TESTDEF(list_insert_front) {
 }
 
 TESTDEF(list_insert_mid) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	list_arange(list, 0, 5);
 
 	int index_offset = 3;
@@ -176,6 +186,8 @@ TESTDEF(list_insert_mid) {
 }
 
 TESTDEF(list_insert_back) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
@@ -196,6 +208,8 @@ TESTDEF(list_insert_back) {
 }
 
 TESTDEF(list_get) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	list_arange(list, 0, (int)INI_LEN);
 
 	for (int i = 0; i < (int)INI_LEN; i++)
@@ -210,6 +224,8 @@ TESTDEF(list_get) {
 }
 
 TESTDEF(list_first) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	list_arange(list, 5, (int)INI_LEN);
 	int idx = 5;
 	vec3 data = { .x = idx,.y = idx ,.z = idx };
@@ -221,6 +237,8 @@ TESTDEF(list_first) {
 }
 
 TESTDEF(list_last) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	list_arange(list, 0, (int)INI_LEN);
 	int idx = (int)INI_LEN - 1;
 	vec3 data = { .x = idx,.y = idx,.z = idx };
@@ -232,6 +250,8 @@ TESTDEF(list_last) {
 }
 
 TESTDEF(list_remove) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_remove(list, 1, NULL);
@@ -246,6 +266,8 @@ TESTDEF(list_remove) {
 }
 
 TESTDEF(list_clear) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_clear(list, NULL);
@@ -258,6 +280,8 @@ TESTDEF(list_clear) {
 }
 
 TESTDEF(list_join) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	cff_list aux_list;
 
 	cff_list_create(&aux_list, DATA_SIZE);
@@ -287,6 +311,8 @@ TESTDEF(list_join) {
 }
 
 TESTDEF(list_foreach) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
@@ -299,6 +325,8 @@ TESTDEF(list_foreach) {
 }
 
 TESTDEF(list_copy) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	cff_list aux_list;
 
 	list_arange(list, 0, (int)INI_LEN);
@@ -322,6 +350,8 @@ TESTDEF(list_copy) {
 }
 
 TESTDEF(list_clone) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	cff_list aux_list;
 
 	list_arange(list, 0, (int)INI_LEN);
@@ -345,6 +375,8 @@ TESTDEF(list_clone) {
 }
 
 TESTDEF(list_filter) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	cff_list aux_list;
 
 	list_arange(list, 0, (int)INI_LEN);
@@ -367,6 +399,8 @@ TESTDEF(list_filter) {
 }
 
 TESTDEF(list_map) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	cff_list aux_list;
 	int out = 0;
 
@@ -388,6 +422,8 @@ TESTDEF(list_map) {
 }
 
 TESTDEF(list_equal_true) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	cff_list aux_list;
 
 	list_arange(list, 0, (int)INI_LEN);
@@ -406,6 +442,8 @@ TESTDEF(list_equal_true) {
 }
 
 TESTDEF(list_equal_false) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	cff_list aux_list;
 
 	list_arange(list, 0, (int)INI_LEN);
@@ -426,6 +464,8 @@ TESTDEF(list_equal_false) {
 }
 
 TESTDEF(list_equal_cpm_true) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	cff_list aux_list;
 
 	list_arange(list, 0, (int)INI_LEN);
@@ -444,6 +484,8 @@ TESTDEF(list_equal_cpm_true) {
 }
 
 TESTDEF(list_equal_cmp_false) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	cff_list aux_list;
 
 	list_arange(list, 0, (int)INI_LEN);
@@ -464,6 +506,8 @@ TESTDEF(list_equal_cmp_false) {
 }
 
 TESTDEF(list_find) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	list_arange(list, 0, (int)INI_LEN);
 
 	vec3 s = { .x = 3, .y = 3, .z = 3 };
@@ -478,6 +522,8 @@ TESTDEF(list_find) {
 }
 
 TESTDEF(list_find_cmp) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	list_arange(list, 0, (int)INI_LEN);
 
 	vec3 s = { .x = 3, .y = 3, .z = 3 };
@@ -492,6 +538,8 @@ TESTDEF(list_find_cmp) {
 }
 
 TESTDEF(list_count) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	uint64_t cc = 0;
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
@@ -506,6 +554,8 @@ TESTDEF(list_count) {
 }
 
 TESTDEF(list_count_cmp) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	uint64_t cc = 0;
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
@@ -520,7 +570,8 @@ TESTDEF(list_count_cmp) {
 }
 
 TESTDEF(list_any_true) {
-
+	cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
@@ -533,7 +584,8 @@ TESTDEF(list_any_true) {
 }
 
 TESTDEF(list_any_cmp_true) {
-
+	cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
@@ -546,7 +598,8 @@ TESTDEF(list_any_cmp_true) {
 }
 
 TESTDEF(list_all_false) {
-
+cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
@@ -559,7 +612,8 @@ TESTDEF(list_all_false) {
 }
 
 TESTDEF(list_all_cmp_false) {
-
+cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
@@ -572,7 +626,8 @@ TESTDEF(list_all_cmp_false) {
 }
 
 TESTDEF(list_any_false) {
-
+cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < INI_LEN; i++)
 	{
 		vec3 data = { .x = 2,.y = 2,.z = 2 };
@@ -585,7 +640,8 @@ TESTDEF(list_any_false) {
 }
 
 TESTDEF(list_any_cmp_false) {
-
+cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = 2,.y = 2,.z = 2 };
@@ -598,7 +654,8 @@ TESTDEF(list_any_cmp_false) {
 }
 
 TESTDEF(list_all_true) {
-
+cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = 1,.y = 1,.z = 1 };
@@ -611,6 +668,8 @@ TESTDEF(list_all_true) {
 }
 
 TESTDEF(list_all_cmp_true) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = 1,.y = 1,.z = 1 };
@@ -623,6 +682,8 @@ TESTDEF(list_all_cmp_true) {
 }
 
 TESTDEF(list_reverse) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_reverse(list);
@@ -640,6 +701,8 @@ TESTDEF(list_reverse) {
 }
 
 TESTDEF(list_sort) {
+	cff_list* list = (cff_list*)munit_data;
+	
 	cff_list aux_list;
 
 	list_arange(list, 0, (int)INI_LEN);
@@ -718,7 +781,7 @@ int test_list(int argc, char* const* argv) {
 		TEST(list_sort)
 	};
 
-	MunitSuite suite = { "/list", tests, NULL, 1, MUNIT_SUITE_OPTION_NONE };
+	MunitSuite suite = { "/list",tests, NULL, 1, MUNIT_SUITE_OPTION_NONE };
 
 	return munit_suite_main((const MunitSuite*)(&suite), NULL, argc, argv);
 }

@@ -304,7 +304,7 @@ void __caffeine_hashmap_cpy_default(uintptr_t from, uintptr_t to, uint32_t data_
 	return err;
 }
 
-uint8_t cff_hashmap_add(cff_hashmap* hashmap, uintptr_t key, uintptr_t value, AllocatorInterface* allocator) {
+ cff_err_e cff_hashmap_add(cff_hashmap* hashmap, uintptr_t key, uintptr_t value, AllocatorInterface* allocator) {
 	cff_assert_param_not_null(hashmap);
 	cff_assert_param_not_null(key);
 	cff_assert_param_not_null(value);
@@ -323,7 +323,7 @@ uint8_t cff_hashmap_add(cff_hashmap* hashmap, uintptr_t key, uintptr_t value, Al
 		// overwrite 
 		if (hashmap->cmp_func(key, bucket_ptr, hashmap->key_size)) {
 			__caffeine_hashmap_set_bucket(hashmap, bucket_ptr, key, value);
-			return 1;
+			return CFF_NONE_ERR;
 		}
 
 		// calculate new hash;

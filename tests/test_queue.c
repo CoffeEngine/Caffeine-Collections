@@ -27,7 +27,7 @@ static void assert_vec3(vec3 a, vec3 b) {
 
 TESTDEF(queue_create) {
 	cff_queue_create(queue, DATA_SIZE, INI_LEN, NULL);
-	munit_assert_not_null(queue->buffer);
+	munit_assert_not_null((void*)(queue->buffer));
 	munit_assert(queue->count == 0);
 	munit_assert(queue->data_size == DATA_SIZE);
 	munit_assert(queue->lenght == INI_LEN);
@@ -42,7 +42,7 @@ TESTDEF(queue_resize) {
 	for (size_t i = 0; i < n_size; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		cff_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 
 	for (size_t i = 0; i < n_size; i++)
@@ -59,7 +59,7 @@ TESTDEF(queue_enqueue) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		cff_queue_enqueue(queue, &v,NULL);
+		cff_queue_enqueue(queue, (uintptr_t)&v,NULL);
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
@@ -75,7 +75,7 @@ TESTDEF(queue_reverse) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		cff_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 	cff_queue_reverse(queue);
 	for (size_t i = 0; i < INI_LEN; i++)
@@ -90,7 +90,7 @@ TESTDEF(queue_reverse) {
 TESTDEF(queue_free) {
 	cff_queue_free(queue, NULL);
 	
-	munit_assert_null(queue->buffer);
+	munit_assert_null((void*)queue->buffer);
 	munit_assert(queue->count == 0);
 	munit_assert(queue->data_size == 0);
 	munit_assert(queue->lenght == 0);
@@ -101,15 +101,15 @@ TESTDEF(queue_clear) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		cff_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 
 	cff_queue_clear(queue);
 
 	munit_assert(queue->count == 0);
 
-	vec3 tmp;
-	uint8_t res = cff_queue_dequeue(queue, &tmp, NULL);
+	vec3 tmp = {0};
+	uint8_t res = cff_queue_dequeue(queue, (uintptr_t)&tmp, NULL);
 	munit_assert(res == 0);
 
 	return MUNIT_OK;
@@ -120,7 +120,7 @@ TESTDEF(queue_copy) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		cff_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 
 	cff_queue_create(&tmp_queue, queue->data_size, INI_LEN / 2, NULL);
@@ -141,7 +141,7 @@ TESTDEF(queue_clone) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		cff_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 
 	cff_queue_create(&tmp_queue, queue->data_size, INI_LEN, NULL);
@@ -161,13 +161,13 @@ TESTDEF(queue_dequeue) {
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
 		vec3 v = { .x = i, .y = i, .z = 1 };
-		cff_queue_enqueue(queue, &v, NULL);
+		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 tmp;
-		cff_queue_dequeue(queue, &tmp, NULL);
+		vec3 tmp ={0};
+		cff_queue_dequeue(queue, (uintptr_t)&tmp, NULL);
 		munit_assert(tmp.x == i);
 	}
 

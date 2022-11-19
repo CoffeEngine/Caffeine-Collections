@@ -45,17 +45,17 @@ TESTDEF(sparse_set_create) {
 
 TESTDEF(sparse_set_add){
 
-	sparseset_arange(set, 0, INI_LEN);
+	sparseset_arange(set, 0, (int)INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
-	sparseset_arange(set, INI_LEN, INI_LEN*2);
+	sparseset_arange(set, (int)INI_LEN, (int)INI_LEN*2);
 	assert_uint64(set->lenght, == , INI_LEN * 2);
 
 	return MUNIT_OK;
 }
 
 TESTDEF(sparse_set_get) {
-	sparseset_arange(set, 0, INI_LEN);
+	sparseset_arange(set, 0, (int)INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
 	int index = 5;
@@ -67,7 +67,7 @@ TESTDEF(sparse_set_get) {
 }
 
 TESTDEF(sparse_set_remove) {
-	sparseset_arange(set, 0, INI_LEN);
+	sparseset_arange(set, 0, (int)INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
 	uint64_t index = (uint64_t)munit_rand_int_range(1, (int)(INI_LEN - 4));
@@ -85,7 +85,7 @@ TESTDEF(sparse_set_remove) {
 }
 
 TESTDEF(sparse_set_clear) {
-	sparseset_arange(set, 0, INI_LEN);
+	sparseset_arange(set, 0, (int)INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
 	cff_sparseset_clear(set);
@@ -95,7 +95,7 @@ TESTDEF(sparse_set_clear) {
 }
 
 TESTDEF(sparse_set_free) {
-	sparseset_arange(set, 0, INI_LEN);
+	sparseset_arange(set, 0, (int)INI_LEN);
 	assert_uint64(set->lenght, == , INI_LEN);
 
 	cff_sparseset_free(set, NULL);

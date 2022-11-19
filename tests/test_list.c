@@ -44,7 +44,7 @@ static void list_arange(cff_list* list, int start, int end) {
 
 #pragma region CALLBACKS
 
-static cff_cmp_e vec_cmp(void* ptr_a, void* ptr_b, uint64_t data_size) {
+static cff_cmp_e vec_cmp(const void* const ptr_a, const void* const ptr_b, uint64_t data_size) {
 	vec3* a = (vec3*)ptr_a;
 	vec3* b = (vec3*)ptr_b;
 
@@ -58,7 +58,7 @@ static cff_cmp_e vec_cmp(void* ptr_a, void* ptr_b, uint64_t data_size) {
 	return CFF_NOT_EQUAL;
 }
 
-static bool filter_even(void* data, uint64_t index, uint64_t data_size) {
+static bool filter_even(const void* const data, uint64_t index, uint64_t data_size) {
 	vec3* vec = (vec3*)data;
 	if (vec->x % 2 == 0) return true;
 	return false;
@@ -70,7 +70,7 @@ static void foreach_func(void* data, uint64_t i) {
 	assert_vec3(vec, other);
 }
 
-static void map_vec(vec3* from_ptr, int* to_ptr, uint64_t index) {
+static void map_vec(const void* const from_ptr, int* to_ptr, uint64_t index) {
 	vec3* from = (vec3*)from_ptr;
 	int* to = (int*)to_ptr;
 
@@ -107,7 +107,7 @@ TESTDEF(list_add) {
 }
 
 TESTDEF(list_set) {
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	for (int i = 0; i < INI_LEN; i++)
 	{
@@ -138,7 +138,7 @@ TESTDEF(list_insert_front) {
 
 	caffeine_list_bucket* bucket = list->list_start;
 
-	for (int i = INI_LEN - 1; i >= 0; i--)
+	for (int i = (int)(INI_LEN - 1); i >= 0; i--)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
 		vec3 found = *((vec3*)bucket->data_ptr);
@@ -176,7 +176,7 @@ TESTDEF(list_insert_mid) {
 }
 
 TESTDEF(list_insert_back) {
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
 		SKIP_ON_ERR(cff_list_insert(list, i, (uintptr_t)(&data), NULL));
@@ -184,7 +184,7 @@ TESTDEF(list_insert_back) {
 
 	caffeine_list_bucket* bucket = list->list_start;
 
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
 		vec3 found = *((vec3*)bucket->data_ptr);
@@ -196,13 +196,13 @@ TESTDEF(list_insert_back) {
 }
 
 TESTDEF(list_get) {
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i,.y = i,.z = i };
-		vec3 found;
-		cff_list_get(list, i, &found);
+		vec3 found = { 0 };
+		cff_list_get(list, i, (uintptr_t)&found);
 		assert_vec3(data, found);
 	}
 
@@ -210,35 +210,35 @@ TESTDEF(list_get) {
 }
 
 TESTDEF(list_first) {
-	list_arange(list, 5, INI_LEN);
+	list_arange(list, 5, (int)INI_LEN);
 	int idx = 5;
 	vec3 data = { .x = idx,.y = idx ,.z = idx };
-	vec3 found;
-	cff_list_first(list, &found);
+	vec3 found = { 0 };
+	cff_list_first(list, (uintptr_t)&found);
 	assert_vec3(data, found);
 
 	return MUNIT_OK;
 }
 
 TESTDEF(list_last) {
-	list_arange(list, 0, INI_LEN);
-	int idx = INI_LEN - 1;
+	list_arange(list, 0, (int)INI_LEN);
+	int idx = (int)INI_LEN - 1;
 	vec3 data = { .x = idx,.y = idx,.z = idx };
-	vec3 found;
-	cff_list_last(list, &found);
+	vec3 found = { 0 };
+	cff_list_last(list, (uintptr_t)&found);
 	assert_vec3(data, found);
 
 	return MUNIT_OK;
 }
 
 TESTDEF(list_remove) {
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_remove(list, 1, NULL);
 
-	vec3 out;
+	vec3 out = { 0 };
 
-	cff_list_get(list, 1, &out);
+	cff_list_get(list, 1, (uintptr_t)&out);
 
 	munit_assert(out.x == 2);
 
@@ -246,7 +246,7 @@ TESTDEF(list_remove) {
 }
 
 TESTDEF(list_clear) {
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_clear(list, NULL);
 
@@ -262,8 +262,8 @@ TESTDEF(list_join) {
 
 	cff_list_create(&aux_list, DATA_SIZE);
 
-	list_arange(list, 0, INI_LEN / 2);
-	list_arange(&aux_list, INI_LEN / 2, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN / 2);
+	list_arange(&aux_list, (int)INI_LEN / 2, (int)INI_LEN);
 
 	cff_list_join(list, &aux_list);
 
@@ -287,7 +287,7 @@ TESTDEF(list_join) {
 }
 
 TESTDEF(list_foreach) {
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i * 3,.y = i * 5,.z = i * 7 };
 		cff_list_add(list, (uintptr_t)(&data), NULL);
@@ -301,18 +301,18 @@ TESTDEF(list_foreach) {
 TESTDEF(list_copy) {
 	cff_list aux_list;
 
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_create(&aux_list, DATA_SIZE);
 
-	SKIP_ON_ERR(cff_list_copy(list, &aux_list, INI_LEN / 2, INI_LEN/2, NULL));
+	SKIP_ON_ERR(cff_list_copy(list, &aux_list, INI_LEN / 2, INI_LEN / 2, NULL));
 
-	for (size_t i = 0; i < INI_LEN / 2; i++)
+	for (int i = 0; i < (int)INI_LEN / 2; i++)
 	{
-		vec3 a, b;
+		vec3 a = { 0 }, b = { 0 };
 
-		cff_list_get(list, i + (INI_LEN / 2), &a);
-		cff_list_get(&aux_list, i, &b);
+		cff_list_get(list, i + (INI_LEN / 2), (uintptr_t)&a);
+		cff_list_get(&aux_list, i, (uintptr_t)&b);
 
 		assert_vec3(a, b);
 	}
@@ -324,18 +324,18 @@ TESTDEF(list_copy) {
 TESTDEF(list_clone) {
 	cff_list aux_list;
 
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_create(&aux_list, DATA_SIZE);
 
 	SKIP_ON_ERR(cff_list_clone(list, &aux_list, NULL));
 
-	for (size_t i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
-		vec3 a, b;
+		vec3 a = {0}, b ={0};
 
-		cff_list_get(list, i, &a);
-		cff_list_get(&aux_list, i, &b);
+		cff_list_get(list, i, (uintptr_t)&a);
+		cff_list_get(&aux_list, i, (uintptr_t)&b);
 
 		assert_vec3(a, b);
 	}
@@ -347,16 +347,16 @@ TESTDEF(list_clone) {
 TESTDEF(list_filter) {
 	cff_list aux_list;
 
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_create(&aux_list, DATA_SIZE);
 
 	SKIP_ON_ERR(cff_list_filter(list, filter_even, &aux_list, NULL));
 
-	for (size_t i = 0; i < aux_list.count; i++)
+	for (uint64_t i = 0; i < aux_list.count; i++)
 	{
-		vec3 out;
-		cff_list_get(&aux_list, i, &out);
+		vec3 out = { 0 };
+		cff_list_get(&aux_list, i, (uintptr_t)&out);
 
 		munit_assert(out.x % 2 == 0);
 	}
@@ -368,19 +368,17 @@ TESTDEF(list_filter) {
 
 TESTDEF(list_map) {
 	cff_list aux_list;
-	int out;
+	int out = 0;
 
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_create(&aux_list, sizeof(int));
 
 	SKIP_ON_ERR(cff_list_map(list, map_vec, &aux_list, sizeof(int), NULL));
 
-
-
-	for (size_t i = 0; i < INI_LEN; i++)
+	for (uint64_t i = 0; i < INI_LEN; i++)
 	{
-		cff_list_get(&aux_list, i, &out);
+		cff_list_get(&aux_list, i, (uintptr_t)&out);
 		munit_assert(out == i * 3);
 	}
 
@@ -392,7 +390,7 @@ TESTDEF(list_map) {
 TESTDEF(list_equal_true) {
 	cff_list aux_list;
 
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_create(&aux_list, DATA_SIZE);
 
@@ -410,13 +408,13 @@ TESTDEF(list_equal_true) {
 TESTDEF(list_equal_false) {
 	cff_list aux_list;
 
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_create(&aux_list, DATA_SIZE);
 
 	SKIP_ON_ERR(cff_list_clone(list, &aux_list, NULL));
 	vec3 s = { 0 };
-	cff_list_set(&aux_list, 2, &s);
+	cff_list_set(&aux_list, 2, (uintptr_t)&s);
 
 	uint8_t eq = cff_list_equal(list, &aux_list);
 
@@ -430,7 +428,7 @@ TESTDEF(list_equal_false) {
 TESTDEF(list_equal_cpm_true) {
 	cff_list aux_list;
 
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_create(&aux_list, DATA_SIZE);
 
@@ -448,13 +446,13 @@ TESTDEF(list_equal_cpm_true) {
 TESTDEF(list_equal_cmp_false) {
 	cff_list aux_list;
 
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_create(&aux_list, DATA_SIZE);
 
 	SKIP_ON_ERR(cff_list_clone(list, &aux_list, NULL));
 	vec3 s = { 0 };
-	cff_list_set(&aux_list, 2, &s);
+	cff_list_set(&aux_list, 2, (uintptr_t)&s);
 
 	uint8_t eq = cff_list_equal_cmp(list, &aux_list, vec_cmp);
 
@@ -466,12 +464,12 @@ TESTDEF(list_equal_cmp_false) {
 }
 
 TESTDEF(list_find) {
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	vec3 s = { .x = 3, .y = 3, .z = 3 };
-	vec3 out;
+	vec3 out = { 0 };
 	uint64_t idx;
-	cff_list_find(list, &s, &idx, &out);
+	cff_list_find(list, (uintptr_t)&s, &idx, (uintptr_t)&out);
 
 	munit_assert(idx = 3);
 	assert_vec3(s, out);
@@ -480,12 +478,12 @@ TESTDEF(list_find) {
 }
 
 TESTDEF(list_find_cmp) {
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	vec3 s = { .x = 3, .y = 3, .z = 3 };
-	vec3 out;
+	vec3 out = { 0 };
 	uint64_t idx;
-	cff_list_find_cmp(list, &s, &idx, &out, vec_cmp);
+	cff_list_find_cmp(list, (uintptr_t)&s, &idx, (uintptr_t)&out, vec_cmp);
 
 	munit_assert(idx = 3);
 	assert_vec3(s, out);
@@ -495,7 +493,7 @@ TESTDEF(list_find_cmp) {
 
 TESTDEF(list_count) {
 	uint64_t cc = 0;
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
 		cc += i % 2;
@@ -509,7 +507,7 @@ TESTDEF(list_count) {
 
 TESTDEF(list_count_cmp) {
 	uint64_t cc = 0;
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
 		cc += i % 2;
@@ -523,7 +521,7 @@ TESTDEF(list_count_cmp) {
 
 TESTDEF(list_any_true) {
 
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
 		SKIP_ON_ERR(cff_list_add(list, (uintptr_t)(&data), NULL));
@@ -536,7 +534,7 @@ TESTDEF(list_any_true) {
 
 TESTDEF(list_any_cmp_true) {
 
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
 		SKIP_ON_ERR(cff_list_add(list, (uintptr_t)(&data), NULL));
@@ -549,7 +547,7 @@ TESTDEF(list_any_cmp_true) {
 
 TESTDEF(list_all_false) {
 
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
 		SKIP_ON_ERR(cff_list_add(list, (uintptr_t)(&data), NULL));
@@ -562,7 +560,7 @@ TESTDEF(list_all_false) {
 
 TESTDEF(list_all_cmp_false) {
 
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = i % 2,.y = i % 2,.z = i % 2 };
 		SKIP_ON_ERR(cff_list_add(list, (uintptr_t)(&data), NULL));
@@ -588,7 +586,7 @@ TESTDEF(list_any_false) {
 
 TESTDEF(list_any_cmp_false) {
 
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = 2,.y = 2,.z = 2 };
 		SKIP_ON_ERR(cff_list_add(list, (uintptr_t)(&data), NULL));
@@ -601,7 +599,7 @@ TESTDEF(list_any_cmp_false) {
 
 TESTDEF(list_all_true) {
 
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = 1,.y = 1,.z = 1 };
 		SKIP_ON_ERR(cff_list_add(list, (uintptr_t)(&data), NULL));
@@ -613,7 +611,7 @@ TESTDEF(list_all_true) {
 }
 
 TESTDEF(list_all_cmp_true) {
-	for (int i = 0; i < INI_LEN; i++)
+	for (int i = 0; i < (int)INI_LEN; i++)
 	{
 		vec3 data = { .x = 1,.y = 1,.z = 1 };
 		SKIP_ON_ERR(cff_list_add(list, (uintptr_t)(&data), NULL));
@@ -625,16 +623,16 @@ TESTDEF(list_all_cmp_true) {
 }
 
 TESTDEF(list_reverse) {
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_reverse(list);
 
 
-	for (int i = INI_LEN - 1, j = 0; i >= 0; i--, j++)
+	for (int i = (int)INI_LEN - 1, j = 0; i >= 0; i--, j++)
 	{
 		vec3 data = { .x = i,.y = i,.z = i };
-		vec3 out;
-		cff_list_get(list, j, &out);
+		vec3 out = { 0 };
+		cff_list_get(list, j, (uintptr_t)&out);
 		assert_vec3(data, out);
 	}
 
@@ -644,7 +642,7 @@ TESTDEF(list_reverse) {
 TESTDEF(list_sort) {
 	cff_list aux_list;
 
-	list_arange(list, 0, INI_LEN);
+	list_arange(list, 0, (int)INI_LEN);
 
 	cff_list_create(&aux_list, DATA_SIZE);
 
@@ -680,7 +678,7 @@ static void test_tear_down(void* fixture) {
 }
 
 
-int test_list(int argc, const char* argv[]) {
+int test_list(int argc, char* const* argv) {
 
 	MunitTest tests[] = {
 		{ "/test_create", test_list_create, test_setup_create, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL },

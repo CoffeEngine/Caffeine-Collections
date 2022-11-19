@@ -44,7 +44,7 @@ static void array_arange(cff_array* array, int start, int end) {
 
 #pragma region CALLBACKS
 
-static cff_cmp_e vec_cmp(void* ptr_a, void* ptr_b, uint64_t data_size) {
+static cff_cmp_e vec_cmp(const void* const ptr_a, const void* const ptr_b, uint64_t data_size) {
 	vec3* a = (vec3*)ptr_a;
 	vec3* b = (vec3*)ptr_b;
 
@@ -58,7 +58,7 @@ static cff_cmp_e vec_cmp(void* ptr_a, void* ptr_b, uint64_t data_size) {
 	return CFF_NOT_EQUAL;
 }
 
-static cff_cmp_e filter_even(void* data, uint64_t index, uint64_t data_size) {
+static bool filter_even(const void* const data, uint64_t index, uint64_t data_size) {
 	vec3* vec = (vec3*)data;
 	if (vec->x % 2 == 0) return CFF_EQUALS;
 	return CFF_NOT_EQUAL;
@@ -70,7 +70,7 @@ static void foreach_func(void* data, uint64_t i) {
 	assert_vec3(vec, other);
 }
 
-static void map_vec(vec3* from_ptr, int* to_ptr, uint64_t index) {
+static void map_vec(const void* const from_ptr, int* to_ptr, uint64_t index) {
 	vec3* from = (vec3*)from_ptr;
 	int* to = (int*)to_ptr;
 

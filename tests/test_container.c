@@ -44,7 +44,7 @@ static void container_arange(cff_container* container, int start, int end) {
 
 #pragma region CALLBACKS
 
-static cff_cmp_e vec_cmp(void* ptr_a, void* ptr_b, uint64_t data_size) {
+static cff_cmp_e vec_cmp(const void* const ptr_a, const void* const ptr_b, uint64_t data_size) {
 	vec3* a = (vec3*)ptr_a;
 	vec3* b = (vec3*)ptr_b;
 
@@ -58,7 +58,7 @@ static cff_cmp_e vec_cmp(void* ptr_a, void* ptr_b, uint64_t data_size) {
 	return CFF_NOT_EQUAL;
 }
 
-static cff_cmp_e filter_even(void* data, uint64_t index, uint64_t data_size) {
+static bool filter_even(const void* const data, uint64_t index, uint64_t data_size) {
 	vec3* vec = (vec3*)data;
 	return vec->x % 2 == 0;
 }
@@ -69,7 +69,7 @@ static void foreach_func(void* data, uint64_t i) {
 	assert_vec3(vec, other);
 }
 
-static void map_vec(vec3* from_ptr, int* to_ptr, uint64_t index) {
+static void map_vec(const void* const from_ptr, int* to_ptr, uint64_t index) {
 	vec3* from = (vec3*)from_ptr;
 	int* to = (int*)to_ptr;
 
@@ -172,7 +172,7 @@ TESTDEF(container_insert) {
 TESTDEF(container_remove) {
 	container_arange(container, 0, (int)INI_LEN);
 	
-	int index_remove = munit_rand_int_range(0,INI_LEN-1);
+	uint64_t index_remove = (uint64_t)munit_rand_int_range(0,(int)(INI_LEN-1));
 	vec3 get_data = {0};
 	uint8_t res = cff_container_remove(container, index_remove, INI_LEN);
 	
@@ -181,7 +181,7 @@ TESTDEF(container_remove) {
 
 	if (res) {
 		cff_container_get(container, index_remove, (uintptr_t)(&get_data), INI_LEN);
-		vec3 data = (vec3){ .x = (index_remove + 1) * 3, .y = (index_remove + 1) * 5, .z = (index_remove + 1) * 7 };
+		vec3 data = (vec3){ .x = (int)(index_remove + 1) * 3, .y = (int)(index_remove + 1) * 5, .z = (int)(index_remove + 1) * 7 };
 		assert_vec3(get_data, data);
 	}
 	

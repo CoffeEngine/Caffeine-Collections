@@ -26,7 +26,14 @@ uint64_t parse_key(uintptr_t pointer, uint64_t data_size, char** buffer, Allocat
 	const char* str = (const char*)pointer;
 	size_t str_len = strnlen(str, 32);
 	*buffer = cff_allocator_alloc(allocator, str_len);
+
+#ifdef CFF_COMP_MSVC
+	strncpy_s(*buffer, str_len, str, str_len);
+#else
 	strncpy(*buffer, str, str_len);
+#endif // CFF_COMP_MSVC
+
+
 	return str_len;
 }
 
@@ -43,10 +50,13 @@ uint64_t parse_value(uintptr_t pointer, uint64_t data_size, char** buffer, Alloc
 
 
 char* get_random_string() {
-	int strl = 32;
+	const size_t strl = 32;
 	char* buffer = malloc(strl);
-	buffer[strl-1] = '\0';
-	for (size_t i = 0; i < strl-1; i++)
+
+	if (buffer == NULL) return NULL;
+
+	buffer[strl - 1] = '\0';
+	for (size_t i = 0; i < strl - 1; i++)
 	{
 		buffer[i] = (char)munit_rand_int_range('A', 'Z');
 	}
@@ -57,9 +67,19 @@ char* get_random_string() {
 char** get_random_keys() {
 	char** keys = (char**)malloc(sizeof(char*) * KEYS_LEN);
 
+	if (keys == NULL) return NULL;
+
 	for (size_t i = 0; i < KEYS_LEN; i++)
 	{
-		keys[i] = get_random_string();
+		char* str = get_random_string();
+
+		if (str == NULL) {
+			for (size_t j = 0; j < i; j++)free(keys[j]);
+			free(keys);
+			return NULL;
+		}
+
+		keys[i] = str;
 	}
 
 	return keys;
@@ -76,7 +96,7 @@ void free_keys(char** keys) {
 
 uint64_t hash_string(uintptr_t data_ptr, uint32_t data_size) {
 
-	char* key = data_ptr;
+	char* key = (char*)data_ptr;
 	uint64_t h = (525201411107845655ull);
 
 	for (; *key; ++key) {
@@ -88,13 +108,18 @@ uint64_t hash_string(uintptr_t data_ptr, uint32_t data_size) {
 }
 
 int8_t cmp_string(uintptr_t key_a, uintptr_t key_b, uint32_t data_size) {
-	char* a = key_a;
-	char* b = key_b;
-	return (int8_t)strcmp(a,b) == 0;
+	char* a = (char*)key_a;
+	char* b = (char*)key_b;
+	return (int8_t)strcmp(a, b) == 0;
 }
 
 void cpy_string(uintptr_t from, uintptr_t to, uint32_t data_size) {
-	strncpy(to, from, data_size);
+#ifdef CFF_COMP_MSVC
+	strncpy_s((char*)to, (rsize_t)data_size, (const char*)from, (rsize_t)data_size);
+#else
+	strncpy((char*)to, (const char*)from, data_size);
+#endif
+
 }
 
 TESTDEF(hashmap_create) {
@@ -117,12 +142,12 @@ TESTDEF(hashmap_create) {
 TESTDEF(hashmap_add) {
 	char** keys = get_random_keys();
 	int64_t start = munit_rand_uint32();
-	
+
 	for (size_t i = 0; i < KEYS_LEN; i++)
 	{
 		int64_t v = start + i;
-	 	uint8_t res= cff_hashmap_add(hashmap, keys[i],&v, NULL);
-		munit_assert(hashmap->count == i+1);
+		uint8_t res = cff_hashmap_add(hashmap, (uintptr_t)keys[i], (uintptr_t)(&v), NULL);
+		munit_assert(hashmap->count == i + 1);
 	}
 	munit_assert(hashmap->lenght > INI_LEN);
 
@@ -138,14 +163,14 @@ TESTDEF(hashmap_get) {
 	for (size_t i = 0; i < KEYS_LEN; i++)
 	{
 		int64_t v = start + i;
-		uint8_t res = cff_hashmap_add(hashmap, keys[i], &v, NULL);
+		uint8_t res = cff_hashmap_add(hashmap, (uintptr_t)keys[i], (uintptr_t)(&v), NULL);
 		munit_assert(hashmap->count == i + 1);
 	}
 	munit_assert(hashmap->lenght > INI_LEN);
 
 	for (size_t i = 0; i < KEYS_LEN; i++) {
 		int64_t value = 0;
-		uint8_t res = cff_hashmap_get(hashmap, keys[i], (uintptr_t)&value);
+		uint8_t res = cff_hashmap_get(hashmap, (uintptr_t)keys[i], (uintptr_t)&value);
 		munit_assert(value == start + i);
 		munit_assert(res);
 	}
@@ -159,13 +184,13 @@ TESTDEF(hashmap_remove) {
 	char** keys = get_random_keys();
 	int64_t v = munit_rand_uint32();
 	int64_t value = 0;
-	int64_t index = munit_rand_int_range(1, KEYS_LEN-1);
+	int64_t index = munit_rand_int_range(1, KEYS_LEN - 1);
 
-	uint8_t res = cff_hashmap_add(hashmap, keys[index], &v, NULL);
+	SKIP_ON_ERR(cff_hashmap_add(hashmap, (uintptr_t)keys[index], (uintptr_t)&v, NULL));
+
+	uint8_t res = cff_hashmap_remove(hashmap, (uintptr_t)keys[index]);
 	munit_assert(res);
-	res = cff_hashmap_remove(hashmap, keys[index]);
-	munit_assert(res);
-	res = cff_hashmap_get(hashmap, keys[index], (uintptr_t)&value);
+	res = cff_hashmap_get(hashmap, (uintptr_t)keys[index], (uintptr_t)&value);
 	munit_assert(res == 0);
 
 	free_keys(keys);
@@ -175,13 +200,12 @@ TESTDEF(hashmap_remove) {
 TESTDEF(hashmap_exist_key) {
 	char** keys = get_random_keys();
 	int64_t v = munit_rand_uint32();
-	int64_t index = munit_rand_int_range(1, KEYS_LEN-1);
+	int64_t index = munit_rand_int_range(1, KEYS_LEN - 1);
 
-	uint8_t res = cff_hashmap_add(hashmap, keys[index], &v, NULL);
+	SKIP_ON_ERR(cff_hashmap_add(hashmap, (uintptr_t)keys[index], (uintptr_t)&v, NULL));
+	uint8_t res = cff_hashmap_exist_key(hashmap, (uintptr_t)keys[index]);
 	munit_assert(res);
-	res = cff_hashmap_exist_key(hashmap, keys[index]);
-	munit_assert(res);
-	res = cff_hashmap_remove(hashmap, keys[index]);
+	res = cff_hashmap_remove(hashmap, (uintptr_t)keys[index]);
 	munit_assert(res);
 
 	free_keys(keys);
@@ -195,14 +219,14 @@ TESTDEF(hashmap_clear) {
 	for (size_t i = 0; i < KEYS_LEN; i++)
 	{
 		int64_t v = start + i;
-		uint8_t res = cff_hashmap_add(hashmap, keys[i], &v, NULL);
+		uint8_t res = cff_hashmap_add(hashmap, (uintptr_t)keys[i], (uintptr_t)&v, NULL);
 		munit_assert(hashmap->count == i + 1);
 	}
 	munit_assert(hashmap->lenght > INI_LEN);
 	cff_hashmap_clear(hashmap);
 	for (size_t i = 0; i < KEYS_LEN; i++) {
 		int64_t value = 0;
-		uint8_t res = cff_hashmap_get(hashmap, keys[i], (uintptr_t)&value);
+		uint8_t res = cff_hashmap_get(hashmap, (uintptr_t)keys[i], (uintptr_t)&value);
 		munit_assert(value == 0);
 		munit_assert(res == 0);
 	}

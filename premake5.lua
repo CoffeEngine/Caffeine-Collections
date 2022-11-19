@@ -11,7 +11,7 @@ workspace "Caffeine"
         files { "sources/**.h","sources/**.c" }
         includedirs {"headers","../Caffeine-Core/headers"}
         
-       links{"Caffeine-Core"}
+        links{"Caffeine-Core"}
 
         filter "configurations:Debug" 
             defines { "DEBUG" }  
@@ -32,7 +32,7 @@ workspace "Caffeine"
         files { "tests/**.h","tests/**.c" }
         includedirs {"headers","../Caffeine-Core/headers"}
         
-        links {"DataStructures"}
+        links {"DataStructures","m"}
 
         filter "configurations:Debug" 
             defines { "DEBUG" }  

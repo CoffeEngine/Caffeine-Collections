@@ -57,9 +57,9 @@ cff_err_e cff_sparseset_create(cff_sparseset* set, uint64_t lenght, uint64_t dat
 	set->dense = (uintptr_t)cff_allocator_alloc(allocator, (size_t)(data_size * lenght));
 	if (set->dense == 0) goto SPARSE_SET_FAIL_DENSE;
 
-	cff_assert_msg((void*)set->dense != (uintptr_t)NULL, "[SPARSE SET]: Failed to allocate buffer\n");
-	cff_assert_msg((void*)set->sparse != (uintptr_t)NULL, "[SPARSE SET]: Failed to allocate buffer\n");
-	cff_assert_msg((void*)set->dense_index != (uintptr_t)NULL, "[SPARSE SET]: Failed to allocate buffer\n");
+	cff_assert_msg(set->dense != (uintptr_t)NULL, "[SPARSE SET]: Failed to allocate buffer\n");
+	cff_assert_msg(set->sparse != NULL, "[SPARSE SET]: Failed to allocate buffer\n");
+	cff_assert_msg(set->dense_index != NULL, "[SPARSE SET]: Failed to allocate buffer\n");
 
 	return CFF_NONE_ERR;
 

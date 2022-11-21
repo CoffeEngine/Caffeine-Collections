@@ -8,11 +8,10 @@ workspace "Caffeine"
         targetdir "build/%{prj.name}/bin/%{cfg.buildcfg}"
         objdir "build/%{prj.name}/obj/%{cfg.buildcfg}"
         
-        files { "sources/**.h","sources/**.c" }
+        files { "sources/**.h","sources/**.c","../Caffeine-Core/sources/**.c" }
         includedirs {"headers","../Caffeine-Core/headers"}
         
-        links{"Caffeine-Core"}
-
+      
         filter "configurations:Debug" 
             defines { "DEBUG" }  
             symbols "On" 

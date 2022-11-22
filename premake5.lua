@@ -23,6 +23,7 @@ workspace "Caffeine"
     project "DataStructuresTests"
         kind "ConsoleApp"
         language "C"
+       
 
         location "build/%{prj.name}"
         targetdir "build/%{prj.name}/bin/%{cfg.buildcfg}"
@@ -31,7 +32,12 @@ workspace "Caffeine"
         files { "tests/**.h","tests/**.c" }
         includedirs {"headers","../Caffeine-Core/headers"}
         
-        links {"DataStructures","m"}
+        filter "system:Windows"
+           links {"DataStructures"}
+
+        filter "system:Unix"
+           links {"DataStructures","m"}
+       
 
         filter "configurations:Debug" 
             defines { "DEBUG" }  

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Caffeine-Core">
+      <UniqueIdentifier>{2C3AC45C-98FA-3F93-6135-8910CDB4846F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Caffeine-Core\sources">
+      <UniqueIdentifier>{BF0CB317-2B79-6E12-F46C-06706098907A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{A9EE9AA3-15CE-193F-1EE6-A4158A4480A0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Caffeine-Core\sources\caffeine_default_allocator.c">
+      <Filter>Caffeine-Core\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Caffeine-Core\sources\caffeine_memory.c">
+      <Filter>Caffeine-Core\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\caffeine_array.c">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\caffeine_bitmap.c">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\caffeine_container.c">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\caffeine_hashmap.c">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\caffeine_list.c">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\caffeine_queue.c">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\caffeine_sparse_set.c">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\caffeine_stack.c">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\caffeine_vector.c">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

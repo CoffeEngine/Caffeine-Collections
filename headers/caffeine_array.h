@@ -1,23 +1,33 @@
 #ifndef CAFFEINE_ARRAY_H
 #define CAFFEINE_ARRAY_H
 
+/**
+ * @file caffeine_array.h
+ * @author Ruan Azevedo
+ * @brief Defines functions for array initialization and manipulation
+ * 
+ *  The cff_array struct is the closiest to a raw C array regardless its data_size and lenght fields,
+ *  it's keeps their elements contiguous on memory and doesnt grow automaticaly when gets full.
+ * 
+ * @version 0.1
+ * @date 2022-11-22
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include "caffeine_core.h"
 #include "caffeine_types.h"
 
+/**
+ * @struct struct caffeine_array_s
+ * @brief Is the closiest to a raw C array regardless its data_size and lenght fields.
+ * 
+ * It's keeps their elements contiguous on memory and doesnt grow automaticaly when gets full.
+ */
+struct caffeine_array_s;
 
-#ifdef CFF_COMP_MSVC
 derive_container(caffeine_array_s, uint64_t lenght;);
-#endif
-
-#ifdef CFF_COMP_GCC
-struct caffeine_array_s { 
-    struct {
-        uintptr_t buffer;
-	    uint64_t data_size;
-    };
-    uint64_t lenght; 
-};
-#endif
 
 typedef struct caffeine_array_s cff_array;
 

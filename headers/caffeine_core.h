@@ -11,12 +11,15 @@
 #include "caffeine_memory.h"
 #include "caffeine_types.h"
 
+
+
+
 struct caffeine_containter_s {
-	uintptr_t buffer;
-	uint64_t data_size;
+    uintptr_t buffer;
+    uint64_t data_size;
 };
 
-#define derive_container(name,fields) struct name { struct caffeine_containter_s;  fields }
+#define derive_container(name,fields) struct name { struct { uintptr_t buffer; uint64_t data_size;};  fields }
 
 #define resolve_ptr(ptr) ((uintptr_t)(ptr))
 

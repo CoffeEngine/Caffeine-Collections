@@ -35,7 +35,7 @@ workspace "Caffeine"
         filter "system:Windows"
            links {"DataStructures"}
 
-        filter "system:Unix"
+        filter "system:linux"
            links {"DataStructures","m"}
        
 

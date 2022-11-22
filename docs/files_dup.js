@@ -1,6 +1,6 @@
 var files_dup =
 [
-    [ "caffeine_array.h", "caffeine__array_8h_source.html", null ],
+    [ "caffeine_array.h", "caffeine__array_8h.html", "caffeine__array_8h" ],
     [ "caffeine_bitmap.h", "caffeine__bitmap_8h_source.html", null ],
     [ "caffeine_container.h", "caffeine__container_8h_source.html", null ],
     [ "caffeine_core.h", "caffeine__core_8h_source.html", null ],

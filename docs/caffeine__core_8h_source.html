@@ -108,19 +108,22 @@ $(document).ready(function(){initNavTree('caffeine__core_8h_source.html',''); in
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;caffeine_memory.h&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;caffeine_types.h&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structcaffeine__containter__s.html">   14</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcaffeine__containter__s.html">caffeine_containter_s</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    uintptr_t buffer;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    uint64_t data_size;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;};</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define derive_container(name,fields) struct name { struct caffeine_containter_s;  fields }</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#define resolve_ptr(ptr) ((uintptr_t)(ptr))</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif // !CAFFEINE_CORE_H</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="structcaffeine__containter__s.html">   17</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcaffeine__containter__s.html">caffeine_containter_s</a> {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    uintptr_t buffer;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    uint64_t data_size;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#define derive_container(name,fields) struct name { struct { uintptr_t buffer; uint64_t data_size;};  fields }</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#define resolve_ptr(ptr) ((uintptr_t)(ptr))</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#endif // !CAFFEINE_CORE_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructcaffeine__containter__s_html"><div class="ttname"><a href="structcaffeine__containter__s.html">caffeine_containter_s</a></div><div class="ttdef"><b>Definition:</b> caffeine_core.h:14</div></div>
+<div class="ttc" id="astructcaffeine__containter__s_html"><div class="ttname"><a href="structcaffeine__containter__s.html">caffeine_containter_s</a></div><div class="ttdef"><b>Definition:</b> caffeine_core.h:17</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

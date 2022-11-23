@@ -1,7 +1,6 @@
 var caffeine__array_8h =
 [
-    [ "caffeine_array_s", "structcaffeine__array__s.html", "structcaffeine__array__s" ],
-    [ "cff_array", "group__Array.html#ga52c2dabc17d6e39b34ba0f6719b1eccb", null ],
+    [ "cff_array", "group__Array.html#gae71107a83f3eddb5b18542cea9639061", null ],
     [ "cff_array_all", "group__Array.html#ga277dcf1f4f648b0d78a7446a2f876b58", null ],
     [ "cff_array_all_cmp", "group__Array.html#ga4677abbfd7000fef0f30548ad3b06653", null ],
     [ "cff_array_any", "group__Array.html#gaf1f40d818488e82eb734cff86bedeedb", null ],

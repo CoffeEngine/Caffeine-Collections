@@ -1,5 +1,4 @@
 <map id="caffeine_list_t" name="caffeine_list_t">
-<area shape="rect" id="node1" title=" " alt="" coords="30,199,143,225"/>
-<area shape="rect" id="node2" href="$structcaffeine__list__bucket__t.html" title=" " alt="" coords="5,95,168,121"/>
-<area shape="rect" id="node3" href="$structstruct.html" title="Is the closiest to a raw C array regardless its data_size and lenght fields." alt="" coords="57,5,116,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="30,109,143,136"/>
+<area shape="rect" id="node2" href="$structcaffeine__list__bucket__t.html" title=" " alt="" coords="5,5,168,32"/>
 </map>

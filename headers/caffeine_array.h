@@ -22,7 +22,7 @@
 
 /**
  * @ingroup Array
- * @struct struct caffeine_array_s
+ * @struct caffeine_array_s
  * @brief Is the closiest to a raw C array regardless its data_size and lenght fields.
  *
  * It's keeps their elements contiguous on memory and doesnt grow automaticaly when gets full.
@@ -31,16 +31,27 @@ struct caffeine_array_s
 {
     struct
     {
-        uintptr_t buffer;   ///< Pointer to array buffer.
-        uint64_t data_size; ///< Size in bytes of each element.
+        /**
+         * @brief Pointer to array buffer.
+         * 
+         */
+        uintptr_t buffer;
+        /**
+         * @brief Size in bytes of each element.
+         * 
+         */
+        uint64_t data_size;
     };
-
-    uint64_t lenght; ///< How many elements the array contains
+    /**
+     * @brief How many elements the array contains
+     * 
+     */
+    uint64_t lenght;
 };
 
 /**
  * @ingroup Array
- * @typedef typedef struct caffeine_array_s cff_array
+ * @typedef struct caffeine_array_s cff_array
  * @brief Syntax sugar for struct caffeine_array_s.
  *
  * It's keeps their elements contiguous on memory and doesnt grow automaticaly when gets full.

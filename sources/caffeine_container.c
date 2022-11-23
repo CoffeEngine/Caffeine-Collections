@@ -196,11 +196,12 @@ uint8_t cff_container_remove(cff_container* container, uint64_t index, uint64_t 
 	cff_assert_param_not_zero(lenght);
 	cff_assert_param_less(index, lenght);
 
-	uint64_t mv_payload_size = ((lenght - index) - 1) * container->data_size;
-	uintptr_t mv_from = resolve_ptr(container->buffer + (index + 1) * container->data_size);
-	uintptr_t mv_to = resolve_ptr(container->buffer + index * container->data_size);
-
 	if (index + 1 < lenght) {
+
+		uint64_t mv_payload_size = ((lenght - index) - 1) * container->data_size;
+		uintptr_t mv_from = resolve_ptr(container->buffer + (index + 1) * container->data_size);
+		uintptr_t mv_to = resolve_ptr(container->buffer + index * container->data_size);
+
 		cff_memmove((const void* const)mv_from, (void* const)mv_to, (size_t)mv_payload_size, (size_t)mv_payload_size);
 		return 1;
 	}

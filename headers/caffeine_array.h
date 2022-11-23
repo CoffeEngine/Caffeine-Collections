@@ -20,6 +20,7 @@
 #include "caffeine_core.h"
 #include "caffeine_types.h"
 
+
 /**
  * @ingroup Array
  * @struct struct caffeine_array_s
@@ -27,8 +28,6 @@
  * 
  * It's keeps their elements contiguous on memory and doesnt grow automaticaly when gets full.
  */
-struct caffeine_array_s;
-
 derive_container(caffeine_array_s, uint64_t lenght;);
 
 /**

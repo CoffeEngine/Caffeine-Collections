@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['cff_5farray_74',['cff_array',['../group__Array.html#gae71107a83f3eddb5b18542cea9639061',1,'caffeine_array.h']]]
+  ['data_5fsize_74',['data_size',['../structcaffeine__array__s.html#aa48588d37b231104418f673e732e9ca7',1,'caffeine_array_s']]]
 ];

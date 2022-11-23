@@ -1,5 +1,6 @@
 var annotated_dup =
 [
+    [ "caffeine_array_s", "structcaffeine__array__s.html", "structcaffeine__array__s" ],
     [ "caffeine_bitmap_s", "structcaffeine__bitmap__s.html", "structcaffeine__bitmap__s" ],
     [ "caffeine_containter_s", "structcaffeine__containter__s.html", "structcaffeine__containter__s" ],
     [ "caffeine_hashmap_s", "structcaffeine__hashmap__s.html", "structcaffeine__hashmap__s" ],

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Caffeine Core: Data Structure Index</title>
+<title>Caffeine Core: caffeine_array_s Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('classes.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('structcaffeine__array__s.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -91,35 +91,50 @@ $(document).ready(function(){initNavTree('classes.html',''); initResizable(); })
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">Data Structure Index</div>  </div>
+<div class="title">caffeine_array_s Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="qindex"><a class="qindex" href="#letter_c">c</a>&#160;|&#160;<a class="qindex" href="#letter_s">s</a></div>
-<table class="classindex">
-<tr><td rowspan="2" valign="bottom"><a name="letter_c"></a><table border="0" cellspacing="0" cellpadding="0"><tr><td><div class="ah">&#160;&#160;c&#160;&#160;</div></td></tr></table>
-</td>
-<td valign="top"><a class="el" href="structcaffeine__bitmap__s.html">caffeine_bitmap_s</a>&#160;&#160;&#160;</td>
-<td valign="top"><a class="el" href="structcaffeine__list__bucket__t.html">caffeine_list_bucket_t</a>&#160;&#160;&#160;</td>
-<td rowspan="2" valign="bottom"><a name="letter_s"></a><table border="0" cellspacing="0" cellpadding="0"><tr><td><div class="ah">&#160;&#160;s&#160;&#160;</div></td></tr></table>
-</td>
-<td></td></tr>
-<tr><td valign="top"><a class="el" href="structcaffeine__containter__s.html">caffeine_containter_s</a>&#160;&#160;&#160;</td>
-<td valign="top"><a class="el" href="structcaffeine__list__t.html">caffeine_list_t</a>&#160;&#160;&#160;</td>
-<td></td></tr>
-<tr><td valign="top"><a class="el" href="structcaffeine__array__s.html">caffeine_array_s</a>&#160;&#160;&#160;</td>
-<td valign="top"><a class="el" href="structcaffeine__hashmap__s.html">caffeine_hashmap_s</a>&#160;&#160;&#160;</td>
-<td valign="top"><a class="el" href="structcaffeine__sparse__set.html">caffeine_sparse_set</a>&#160;&#160;&#160;</td>
-<td valign="top"><a class="el" href="structstruct.html">struct</a>&#160;&#160;&#160;</td>
-<td></td></tr>
-<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<div class="dynheader">
+Collaboration diagram for caffeine_array_s:</div>
+<div class="dyncontent">
+<div class="center"><img src="structcaffeine__array__s__coll__graph.png" border="0" usemap="#caffeine__array__s_coll__map" alt="Collaboration graph"/></div>
+<map name="caffeine__array__s_coll__map" id="caffeine__array__s_coll__map">
+<area shape="rect" title=" " alt="" coords="5,95,135,121"/>
+<area shape="rect" href="structstruct.html" title="Is the closiest to a raw C array regardless its data_size and lenght fields." alt="" coords="41,5,99,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Data Fields</h2></td></tr>
+<tr class="memitem:ad7485a9706e499e4978f59f8d7019bc9"><td class="memItemLeft" ><a id="ad7485a9706e499e4978f59f8d7019bc9"></a>
+struct {</td></tr>
+<tr class="memitem:a440998c48ec8295e2c5335e52642d8ad"><td class="memItemLeft" >
+&#160;&#160;&#160;uintptr_t&#160;&#160;&#160;<a class="el" href="structcaffeine__array__s.html#a52c2e09b0dbb845aa1b8d90d5b3b4cf2">buffer</a></td></tr>
+<tr class="memdesc:a440998c48ec8295e2c5335e52642d8ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to array buffer. <br /></td></tr>
+<tr class="separator:a440998c48ec8295e2c5335e52642d8ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85a5a8ac361945233b6a01350b77f6f7"><td class="memItemLeft" >
+&#160;&#160;&#160;uint64_t&#160;&#160;&#160;<a class="el" href="structcaffeine__array__s.html#aa48588d37b231104418f673e732e9ca7">data_size</a></td></tr>
+<tr class="memdesc:a85a5a8ac361945233b6a01350b77f6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size in bytes of each element. <br /></td></tr>
+<tr class="separator:a85a5a8ac361945233b6a01350b77f6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7485a9706e499e4978f59f8d7019bc9"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:ad7485a9706e499e4978f59f8d7019bc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7a4aba5847ecb87968012dd43dfc822"><td class="memItemLeft" align="right" valign="top"><a id="ae7a4aba5847ecb87968012dd43dfc822"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcaffeine__array__s.html#ae7a4aba5847ecb87968012dd43dfc822">lenght</a></td></tr>
+<tr class="memdesc:ae7a4aba5847ecb87968012dd43dfc822"><td class="mdescLeft">&#160;</td><td class="mdescRight">How many elements the array contains. <br /></td></tr>
+<tr class="separator:ae7a4aba5847ecb87968012dd43dfc822"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<div class="qindex"><a class="qindex" href="#letter_c">c</a>&#160;|&#160;<a class="qindex" href="#letter_s">s</a></div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="caffeine__array_8h_source.html">caffeine_array.h</a></li>
+</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="structcaffeine__array__s.html">caffeine_array_s</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

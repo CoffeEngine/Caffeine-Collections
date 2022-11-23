@@ -1,7 +1,6 @@
 var group__Array =
 [
     [ "struct", "structstruct.html", null ],
-    [ "cff_array", "group__Array.html#ga52c2dabc17d6e39b34ba0f6719b1eccb", null ],
     [ "cff_array_all", "group__Array.html#ga277dcf1f4f648b0d78a7446a2f876b58", null ],
     [ "cff_array_all_cmp", "group__Array.html#ga4677abbfd7000fef0f30548ad3b06653", null ],
     [ "cff_array_any", "group__Array.html#gaf1f40d818488e82eb734cff86bedeedb", null ],
@@ -26,5 +25,6 @@ var group__Array =
     [ "cff_array_resize", "group__Array.html#ga8a9487758c1a7ee48b53d8eb9978b7cb", null ],
     [ "cff_array_reverse", "group__Array.html#ga85bc41e84d6dc670100f0f5ff6cf1855", null ],
     [ "cff_array_set", "group__Array.html#ga4a7e4ee0c2abae7359043903f9496b4c", null ],
-    [ "cff_array_sort", "group__Array.html#ga3ac0478a462da3ccf2a0cd49b501664a", null ]
+    [ "cff_array_sort", "group__Array.html#ga3ac0478a462da3ccf2a0cd49b501664a", null ],
+    [ "cff_array", "group__Array.html#gae71107a83f3eddb5b18542cea9639061", null ]
 ];

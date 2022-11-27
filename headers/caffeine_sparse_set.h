@@ -57,6 +57,7 @@ struct caffeine_sparse_set_s
 };
 
 /**
+ * @typedef struct caffeine_sparse_set_s cff_sparseset
  * @ingroup Sparse Set
  * @brief Syntax sugar for struct caffeine_sparse_set
  * 

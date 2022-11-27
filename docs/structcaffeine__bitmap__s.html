@@ -94,19 +94,61 @@ $(document).ready(function(){initNavTree('structcaffeine__bitmap__s.html',''); i
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">caffeine_bitmap_s Struct Reference</div>  </div>
+<div class="title">caffeine_bitmap_s Struct Reference<div class="ingroups"><a class="el" href="group__Bitmap.html">Bitmap</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Provides a boolean array with less memory consumption.  
+ <a href="structcaffeine__bitmap__s.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="caffeine__bitmap_8h_source.html">caffeine_bitmap.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a9aa64da121f3bc1a072dac71452820e9"><td class="memItemLeft" align="right" valign="top"><a id="a9aa64da121f3bc1a072dac71452820e9"></a>
-uint64_t *&#160;</td><td class="memItemRight" valign="bottom"><b>buffer</b></td></tr>
+<tr class="memitem:a9aa64da121f3bc1a072dac71452820e9"><td class="memItemLeft" align="right" valign="top">uint64_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcaffeine__bitmap__s.html#a9aa64da121f3bc1a072dac71452820e9">buffer</a></td></tr>
+<tr class="memdesc:a9aa64da121f3bc1a072dac71452820e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer where the bits are stored.  <a href="structcaffeine__bitmap__s.html#a9aa64da121f3bc1a072dac71452820e9">More...</a><br /></td></tr>
 <tr class="separator:a9aa64da121f3bc1a072dac71452820e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab988c959e83724ea3e0c177b2e996fdb"><td class="memItemLeft" align="right" valign="top"><a id="ab988c959e83724ea3e0c177b2e996fdb"></a>
-uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>lenght</b></td></tr>
+<tr class="memitem:ab988c959e83724ea3e0c177b2e996fdb"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcaffeine__bitmap__s.html#ab988c959e83724ea3e0c177b2e996fdb">lenght</a></td></tr>
+<tr class="memdesc:ab988c959e83724ea3e0c177b2e996fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tracks the number of bits in use.  <a href="structcaffeine__bitmap__s.html#ab988c959e83724ea3e0c177b2e996fdb">More...</a><br /></td></tr>
 <tr class="separator:ab988c959e83724ea3e0c177b2e996fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Provides a boolean array with less memory consumption. </p>
+<p>This structure works by flipping bits instead a whole byte. </p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a9aa64da121f3bc1a072dac71452820e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9aa64da121f3bc1a072dac71452820e9">&#9670;&nbsp;</a></span>buffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t* caffeine_bitmap_s::buffer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Buffer where the bits are stored. </p>
+
+</div>
+</div>
+<a id="ab988c959e83724ea3e0c177b2e996fdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab988c959e83724ea3e0c177b2e996fdb">&#9670;&nbsp;</a></span>lenght</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t caffeine_bitmap_s::lenght</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Tracks the number of bits in use. </p>
+<p>Note that this value is different from the number of allocated bits which is generally a little higher. </p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="caffeine__bitmap_8h_source.html">caffeine_bitmap.h</a></li>
 </ul>

@@ -239,7 +239,7 @@ Functions</h2></td></tr>
 <p>Checks if all array elements are equals to value pointed by ptr_in. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Pointer to data to be find in the array. </td></tr>
   </table>
   </dd>
@@ -283,7 +283,7 @@ Functions</h2></td></tr>
 <p>Checks if all array elements are equals to value pointed by ptr_in. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Pointer to data to be find in the array. </td></tr>
     <tr><td class="paramname">comparer_function</td><td>[in] Callback used to compare the elements. </td></tr>
   </table>
@@ -322,7 +322,7 @@ Functions</h2></td></tr>
 <p>Checks the ocurrency of value pointed by ptr_in on the array. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Pointer to data to be find in the array. </td></tr>
   </table>
   </dd>
@@ -366,7 +366,7 @@ Functions</h2></td></tr>
 <p>Checks the ocurrency of value pointed by ptr_in on the array. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Pointer to data to be find in the array. </td></tr>
     <tr><td class="paramname">comparer_function</td><td>[in] Callback used to compare the elements. </td></tr>
   </table>
@@ -412,7 +412,7 @@ Functions</h2></td></tr>
 <p>If the allocator parameter is NULL this function will get the default allocator setted in Caffeine-Core library.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_out</td><td>[out] Pointer to an array that will receive the copy </td></tr>
     <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
@@ -470,7 +470,7 @@ Functions</h2></td></tr>
 <p>If the allocator parameter is NULL this function will get the default allocator setted in Caffeine-Core library.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_out</td><td>[out] Pointer to an array that will receive the copy </td></tr>
     <tr><td class="paramname">start</td><td>[in] Index from where the copy process will start </td></tr>
     <tr><td class="paramname">count</td><td>[in] How many elements to copy from start. </td></tr>
@@ -511,7 +511,7 @@ Functions</h2></td></tr>
 <p>Counts the number of ocurrencies of elements equals to value pointed by ptr_in. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Pointer to data to be count in the array. </td></tr>
   </table>
   </dd>
@@ -555,7 +555,7 @@ Functions</h2></td></tr>
 <p>Counts the number of ocurrencies of elements equals to value pointed by ptr_in. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Pointer to data to be count in the array. </td></tr>
     <tr><td class="paramname">comparer_function</td><td>[in] Callback used to compare the elements. </td></tr>
   </table>
@@ -607,7 +607,7 @@ Functions</h2></td></tr>
 <p>If the allocator parameter is NULL this function will get the default allocator setted in Caffeine-Core library. The size of memory allocated is equals to data_size * lenght in bytes. The memory allocated is NOT initialized.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">data_size</td><td>[in] The size in bytes of each element. </td></tr>
     <tr><td class="paramname">lenght</td><td>[in] The max number of elements the array will have. </td></tr>
     <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
@@ -686,7 +686,7 @@ Functions</h2></td></tr>
 <p>The content at ptr_in address will be replicated to every element of the array. This function is similar to memset from libc.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Adress from where the data will be copied. </td></tr>
   </table>
   </dd>
@@ -736,7 +736,7 @@ Functions</h2></td></tr>
 <p>Creates a new array based on an existing one, the elements of the new array must complies the filter_function criteria. If the allocator parameter is NULL this function will get the default allocator setted in Caffeine-Core library.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">filter_function</td><td>[in] Callback that determines if the element complies the criteria for the new array. </td></tr>
     <tr><td class="paramname">ptr_out</td><td>[out] Pointer to the array that will receive the filtered elements. </td></tr>
     <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
@@ -782,7 +782,7 @@ Functions</h2></td></tr>
 <p>Gets the index of the first ocurrency of the value pointed by ptr_in in array. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Pointer to data to find in the array. </td></tr>
     <tr><td class="paramname">out_index</td><td>[out] Receives the index where the value was found. If not found the value at its adress will not change. </td></tr>
   </table>
@@ -833,7 +833,7 @@ Functions</h2></td></tr>
 <p>Gets the index of the first ocurrency of the value pointed by ptr_in in array. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Pointer to data to be find in the array. </td></tr>
     <tr><td class="paramname">out_index</td><td>[out] Receives the index where the value was found. If not found the value at its adress will not change. </td></tr>
     <tr><td class="paramname">comparer_function</td><td>[in] Callback used to compare the elements. </td></tr>
@@ -873,7 +873,7 @@ Functions</h2></td></tr>
 <p>Iterates over the array and executes an callback to each element. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">foreach_function</td><td>[in] Callback that will be called for every element. </td></tr>
   </table>
   </dd>
@@ -911,7 +911,7 @@ Functions</h2></td></tr>
 <p>If the allocator parameter is NULL this function will get the default allocator setted in Caffeine-Core library.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
   </dd>
@@ -955,7 +955,7 @@ Functions</h2></td></tr>
 <p>Copies the data present at the index position to the adress pointed by ptr_out.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">index</td><td>[in] Position of the data inside the array buffer. </td></tr>
     <tr><td class="paramname">ptr_out</td><td>[out] Adress where the data will be copied. </td></tr>
   </table>
@@ -1000,7 +1000,7 @@ Functions</h2></td></tr>
 <p>This function will copy the content at ptr_in adress to the location indicated by index. Keep in mind that all elements on index position and after will be sihfted by one position to the right, it means that the value at the last index will be lost.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">index</td><td>[in] Position of the data inside the array buffer. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Adress from where the data will be copied. </td></tr>
   </table>
@@ -1051,7 +1051,7 @@ Functions</h2></td></tr>
 <p>If the lenght of "other" added to start_at is greater than array lenght the array will be resized. If the allocator parameter is NULL this function will get the default allocator setted in Caffeine-Core library.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">other</td><td>[in] Pointer to an array to be joined to "array" from the position setted at start_at </td></tr>
     <tr><td class="paramname">start_at</td><td>[in] Index where the first element of "other" will be copied and so on </td></tr>
     <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
@@ -1110,7 +1110,7 @@ Functions</h2></td></tr>
 <p>Creates a new array based on an existing one, the elements of the new array will be the result from map_function when called passed an element from array in the parameters. If the allocator parameter is NULL this function will get the default allocator setted in Caffeine-Core library.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">map_function</td><td>[in] Callback that defines how to transform from one type to other. </td></tr>
     <tr><td class="paramname">ptr_out</td><td>[out] Pointer to the array that will receive the mapped elements. </td></tr>
     <tr><td class="paramname">out_data_size</td><td>[in] The size in bytes of the target type. </td></tr>
@@ -1152,7 +1152,7 @@ Functions</h2></td></tr>
 <p>This function shifts all elements starting on index to the left, (eg. array[i] = array[i+1]). If the index is equals to lenght - 1 (last element) the function just returns. Keep in mind thet when an element (except at lenght - 1 ) is removed, there will exist two copies of the last element at the end of the array.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">index</td><td>[in] Position of the data that will be removed. </td></tr>
   </table>
   </dd>
@@ -1196,7 +1196,7 @@ Functions</h2></td></tr>
 <p>The size of memory allocated is equals to data_size * lenght in bytes, notes that data_size is the value informed when cff_array_create is called. If the allocator parameter is NULL this function will get the default allocator setted in Caffeine-Core library.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">lenght</td><td>[in] The new max number of elements the array will have. </td></tr>
     <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
@@ -1225,7 +1225,7 @@ Functions</h2></td></tr>
 <p>Reverses the order of elements. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1269,7 +1269,7 @@ Functions</h2></td></tr>
 <p>This function will copy the content at ptr_in adress to the location indicated by index. Keep in mind that the current value present at index position will be overwrited.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">index</td><td>[in] Position of the data inside the array buffer. </td></tr>
     <tr><td class="paramname">ptr_in</td><td>[in] Adress from where the data will be copied. </td></tr>
   </table>
@@ -1307,7 +1307,7 @@ Functions</h2></td></tr>
 <p>Order the elements using the quick sort algorithm. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">array</td><td>[in] Pointer to the array wich owns the data. </td></tr>
+    <tr><td class="paramname">array</td><td>[in] Pointer to an array. </td></tr>
     <tr><td class="paramname">comparer_function</td><td>[in] Callback used to compare the elements. </td></tr>
   </table>
   </dd>

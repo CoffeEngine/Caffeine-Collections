@@ -95,38 +95,55 @@ $(document).ready(function(){initNavTree('caffeine__bitmap_8h_source.html',''); 
 <div class="title">caffeine_bitmap.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef CAFFEINE_BITMAP_H</span></div>
+<a href="caffeine__bitmap_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef CAFFEINE_BITMAP_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define CAFFEINE_BITMAP_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;caffeine_core.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="structcaffeine__bitmap__s.html">    6</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcaffeine__bitmap__s.html">caffeine_bitmap_s</a></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    uint64_t* buffer;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    uint64_t lenght;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;};</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structcaffeine__bitmap__s.html">caffeine_bitmap_s</a> <a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;cff_err_e cff_bitmap_create(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, uint64_t lenght, AllocatorInterface* allocator);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keywordtype">void</span> cff_bitmap_set(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, uint64_t bit);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">void</span> cff_bitmap_clear(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, uint64_t bit);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">void</span> cff_bitmap_set_all(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keywordtype">void</span> cff_bitmap_clear_all(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;cff_err_e cff_bitmap_resize(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, uint64_t lenght, AllocatorInterface* allocator);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordtype">void</span> cff_bitmap_free(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, AllocatorInterface* allocator);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;uint8_t cff_bitmap_get(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, uint64_t bit);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#endif // !CAFFEINE_BITMAP_H</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;caffeine_core.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="structcaffeine__bitmap__s.html">   26</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcaffeine__bitmap__s.html">caffeine_bitmap_s</a></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="structcaffeine__bitmap__s.html#a9aa64da121f3bc1a072dac71452820e9">   32</a></span>&#160;    uint64_t* <a class="code" href="structcaffeine__bitmap__s.html#a9aa64da121f3bc1a072dac71452820e9">buffer</a>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="structcaffeine__bitmap__s.html#ab988c959e83724ea3e0c177b2e996fdb">   39</a></span>&#160;    uint64_t <a class="code" href="structcaffeine__bitmap__s.html#ab988c959e83724ea3e0c177b2e996fdb">lenght</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;};</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="group__Bitmap.html#gaea855ead43d6041f26fa85491069245c">   48</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structcaffeine__bitmap__s.html">caffeine_bitmap_s</a> <a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;cff_err_e <a class="code" href="group__Bitmap.html#gaa0abc64e3a53da168cf5d66c6a33fb48">cff_bitmap_create</a>(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, uint64_t <a class="code" href="structcaffeine__bitmap__s.html#ab988c959e83724ea3e0c177b2e996fdb">lenght</a>, AllocatorInterface* allocator);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__Bitmap.html#gac15fbd2c3d4158cdedaa354fccbed06f">cff_bitmap_set</a>(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, uint64_t bit);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__Bitmap.html#gaee692567b9b3b7676c5aaf1d30dc1d8e">cff_bitmap_clear</a>(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, uint64_t bit);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__Bitmap.html#gab083740c65a7124f5e3e40e62ddfa944">cff_bitmap_set_all</a>(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__Bitmap.html#ga8c16b7090a34e68faa38dea691fd994e">cff_bitmap_clear_all</a>(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;cff_err_e <a class="code" href="group__Bitmap.html#gaa301190cb26f66919d058f667428805d">cff_bitmap_resize</a>(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, uint64_t <a class="code" href="structcaffeine__bitmap__s.html#ab988c959e83724ea3e0c177b2e996fdb">lenght</a>, AllocatorInterface* allocator);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__Bitmap.html#gadd3b3a86412a06ad1e0a1be6b510f74f">cff_bitmap_free</a>(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, AllocatorInterface* allocator);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;uint8_t <a class="code" href="group__Bitmap.html#gad797409f5eae4a2134d815bf191b61fe">cff_bitmap_get</a>(<a class="code" href="structcaffeine__bitmap__s.html">cff_bitmap</a>* bmp, uint64_t bit);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor">#endif // !CAFFEINE_BITMAP_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructcaffeine__bitmap__s_html"><div class="ttname"><a href="structcaffeine__bitmap__s.html">caffeine_bitmap_s</a></div><div class="ttdef"><b>Definition:</b> caffeine_bitmap.h:6</div></div>
+<div class="ttc" id="agroup__Bitmap_html_gaa0abc64e3a53da168cf5d66c6a33fb48"><div class="ttname"><a href="group__Bitmap.html#gaa0abc64e3a53da168cf5d66c6a33fb48">cff_bitmap_create</a></div><div class="ttdeci">cff_err_e cff_bitmap_create(cff_bitmap *bmp, uint64_t lenght, AllocatorInterface *allocator)</div><div class="ttdoc">Initializes the bitmap structure.</div></div>
+<div class="ttc" id="astructcaffeine__bitmap__s_html_a9aa64da121f3bc1a072dac71452820e9"><div class="ttname"><a href="structcaffeine__bitmap__s.html#a9aa64da121f3bc1a072dac71452820e9">caffeine_bitmap_s::buffer</a></div><div class="ttdeci">uint64_t * buffer</div><div class="ttdoc">Buffer where the bits are stored.</div><div class="ttdef"><b>Definition:</b> caffeine_bitmap.h:32</div></div>
+<div class="ttc" id="agroup__Bitmap_html_gab083740c65a7124f5e3e40e62ddfa944"><div class="ttname"><a href="group__Bitmap.html#gab083740c65a7124f5e3e40e62ddfa944">cff_bitmap_set_all</a></div><div class="ttdeci">void cff_bitmap_set_all(cff_bitmap *bmp)</div><div class="ttdoc">Sets all bits to 1.</div></div>
+<div class="ttc" id="agroup__Bitmap_html_ga8c16b7090a34e68faa38dea691fd994e"><div class="ttname"><a href="group__Bitmap.html#ga8c16b7090a34e68faa38dea691fd994e">cff_bitmap_clear_all</a></div><div class="ttdeci">void cff_bitmap_clear_all(cff_bitmap *bmp)</div><div class="ttdoc">Sets all bits to 0.</div></div>
+<div class="ttc" id="agroup__Bitmap_html_gaa301190cb26f66919d058f667428805d"><div class="ttname"><a href="group__Bitmap.html#gaa301190cb26f66919d058f667428805d">cff_bitmap_resize</a></div><div class="ttdeci">cff_err_e cff_bitmap_resize(cff_bitmap *bmp, uint64_t lenght, AllocatorInterface *allocator)</div><div class="ttdoc">Resizes the bitmap buffer.</div></div>
+<div class="ttc" id="agroup__Bitmap_html_gadd3b3a86412a06ad1e0a1be6b510f74f"><div class="ttname"><a href="group__Bitmap.html#gadd3b3a86412a06ad1e0a1be6b510f74f">cff_bitmap_free</a></div><div class="ttdeci">void cff_bitmap_free(cff_bitmap *bmp, AllocatorInterface *allocator)</div><div class="ttdoc">Deallocates the bitmap buffer.</div></div>
+<div class="ttc" id="astructcaffeine__bitmap__s_html_ab988c959e83724ea3e0c177b2e996fdb"><div class="ttname"><a href="structcaffeine__bitmap__s.html#ab988c959e83724ea3e0c177b2e996fdb">caffeine_bitmap_s::lenght</a></div><div class="ttdeci">uint64_t lenght</div><div class="ttdoc">Tracks the number of bits in use.</div><div class="ttdef"><b>Definition:</b> caffeine_bitmap.h:39</div></div>
+<div class="ttc" id="agroup__Bitmap_html_gad797409f5eae4a2134d815bf191b61fe"><div class="ttname"><a href="group__Bitmap.html#gad797409f5eae4a2134d815bf191b61fe">cff_bitmap_get</a></div><div class="ttdeci">uint8_t cff_bitmap_get(cff_bitmap *bmp, uint64_t bit)</div><div class="ttdoc">Gets the value of one bit.</div></div>
+<div class="ttc" id="astructcaffeine__bitmap__s_html"><div class="ttname"><a href="structcaffeine__bitmap__s.html">caffeine_bitmap_s</a></div><div class="ttdoc">Provides a boolean array with less memory consumption.</div><div class="ttdef"><b>Definition:</b> caffeine_bitmap.h:26</div></div>
+<div class="ttc" id="agroup__Bitmap_html_gaee692567b9b3b7676c5aaf1d30dc1d8e"><div class="ttname"><a href="group__Bitmap.html#gaee692567b9b3b7676c5aaf1d30dc1d8e">cff_bitmap_clear</a></div><div class="ttdeci">void cff_bitmap_clear(cff_bitmap *bmp, uint64_t bit)</div><div class="ttdoc">Sets the bit to 0.</div></div>
+<div class="ttc" id="agroup__Bitmap_html_gac15fbd2c3d4158cdedaa354fccbed06f"><div class="ttname"><a href="group__Bitmap.html#gac15fbd2c3d4158cdedaa354fccbed06f">cff_bitmap_set</a></div><div class="ttdeci">void cff_bitmap_set(cff_bitmap *bmp, uint64_t bit)</div><div class="ttdoc">Sets the bit to 1.</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_7f57b1e41c5acd0e859ae5f3a2b075a9.html">headers</a></li><li class="navelem"><b>caffeine_bitmap.h</b></li>
+    <li class="navelem"><a class="el" href="dir_7f57b1e41c5acd0e859ae5f3a2b075a9.html">headers</a></li><li class="navelem"><a class="el" href="caffeine__bitmap_8h.html">caffeine_bitmap.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

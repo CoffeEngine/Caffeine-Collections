@@ -102,13 +102,13 @@ $(document).ready(function(){initNavTree('caffeine__stack_8h_source.html',''); i
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">typedef</span> cff_vector cff_stack;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordtype">void</span> cff_stack_create(cff_stack* stack, uint64_t data_size, uint64_t lenght, AllocatorInterface* allocator);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> cff_stack_resize(cff_stack* stack, uint64_t lenght, AllocatorInterface* allocator);</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordtype">void</span> cff_stack_create(cff_stack* stack, uint64_t <a class="code" href="structcaffeine__sparse__set__s.html#ad63c7f1f30dbc7bfa7ce9430fe73d29a">data_size</a>, uint64_t <a class="code" href="structcaffeine__sparse__set__s.html#af33b0d89188c3efaeab36e9b268c8363">lenght</a>, AllocatorInterface* allocator);</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> cff_stack_resize(cff_stack* stack, uint64_t <a class="code" href="structcaffeine__sparse__set__s.html#af33b0d89188c3efaeab36e9b268c8363">lenght</a>, AllocatorInterface* allocator);</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">void</span> cff_stack_push(cff_stack* stack, uintptr_t data_ptr, AllocatorInterface* allocator);</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keywordtype">void</span> cff_stack_reverse(cff_stack* stack);</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordtype">void</span> cff_stack_free(cff_stack* stack, AllocatorInterface* allocator);</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">void</span> cff_stack_clear(cff_stack* stack);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordtype">void</span> cff_stack_copy(cff_stack* stack, cff_stack* to, uint64_t start, uint64_t count, AllocatorInterface* allocator);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordtype">void</span> cff_stack_copy(cff_stack* stack, cff_stack* to, uint64_t start, uint64_t <a class="code" href="structcaffeine__sparse__set__s.html#aceeea799a456869f842682f319b4c8e3">count</a>, AllocatorInterface* allocator);</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keywordtype">void</span> cff_stack_clone(cff_stack* stack, cff_stack* to, AllocatorInterface* allocator);</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;uint8_t cff_stack_pop(cff_stack* stack, uintptr_t data_ptr, AllocatorInterface* allocator);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;uint8_t cff_stack_top(cff_stack* stack, uintptr_t data_ptr);</div>
@@ -116,6 +116,9 @@ $(document).ready(function(){initNavTree('caffeine__stack_8h_source.html',''); i
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="astructcaffeine__sparse__set__s_html_af33b0d89188c3efaeab36e9b268c8363"><div class="ttname"><a href="structcaffeine__sparse__set__s.html#af33b0d89188c3efaeab36e9b268c8363">caffeine_sparse_set_s::lenght</a></div><div class="ttdeci">uint64_t lenght</div><div class="ttdoc">How many elements fits in the buffer.</div><div class="ttdef"><b>Definition:</b> caffeine_sparse_set.h:46</div></div>
+<div class="ttc" id="astructcaffeine__sparse__set__s_html_ad63c7f1f30dbc7bfa7ce9430fe73d29a"><div class="ttname"><a href="structcaffeine__sparse__set__s.html#ad63c7f1f30dbc7bfa7ce9430fe73d29a">caffeine_sparse_set_s::data_size</a></div><div class="ttdeci">uint64_t data_size</div><div class="ttdoc">Element size in bytes.</div><div class="ttdef"><b>Definition:</b> caffeine_sparse_set.h:56</div></div>
+<div class="ttc" id="astructcaffeine__sparse__set__s_html_aceeea799a456869f842682f319b4c8e3"><div class="ttname"><a href="structcaffeine__sparse__set__s.html#aceeea799a456869f842682f319b4c8e3">caffeine_sparse_set_s::count</a></div><div class="ttdeci">uint64_t count</div><div class="ttdoc">How many elements the hashmap contains.</div><div class="ttdef"><b>Definition:</b> caffeine_sparse_set.h:51</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

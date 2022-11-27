@@ -87,10 +87,14 @@ cff_err_e cff_bitmap_resize(cff_bitmap* bmp, uint64_t lenght, AllocatorInterface
 	cff_assert_param_not_null(bmp->buffer);
 	cff_assert_param_not_zero(lenght);
 
+	size_t current_size = sizeof(uint64_t) * ((size_t)(bmp->lenght) / sizeof(uint64_t) * 8);
+	size_t buff_size = sizeof(uint64_t) * ((size_t)(lenght) / sizeof(uint64_t) * 8);
+
+	if(current_size == buff_size) return CFF_NONE_ERR;
+
 	if (allocator == NULL) allocator = cff_get_default_allocator();
 
 	uint64_t* tmp = NULL;
-	size_t buff_size = sizeof(uint64_t) * ((size_t)(lenght) / sizeof(uint64_t) * 8);
 	if (buff_size == 0) buff_size = 1;
 
 	if (cff_allocator_realloc(allocator, bmp->buffer, buff_size, (void**)(&tmp))) {

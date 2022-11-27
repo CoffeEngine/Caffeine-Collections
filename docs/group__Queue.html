@@ -102,7 +102,7 @@ $(document).ready(function(){initNavTree('group__Queue.html',''); initResizable(
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:gaeb16c9746bb1b457507f160576455723"><td class="memItemLeft" align="right" valign="top"><a id="gaeb16c9746bb1b457507f160576455723"></a>
-typedef cff_vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Queue.html#gaeb16c9746bb1b457507f160576455723">cff_queue</a></td></tr>
+typedef <a class="el" href="group__Vector.html#ga19638efc27ff43b4cc3ccc3a816fb139">cff_vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Queue.html#gaeb16c9746bb1b457507f160576455723">cff_queue</a></td></tr>
 <tr class="memdesc:gaeb16c9746bb1b457507f160576455723"><td class="mdescLeft">&#160;</td><td class="mdescRight">Redefines the cff_vector type to cff_queue. <br /></td></tr>
 <tr class="separator:gaeb16c9746bb1b457507f160576455723"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -124,12 +124,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:gafe04b92a51c220d7b0b34eb629dbdd48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates the buffer owned by the queue.  <a href="group__Queue.html#gafe04b92a51c220d7b0b34eb629dbdd48">More...</a><br /></td></tr>
 <tr class="separator:gafe04b92a51c220d7b0b34eb629dbdd48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2d5275bb8b02c1c43bd56cdee08e8869"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Queue.html#ga2d5275bb8b02c1c43bd56cdee08e8869">cff_queue_clear</a> (<a class="el" href="group__Queue.html#gaeb16c9746bb1b457507f160576455723">cff_queue</a> *queue)</td></tr>
+<tr class="memdesc:ga2d5275bb8b02c1c43bd56cdee08e8869"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all elements from the queue.  <a href="group__Queue.html#ga2d5275bb8b02c1c43bd56cdee08e8869">More...</a><br /></td></tr>
 <tr class="separator:ga2d5275bb8b02c1c43bd56cdee08e8869"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2781a0119da3828979451cdef3b136b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Queue.html#ga2781a0119da3828979451cdef3b136b1">cff_queue_copy</a> (<a class="el" href="group__Queue.html#gaeb16c9746bb1b457507f160576455723">cff_queue</a> *queue, <a class="el" href="group__Queue.html#gaeb16c9746bb1b457507f160576455723">cff_queue</a> *to, uint64_t start, uint64_t count, AllocatorInterface *allocator)</td></tr>
+<tr class="memdesc:ga2781a0119da3828979451cdef3b136b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a section of elements from one queue to other.  <a href="group__Queue.html#ga2781a0119da3828979451cdef3b136b1">More...</a><br /></td></tr>
 <tr class="separator:ga2781a0119da3828979451cdef3b136b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2de1988bb242eb694ab6ef78fe352820"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Queue.html#ga2de1988bb242eb694ab6ef78fe352820">cff_queue_clone</a> (<a class="el" href="group__Queue.html#gaeb16c9746bb1b457507f160576455723">cff_queue</a> *queue, <a class="el" href="group__Queue.html#gaeb16c9746bb1b457507f160576455723">cff_queue</a> *to, AllocatorInterface *allocator)</td></tr>
+<tr class="memdesc:ga2de1988bb242eb694ab6ef78fe352820"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies all elements from one queue to other.  <a href="group__Queue.html#ga2de1988bb242eb694ab6ef78fe352820">More...</a><br /></td></tr>
 <tr class="separator:ga2de1988bb242eb694ab6ef78fe352820"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2b65cd411ebf405d0c44af271ffe7f06"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Queue.html#ga2b65cd411ebf405d0c44af271ffe7f06">cff_queue_dequeue</a> (<a class="el" href="group__Queue.html#gaeb16c9746bb1b457507f160576455723">cff_queue</a> *queue, uintptr_t data_ptr, AllocatorInterface *allocator)</td></tr>
+<tr class="memdesc:ga2b65cd411ebf405d0c44af271ffe7f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the first element of the queue removing it.  <a href="group__Queue.html#ga2b65cd411ebf405d0c44af271ffe7f06">More...</a><br /></td></tr>
 <tr class="separator:ga2b65cd411ebf405d0c44af271ffe7f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -149,6 +153,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Removes all elements from the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">queue</td><td>[in] Pointer to a sparse set. </td></tr>
@@ -189,10 +195,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Copies all elements from one queue to other. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">queue</td><td>[in] Pointer to a sparse set. </td></tr>
-    <tr><td class="paramname">to</td><td>[out] Pointer to an queue that will receive the copy </td></tr>
+    <tr><td class="paramname">to</td><td>[out] Pointer to an queue that will receive the copy. </td></tr>
     <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
   </dd>
@@ -243,11 +251,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Copies a section of elements from one queue to other. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">queue</td><td>[in] Pointer to a sparse set. </td></tr>
-    <tr><td class="paramname">to</td><td>[out] Pointer to an queue that will receive the copy </td></tr>
-    <tr><td class="paramname">start</td><td>[in] Index from where the copy process will start </td></tr>
+    <tr><td class="paramname">to</td><td>[out] Pointer to an queue that will receive the copy. </td></tr>
+    <tr><td class="paramname">start</td><td>[in] Index from where the copy process will start. </td></tr>
     <tr><td class="paramname">count</td><td>[in] How many elements to copy from start. </td></tr>
     <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
@@ -338,6 +348,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Gets the first element of the queue removing it. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">queue</td><td>[in] Pointer to a sparse set. </td></tr>
@@ -346,7 +358,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>uint8_t 0 if the queue is empty else 1 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>uint8_t 0 if the queue is empty else 1. </dd></dl>
 
 </div>
 </div>

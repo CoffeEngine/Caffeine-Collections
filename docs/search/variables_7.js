@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sparse_198',['sparse',['../structcaffeine__sparse__set__s.html#aaf0739199c90055f27e36dd796daa917',1,'caffeine_sparse_set_s']]]
+  ['prime_5fvalue_330',['prime_value',['../structcaffeine__hashmap__s.html#ab4d834c6ca58cf6be4a4b5dc081995b0',1,'caffeine_hashmap_s']]]
 ];

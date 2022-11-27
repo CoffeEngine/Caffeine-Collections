@@ -1,0 +1,5 @@
+<map id="caffeine_vector.h" name="caffeine_vector.h">
+<area shape="rect" id="node1" title="A contiguos chunk of memory that is automaticaly resized when gets full and an add attemption is made..." alt="" coords="83,5,216,32"/>
+<area shape="rect" id="node2" href="$caffeine__queue_8h_source.html" title=" " alt="" coords="5,80,139,107"/>
+<area shape="rect" id="node3" href="$caffeine__stack_8h.html" title="Provides an API to use cff_vector as a stack." alt="" coords="163,80,291,107"/>
+</map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['prime_5fvalue_102',['prime_value',['../structcaffeine__hashmap__s.html#ab4d834c6ca58cf6be4a4b5dc081995b0',1,'caffeine_hashmap_s']]]
+  ['next_5fbucket_169',['next_bucket',['../structcaffeine__list__bucket__t.html#a4f6ae0b331bd28615eda54be2f38a6bf',1,'caffeine_list_bucket_t']]]
 ];

@@ -102,7 +102,7 @@ $(document).ready(function(){initNavTree('group__Stack.html',''); initResizable(
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:gafceae5eaf862dcbf90d903afdbeb5c40"><td class="memItemLeft" align="right" valign="top"><a id="gafceae5eaf862dcbf90d903afdbeb5c40"></a>
-typedef cff_vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a></td></tr>
+typedef <a class="el" href="group__Vector.html#ga19638efc27ff43b4cc3ccc3a816fb139">cff_vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a></td></tr>
 <tr class="memdesc:gafceae5eaf862dcbf90d903afdbeb5c40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Redefines the cff_vector type to cff_queue. <br /></td></tr>
 <tr class="separator:gafceae5eaf862dcbf90d903afdbeb5c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -116,18 +116,25 @@ Functions</h2></td></tr>
 <tr class="memitem:ga7caa72c29fb8766824efd779acd8ad98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Stack.html#ga7caa72c29fb8766824efd779acd8ad98">cff_stack_push</a> (<a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a> *stack, uintptr_t data_ptr, AllocatorInterface *allocator)</td></tr>
 <tr class="separator:ga7caa72c29fb8766824efd779acd8ad98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaeb17aeecc9f3cdf905841cda321fbe07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Stack.html#gaeb17aeecc9f3cdf905841cda321fbe07">cff_stack_reverse</a> (<a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a> *stack)</td></tr>
+<tr class="memdesc:gaeb17aeecc9f3cdf905841cda321fbe07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse the order of elements.  <a href="group__Stack.html#gaeb17aeecc9f3cdf905841cda321fbe07">More...</a><br /></td></tr>
 <tr class="separator:gaeb17aeecc9f3cdf905841cda321fbe07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7475d41530e362e4bebe680e2754358a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Stack.html#ga7475d41530e362e4bebe680e2754358a">cff_stack_free</a> (<a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a> *stack, AllocatorInterface *allocator)</td></tr>
+<tr class="memdesc:ga7475d41530e362e4bebe680e2754358a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates the buffer owned by the stack.  <a href="group__Stack.html#ga7475d41530e362e4bebe680e2754358a">More...</a><br /></td></tr>
 <tr class="separator:ga7475d41530e362e4bebe680e2754358a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9fd1d03a9ad3c501192cd8df87ab3024"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Stack.html#ga9fd1d03a9ad3c501192cd8df87ab3024">cff_stack_clear</a> (<a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a> *stack)</td></tr>
+<tr class="memdesc:ga9fd1d03a9ad3c501192cd8df87ab3024"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all elements from the stack.  <a href="group__Stack.html#ga9fd1d03a9ad3c501192cd8df87ab3024">More...</a><br /></td></tr>
 <tr class="separator:ga9fd1d03a9ad3c501192cd8df87ab3024"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga292c9254deb89836aba92d9fc6cb4002"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Stack.html#ga292c9254deb89836aba92d9fc6cb4002">cff_stack_copy</a> (<a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a> *stack, <a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a> *to, uint64_t start, uint64_t count, AllocatorInterface *allocator)</td></tr>
+<tr class="memdesc:ga292c9254deb89836aba92d9fc6cb4002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a section of elements from one stack to other.  <a href="group__Stack.html#ga292c9254deb89836aba92d9fc6cb4002">More...</a><br /></td></tr>
 <tr class="separator:ga292c9254deb89836aba92d9fc6cb4002"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae24c22fe794b67a91a91f98c5c386b07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Stack.html#gae24c22fe794b67a91a91f98c5c386b07">cff_stack_clone</a> (<a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a> *stack, <a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a> *to, AllocatorInterface *allocator)</td></tr>
+<tr class="memdesc:gae24c22fe794b67a91a91f98c5c386b07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies all elements from one stack to other.  <a href="group__Stack.html#gae24c22fe794b67a91a91f98c5c386b07">More...</a><br /></td></tr>
 <tr class="separator:gae24c22fe794b67a91a91f98c5c386b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga21d3c7998196f2f4fe95e285117e0b23"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Stack.html#ga21d3c7998196f2f4fe95e285117e0b23">cff_stack_pop</a> (<a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a> *stack, uintptr_t data_ptr, AllocatorInterface *allocator)</td></tr>
+<tr class="memdesc:ga21d3c7998196f2f4fe95e285117e0b23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the last element of the stack removing it.  <a href="group__Stack.html#ga21d3c7998196f2f4fe95e285117e0b23">More...</a><br /></td></tr>
 <tr class="separator:ga21d3c7998196f2f4fe95e285117e0b23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaeda92ab6f84ae5bda7b818933dc2df9f"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Stack.html#gaeda92ab6f84ae5bda7b818933dc2df9f">cff_stack_top</a> (<a class="el" href="group__Stack.html#gafceae5eaf862dcbf90d903afdbeb5c40">cff_stack</a> *stack, uintptr_t data_ptr)</td></tr>
+<tr class="memdesc:gaeda92ab6f84ae5bda7b818933dc2df9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the last element of the stack without removing it.  <a href="group__Stack.html#gaeda92ab6f84ae5bda7b818933dc2df9f">More...</a><br /></td></tr>
 <tr class="separator:gaeda92ab6f84ae5bda7b818933dc2df9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -147,9 +154,11 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Removes all elements from the stack. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td></td></tr>
+    <tr><td class="paramname">stack</td><td>[in] Pointer to a stack. </td></tr>
   </table>
   </dd>
 </dl>
@@ -187,11 +196,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Copies all elements from one stack to other. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td></td></tr>
-    <tr><td class="paramname">to</td><td></td></tr>
-    <tr><td class="paramname">allocator</td><td></td></tr>
+    <tr><td class="paramname">stack</td><td>[in] Pointer to a stack. </td></tr>
+    <tr><td class="paramname">to</td><td>[out] Pointer to an stack that will receive the copy. </td></tr>
+    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
   </dd>
 </dl>
@@ -241,13 +252,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Copies a section of elements from one stack to other. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td></td></tr>
-    <tr><td class="paramname">to</td><td></td></tr>
-    <tr><td class="paramname">start</td><td></td></tr>
-    <tr><td class="paramname">count</td><td></td></tr>
-    <tr><td class="paramname">allocator</td><td></td></tr>
+    <tr><td class="paramname">stack</td><td>[in] Pointer to a stack. </td></tr>
+    <tr><td class="paramname">to</td><td>[out] Pointer to an stack that will receive the copy. </td></tr>
+    <tr><td class="paramname">start</td><td>[in] Index from where the copy process will start. </td></tr>
+    <tr><td class="paramname">count</td><td>[in] How many elements to copy from start. </td></tr>
+    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
   </dd>
 </dl>
@@ -295,10 +308,10 @@ Functions</h2></td></tr>
 <p>Initialize the Stack struct. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td></td></tr>
-    <tr><td class="paramname">data_size</td><td></td></tr>
-    <tr><td class="paramname">lenght</td><td></td></tr>
-    <tr><td class="paramname">allocator</td><td></td></tr>
+    <tr><td class="paramname">stack</td><td>[in] Pointer to a stack. </td></tr>
+    <tr><td class="paramname">data_size</td><td>[in] Element size in bytes </td></tr>
+    <tr><td class="paramname">lenght</td><td>[in] How many elements will be allocated initialy. </td></tr>
+    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
   </dd>
 </dl>
@@ -330,10 +343,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Deallocates the buffer owned by the stack. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td></td></tr>
-    <tr><td class="paramname">allocator</td><td></td></tr>
+    <tr><td class="paramname">stack</td><td>[in] Pointer to a stack. </td></tr>
+    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
   </dd>
 </dl>
@@ -371,15 +386,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Gets the last element of the stack removing it. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td></td></tr>
-    <tr><td class="paramname">data_ptr</td><td></td></tr>
-    <tr><td class="paramname">allocator</td><td></td></tr>
+    <tr><td class="paramname">stack</td><td>[in] Pointer to a stack. </td></tr>
+    <tr><td class="paramname">data_ptr</td><td>[out] Pointer to buffer that will receive the value. </td></tr>
+    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>uint8_t 0 if the stack is empty else 1. </dd></dl>
 
 </div>
 </div>
@@ -416,9 +433,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td></td></tr>
-    <tr><td class="paramname">data_ptr</td><td></td></tr>
-    <tr><td class="paramname">allocator</td><td></td></tr>
+    <tr><td class="paramname">stack</td><td>[in] Pointer to a stack. </td></tr>
+    <tr><td class="paramname">data_ptr</td><td>[in] Pointer to the element to be stored. </td></tr>
+    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
   </dd>
 </dl>
@@ -458,9 +475,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td></td></tr>
-    <tr><td class="paramname">lenght</td><td></td></tr>
-    <tr><td class="paramname">allocator</td><td></td></tr>
+    <tr><td class="paramname">stack</td><td>[in] Pointer to a stack. </td></tr>
+    <tr><td class="paramname">lenght</td><td>[in] How many elements will be allocated. </td></tr>
+    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
   </table>
   </dd>
 </dl>
@@ -482,9 +499,11 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Reverse the order of elements. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td></td></tr>
+    <tr><td class="paramname">stack</td><td>[in] Pointer to a stack. </td></tr>
   </table>
   </dd>
 </dl>
@@ -516,14 +535,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Gets the last element of the stack without removing it. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td></td></tr>
-    <tr><td class="paramname">data_ptr</td><td></td></tr>
+    <tr><td class="paramname">stack</td><td>[in] Pointer to a stack. </td></tr>
+    <tr><td class="paramname">data_ptr</td><td>[out] Pointer to buffer that will receive the value. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>uint8_t 0 if the stack is empty else 1. </dd></dl>
 
 </div>
 </div>

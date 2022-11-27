@@ -25,7 +25,7 @@
  * @struct caffeine_array_s
  * @brief Is the closiest to a raw C array regardless its data_size and lenght fields.
  *
- * It's keeps their elements contiguous on memory and doesnt grow automaticaly when gets full.
+ * It keeps their elements contiguous on memory and doesnt grow automaticaly when gets full.
  */
 struct caffeine_array_s
 {

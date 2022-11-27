@@ -73,7 +73,7 @@ void cff_queue_free(cff_queue* queue, AllocatorInterface* allocator);
 
 /**
  * @ingroup Queue
- * @brief 
+ * @brief Removes all elements from the queue.
  * 
  * @param queue [in] Pointer to a sparse set.
  */
@@ -81,11 +81,11 @@ void cff_queue_clear(cff_queue* queue);
 
 /**
  * @ingroup Queue
- * @brief 
+ * @brief Copies a section of elements from one queue to other.
  * 
  * @param queue [in] Pointer to a sparse set.
- * @param to [out] Pointer to an queue that will receive the copy
- * @param start [in] Index from where the copy process will start
+ * @param to [out] Pointer to an queue that will receive the copy.
+ * @param start [in] Index from where the copy process will start.
  * @param count [in] How many elements to copy from start.
  * @param allocator [in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library.
  */
@@ -93,22 +93,22 @@ void cff_queue_copy(cff_queue* queue, cff_queue* to, uint64_t start, uint64_t co
 
 /**
  * @ingroup Queue
- * @brief 
+ * @brief Copies all elements from one queue to other.
  * 
  * @param queue [in] Pointer to a sparse set.
- * @param to [out] Pointer to an queue that will receive the copy
+ * @param to [out] Pointer to an queue that will receive the copy.
  * @param allocator [in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library.
  */
 void cff_queue_clone(cff_queue* queue, cff_queue* to, AllocatorInterface* allocator);
 
 /**
  * @ingroup Queue
- * @brief 
+ * @brief Gets the first element of the queue removing it.
  * 
  * @param queue [in] Pointer to a sparse set.
  * @param data_ptr [out] Pointer to buffer that will receive the value.
  * @param allocator [in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library.
- * @return uint8_t 0 if the queue is empty else 1
+ * @return uint8_t 0 if the queue is empty else 1.
  */
 uint8_t cff_queue_dequeue(cff_queue* queue, uintptr_t data_ptr, AllocatorInterface* allocator);
 

@@ -1,6 +1,6 @@
 var caffeine__sparse__set_8h =
 [
-    [ "cff_sparseset", "group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702", null ],
+    [ "cff_sparseset", "group__Sparse.html#gae5a7e3051a065e9a8d6d2eef385ec45e", null ],
     [ "cff_sparseset_add", "group__Sparse.html#ga893754a400da783cf6afafe8c6bf6277", null ],
     [ "cff_sparseset_clear", "group__Sparse.html#ga9fa1020cbeecf8bf19d36325d1c4ff68", null ],
     [ "cff_sparseset_create", "group__Sparse.html#gadcd0ec944ec5273aa94d9e57506fcebb", null ],

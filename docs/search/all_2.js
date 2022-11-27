@@ -58,7 +58,7 @@ var searchData=
   ['cff_5fhashmap_5ffree_58',['cff_hashmap_free',['../group__Hashmap.html#gaf8cd8a0a76b5511dba4f0db64b72c887',1,'caffeine_hashmap.h']]],
   ['cff_5fhashmap_5fget_59',['cff_hashmap_get',['../group__Hashmap.html#ga07b0ae7582f794dd5d98bb8d3372a8bc',1,'caffeine_hashmap.h']]],
   ['cff_5fhashmap_5fremove_60',['cff_hashmap_remove',['../group__Hashmap.html#ga6f5ec67a8401a3a3ef912534d8dfa1c3',1,'caffeine_hashmap.h']]],
-  ['cff_5fsparseset_61',['cff_sparseset',['../group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702',1,'caffeine_sparse_set.h']]],
+  ['cff_5fsparseset_61',['cff_sparseset',['../group__Sparse.html#gae5a7e3051a065e9a8d6d2eef385ec45e',1,'caffeine_sparse_set.h']]],
   ['cff_5fsparseset_5fadd_62',['cff_sparseset_add',['../group__Sparse.html#ga893754a400da783cf6afafe8c6bf6277',1,'caffeine_sparse_set.h']]],
   ['cff_5fsparseset_5fclear_63',['cff_sparseset_clear',['../group__Sparse.html#ga9fa1020cbeecf8bf19d36325d1c4ff68',1,'caffeine_sparse_set.h']]],
   ['cff_5fsparseset_5fcreate_64',['cff_sparseset_create',['../group__Sparse.html#gadcd0ec944ec5273aa94d9e57506fcebb',1,'caffeine_sparse_set.h']]],

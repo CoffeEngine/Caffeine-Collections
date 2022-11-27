@@ -58,8 +58,16 @@ var searchData=
   ['cff_5fhashmap_5ffree_58',['cff_hashmap_free',['../group__Hashmap.html#gaf8cd8a0a76b5511dba4f0db64b72c887',1,'caffeine_hashmap.h']]],
   ['cff_5fhashmap_5fget_59',['cff_hashmap_get',['../group__Hashmap.html#ga07b0ae7582f794dd5d98bb8d3372a8bc',1,'caffeine_hashmap.h']]],
   ['cff_5fhashmap_5fremove_60',['cff_hashmap_remove',['../group__Hashmap.html#ga6f5ec67a8401a3a3ef912534d8dfa1c3',1,'caffeine_hashmap.h']]],
-  ['cmp_5ffunc_61',['cmp_func',['../structcaffeine__hashmap__s.html#af634298b76a968642be38d53f59ab4bb',1,'caffeine_hashmap_s']]],
-  ['collision_5fcount_5fmax_62',['collision_count_max',['../structcaffeine__hashmap__s.html#aca8ff3ab242a46dc2125a70f1d632fa6',1,'caffeine_hashmap_s']]],
-  ['count_63',['count',['../structcaffeine__hashmap__s.html#a859462b083c258e8360c73af7706c985',1,'caffeine_hashmap_s::count()'],['../structcaffeine__sparse__set__s.html#aceeea799a456869f842682f319b4c8e3',1,'caffeine_sparse_set_s::count()']]],
-  ['cpy_5ffunc_64',['cpy_func',['../structcaffeine__hashmap__s.html#a51059c9ea009157d277b5327d492a0fc',1,'caffeine_hashmap_s']]]
+  ['cff_5fsparseset_61',['cff_sparseset',['../group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702',1,'caffeine_sparse_set.h']]],
+  ['cff_5fsparseset_5fadd_62',['cff_sparseset_add',['../group__Sparse.html#ga893754a400da783cf6afafe8c6bf6277',1,'caffeine_sparse_set.h']]],
+  ['cff_5fsparseset_5fclear_63',['cff_sparseset_clear',['../group__Sparse.html#ga9fa1020cbeecf8bf19d36325d1c4ff68',1,'caffeine_sparse_set.h']]],
+  ['cff_5fsparseset_5fcreate_64',['cff_sparseset_create',['../group__Sparse.html#gadcd0ec944ec5273aa94d9e57506fcebb',1,'caffeine_sparse_set.h']]],
+  ['cff_5fsparseset_5ffree_65',['cff_sparseset_free',['../group__Sparse.html#gafe8402e74003c42d0129deb312431a00',1,'caffeine_sparse_set.h']]],
+  ['cff_5fsparseset_5fget_66',['cff_sparseset_get',['../group__Sparse.html#ga13cac4e245acb4dbb15831a18f8eb0c8',1,'caffeine_sparse_set.h']]],
+  ['cff_5fsparseset_5fget_5fdense_67',['cff_sparseset_get_dense',['../group__Sparse.html#ga38da8ccdd7b8f118948f47de9d042f47',1,'caffeine_sparse_set.h']]],
+  ['cff_5fsparseset_5fremove_68',['cff_sparseset_remove',['../group__Sparse.html#ga9a1cb06e49baf3c77509862c6430b0d2',1,'caffeine_sparse_set.h']]],
+  ['cmp_5ffunc_69',['cmp_func',['../structcaffeine__hashmap__s.html#af634298b76a968642be38d53f59ab4bb',1,'caffeine_hashmap_s']]],
+  ['collision_5fcount_5fmax_70',['collision_count_max',['../structcaffeine__hashmap__s.html#aca8ff3ab242a46dc2125a70f1d632fa6',1,'caffeine_hashmap_s']]],
+  ['count_71',['count',['../structcaffeine__hashmap__s.html#a859462b083c258e8360c73af7706c985',1,'caffeine_hashmap_s::count()'],['../structcaffeine__sparse__set__s.html#aceeea799a456869f842682f319b4c8e3',1,'caffeine_sparse_set_s::count()']]],
+  ['cpy_5ffunc_72',['cpy_func',['../structcaffeine__hashmap__s.html#a51059c9ea009157d277b5327d492a0fc',1,'caffeine_hashmap_s']]]
 ];

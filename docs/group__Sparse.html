@@ -91,31 +91,92 @@ $(document).ready(function(){initNavTree('group__Sparse.html',''); initResizable
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Set</div>  </div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcaffeine__sparse__set__s.html">caffeine_sparse_set_s</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:gae4a41acfc388649597f8633b6ce2e702"><td class="memItemLeft" align="right" valign="top"><a id="gae4a41acfc388649597f8633b6ce2e702"></a>
+typedef struct <a class="el" href="structcaffeine__sparse__set__s.html">caffeine_sparse_set_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a></td></tr>
+<tr class="memdesc:gae4a41acfc388649597f8633b6ce2e702"><td class="mdescLeft">&#160;</td><td class="mdescRight">Syntax sugar for struct caffeine_sparse_set. <br /></td></tr>
+<tr class="separator:gae4a41acfc388649597f8633b6ce2e702"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:gadcd0ec944ec5273aa94d9e57506fcebb"><td class="memItemLeft" align="right" valign="top">cff_err_e&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Sparse.html#gadcd0ec944ec5273aa94d9e57506fcebb">cff_sparseset_create</a> (<a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *set, uint64_t lenght, uint64_t data_size, AllocatorInterface *allocator)</td></tr>
+<tr class="memdesc:gadcd0ec944ec5273aa94d9e57506fcebb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the sparse set structure.  <a href="group__Sparse.html#gadcd0ec944ec5273aa94d9e57506fcebb">More...</a><br /></td></tr>
+<tr class="separator:gadcd0ec944ec5273aa94d9e57506fcebb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga893754a400da783cf6afafe8c6bf6277"><td class="memItemLeft" align="right" valign="top">cff_err_e&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Sparse.html#ga893754a400da783cf6afafe8c6bf6277">cff_sparseset_add</a> (<a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *set, uint64_t index, uintptr_t data, AllocatorInterface *allocator)</td></tr>
+<tr class="memdesc:ga893754a400da783cf6afafe8c6bf6277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to add an element in the sparse set.  <a href="group__Sparse.html#ga893754a400da783cf6afafe8c6bf6277">More...</a><br /></td></tr>
+<tr class="separator:ga893754a400da783cf6afafe8c6bf6277"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga13cac4e245acb4dbb15831a18f8eb0c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Sparse.html#ga13cac4e245acb4dbb15831a18f8eb0c8">cff_sparseset_get</a> (<a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *set, uint64_t index, uintptr_t data)</td></tr>
+<tr class="memdesc:ga13cac4e245acb4dbb15831a18f8eb0c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to retrieve an element from sparse set.  <a href="group__Sparse.html#ga13cac4e245acb4dbb15831a18f8eb0c8">More...</a><br /></td></tr>
+<tr class="separator:ga13cac4e245acb4dbb15831a18f8eb0c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9a1cb06e49baf3c77509862c6430b0d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Sparse.html#ga9a1cb06e49baf3c77509862c6430b0d2">cff_sparseset_remove</a> (<a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *set, uint64_t index)</td></tr>
+<tr class="memdesc:ga9a1cb06e49baf3c77509862c6430b0d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to remove an element from the sparse set.  <a href="group__Sparse.html#ga9a1cb06e49baf3c77509862c6430b0d2">More...</a><br /></td></tr>
+<tr class="separator:ga9a1cb06e49baf3c77509862c6430b0d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9fa1020cbeecf8bf19d36325d1c4ff68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Sparse.html#ga9fa1020cbeecf8bf19d36325d1c4ff68">cff_sparseset_clear</a> (<a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *set)</td></tr>
+<tr class="memdesc:ga9fa1020cbeecf8bf19d36325d1c4ff68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all elements from the sparse set.  <a href="group__Sparse.html#ga9fa1020cbeecf8bf19d36325d1c4ff68">More...</a><br /></td></tr>
+<tr class="separator:ga9fa1020cbeecf8bf19d36325d1c4ff68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafe8402e74003c42d0129deb312431a00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Sparse.html#gafe8402e74003c42d0129deb312431a00">cff_sparseset_free</a> (<a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *set, AllocatorInterface *allocator)</td></tr>
+<tr class="memdesc:gafe8402e74003c42d0129deb312431a00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates the buffers owned by the sparse set.  <a href="group__Sparse.html#gafe8402e74003c42d0129deb312431a00">More...</a><br /></td></tr>
+<tr class="separator:gafe8402e74003c42d0129deb312431a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga38da8ccdd7b8f118948f47de9d042f47"><td class="memItemLeft" align="right" valign="top">uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Sparse.html#ga38da8ccdd7b8f118948f47de9d042f47">cff_sparseset_get_dense</a> (<a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *set)</td></tr>
+<tr class="memdesc:ga38da8ccdd7b8f118948f47de9d042f47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the pointer to the sparse set dense buffer.  <a href="group__Sparse.html#ga38da8ccdd7b8f118948f47de9d042f47">More...</a><br /></td></tr>
+<tr class="separator:ga38da8ccdd7b8f118948f47de9d042f47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ga893754a400da783cf6afafe8c6bf6277"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga893754a400da783cf6afafe8c6bf6277">&#9670;&nbsp;</a></span>cff_sparseset_add()</h2>
 
-<p>Syntax sugar for struct caffeine_sparse_set.  
-<a href="#details">More...</a></p>
-<p>Syntax sugar for struct caffeine_sparse_set. </p>
-<p>Gets the pointer to the sparse set dense buffer.</p>
-<p>Deallocates the buffers owned by the sparse set.</p>
-<p>Removes all elements from the sparse set.</p>
-<p>Try to remove an element from the sparse set.</p>
-<p>Try to retrieve an element from sparse set.</p>
-<p>Try to add an element in the sparse set.</p>
-<p>Initializes the sparse set structure.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set. </td></tr>
-    <tr><td class="paramname">lenght</td><td>[in] How many elements will be allocated initialy. </td></tr>
-    <tr><td class="paramname">data_size</td><td>[in] Element size in bytes </td></tr>
-    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>cff_err_e A cff_err_e indicating if any error ocurred.</dd></dl>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cff_err_e cff_sparseset_add </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *&#160;</td>
+          <td class="paramname"><em>set</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">AllocatorInterface *&#160;</td>
+          <td class="paramname"><em>allocator</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Try to add an element in the sparse set. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set. </td></tr>
@@ -125,22 +186,233 @@ $(document).ready(function(){initNavTree('group__Sparse.html',''); initResizable
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>cff_err_e A cff_err_e indicating if any error ocurred.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>cff_err_e A cff_err_e indicating if any error ocurred. </dd></dl>
+
+</div>
+</div>
+<a id="ga9fa1020cbeecf8bf19d36325d1c4ff68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9fa1020cbeecf8bf19d36325d1c4ff68">&#9670;&nbsp;</a></span>cff_sparseset_clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cff_sparseset_clear </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *&#160;</td>
+          <td class="paramname"><em>set</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes all elements from the sparse set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gadcd0ec944ec5273aa94d9e57506fcebb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadcd0ec944ec5273aa94d9e57506fcebb">&#9670;&nbsp;</a></span>cff_sparseset_create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cff_err_e cff_sparseset_create </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *&#160;</td>
+          <td class="paramname"><em>set</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>lenght</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>data_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">AllocatorInterface *&#160;</td>
+          <td class="paramname"><em>allocator</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes the sparse set structure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set. </td></tr>
+    <tr><td class="paramname">lenght</td><td>[in] How many elements will be allocated initialy. </td></tr>
+    <tr><td class="paramname">data_size</td><td>[in] Element size in bytes </td></tr>
+    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>cff_err_e A cff_err_e indicating if any error ocurred. </dd></dl>
+
+</div>
+</div>
+<a id="gafe8402e74003c42d0129deb312431a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafe8402e74003c42d0129deb312431a00">&#9670;&nbsp;</a></span>cff_sparseset_free()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cff_sparseset_free </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *&#160;</td>
+          <td class="paramname"><em>set</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">AllocatorInterface *&#160;</td>
+          <td class="paramname"><em>allocator</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deallocates the buffers owned by the sparse set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set. </td></tr>
+    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga13cac4e245acb4dbb15831a18f8eb0c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga13cac4e245acb4dbb15831a18f8eb0c8">&#9670;&nbsp;</a></span>cff_sparseset_get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cff_sparseset_get </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *&#160;</td>
+          <td class="paramname"><em>set</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Try to retrieve an element from sparse set. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set. </td></tr>
     <tr><td class="paramname">index</td><td>[in] Index where to find the element </td></tr>
-    <tr><td class="paramname">data</td><td>[out] Pointer to buffer that will receive the value.</td></tr>
-    <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set. </td></tr>
-    <tr><td class="paramname">index</td><td>[in] Index where to find the element</td></tr>
-    <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set.</td></tr>
-    <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set. </td></tr>
-    <tr><td class="paramname">allocator</td><td>[in] Pointer to a custom allocator. If NULL is setted the function will use the default allocator from Caffeine-Core library.</td></tr>
+    <tr><td class="paramname">data</td><td>[out] Pointer to buffer that will receive the value. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga38da8ccdd7b8f118948f47de9d042f47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga38da8ccdd7b8f118948f47de9d042f47">&#9670;&nbsp;</a></span>cff_sparseset_get_dense()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uintptr_t cff_sparseset_get_dense </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *&#160;</td>
+          <td class="paramname"><em>set</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the pointer to the sparse set dense buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
     <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uintptr_t Pointer to the sparse set dense buffer </dd></dl>
+
+</div>
+</div>
+<a id="ga9a1cb06e49baf3c77509862c6430b0d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9a1cb06e49baf3c77509862c6430b0d2">&#9670;&nbsp;</a></span>cff_sparseset_remove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cff_sparseset_remove </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702">cff_sparseset</a> *&#160;</td>
+          <td class="paramname"><em>set</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Try to remove an element from the sparse set. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">set</td><td>[in] Pointer to a sparse set. </td></tr>
+    <tr><td class="paramname">index</td><td>[in] Index where to find the element </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

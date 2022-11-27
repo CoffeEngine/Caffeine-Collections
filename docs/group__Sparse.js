@@ -1,5 +1,13 @@
-var caffeine__sparse__set_8h =
+var group__Sparse =
 [
+    [ "caffeine_sparse_set_s", "structcaffeine__sparse__set__s.html", [
+      [ "count", "structcaffeine__sparse__set__s.html#aceeea799a456869f842682f319b4c8e3", null ],
+      [ "data_size", "structcaffeine__sparse__set__s.html#ad63c7f1f30dbc7bfa7ce9430fe73d29a", null ],
+      [ "dense", "structcaffeine__sparse__set__s.html#a7362d52d5b34574de42077883070b1f1", null ],
+      [ "dense_index", "structcaffeine__sparse__set__s.html#ae4ec565342e2a50088fe065c41137e61", null ],
+      [ "lenght", "structcaffeine__sparse__set__s.html#af33b0d89188c3efaeab36e9b268c8363", null ],
+      [ "sparse", "structcaffeine__sparse__set__s.html#aaf0739199c90055f27e36dd796daa917", null ]
+    ] ],
     [ "cff_sparseset", "group__Sparse.html#gae4a41acfc388649597f8633b6ce2e702", null ],
     [ "cff_sparseset_add", "group__Sparse.html#ga893754a400da783cf6afafe8c6bf6277", null ],
     [ "cff_sparseset_clear", "group__Sparse.html#ga9fa1020cbeecf8bf19d36325d1c4ff68", null ],

@@ -1,0 +1,3 @@
+[submodule "Caffeine-Core"]
+	path = dependencies/Caffeine-Core
+	url = https://github.com/CoffeEngine/Caffeine-Core

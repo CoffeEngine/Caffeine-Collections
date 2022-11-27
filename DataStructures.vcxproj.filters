@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Caffeine-Core">
-      <UniqueIdentifier>{2C3AC45C-98FA-3F93-6135-8910CDB4846F}</UniqueIdentifier>
+    <Filter Include="dependencies">
+      <UniqueIdentifier>{8CAD9F58-7810-2FFD-2196-67B30DD8FA7F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Caffeine-Core\sources">
-      <UniqueIdentifier>{BF0CB317-2B79-6E12-F46C-06706098907A}</UniqueIdentifier>
+    <Filter Include="dependencies\Caffeine-Core">
+      <UniqueIdentifier>{22ECADE3-0EFC-59B4-77B5-BED263E4484D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\Caffeine-Core\sources">
+      <UniqueIdentifier>{B5545271-A190-55DB-0AA3-6DD2F6FDFDF5}</UniqueIdentifier>
     </Filter>
     <Filter Include="sources">
       <UniqueIdentifier>{A9EE9AA3-15CE-193F-1EE6-A4158A4480A0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Caffeine-Core\sources\caffeine_default_allocator.c">
-      <Filter>Caffeine-Core\sources</Filter>
+    <ClCompile Include="dependencies\Caffeine-Core\sources\caffeine_default_allocator.c">
+      <Filter>dependencies\Caffeine-Core\sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Caffeine-Core\sources\caffeine_memory.c">
-      <Filter>Caffeine-Core\sources</Filter>
+    <ClCompile Include="dependencies\Caffeine-Core\sources\caffeine_memory.c">
+      <Filter>dependencies\Caffeine-Core\sources</Filter>
     </ClCompile>
     <ClCompile Include="sources\caffeine_array.c">
       <Filter>sources</Filter>

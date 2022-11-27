@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Caffeine-Core", "..\Caffeine-Core\Caffeine-Core.vcxproj", "{6F788D01-ED35-4F0B-BBDD-860C7A311D9B}"
+# Visual Studio Version 17
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Caffeine-Core", "dependencies\Caffeine-Core\Caffeine-Core.vcxproj", "{6F788D01-ED35-4F0B-BBDD-860C7A311D9B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataStructures", "DataStructures.vcxproj", "{039EC1FD-EF6B-B503-D8FF-252AC46C9168}"
 EndProject

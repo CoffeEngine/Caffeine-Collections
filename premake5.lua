@@ -8,8 +8,8 @@ workspace "Caffeine"
         targetdir "build/%{prj.name}/bin/%{cfg.buildcfg}"
         objdir "build/%{prj.name}/obj/%{cfg.buildcfg}"
         
-        files { "sources/**.h","sources/**.c","../Caffeine-Core/sources/**.c" }
-        includedirs {"headers","../Caffeine-Core/headers"}
+        files { "sources/**.h","sources/**.c","dependencies/Caffeine-Core/sources/**.c" }
+        includedirs {"headers","dependencies/Caffeine-Core/headers"}
         
       
         filter "configurations:Debug" 
@@ -30,7 +30,7 @@ workspace "Caffeine"
         objdir "build/%{prj.name}/obj/%{cfg.buildcfg}"
 
         files { "tests/**.h","tests/**.c" }
-        includedirs {"headers","../Caffeine-Core/headers"}
+        includedirs {"headers","dependencies/Caffeine-Core/headers"}
         
         filter "system:Windows"
            links {"DataStructures"}
@@ -48,7 +48,7 @@ workspace "Caffeine"
             optimize "On"
 
     externalproject "Caffeine-Core"
-       location "../Caffeine-Core"
+       location "dependencies/Caffeine-Core"
        uuid "6f788d01-ed35-4f0b-bbdd-860c7a311d9b"
        kind "StaticLib"
        language "C"

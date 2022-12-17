@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Caffeine-Core", "dependencies\Caffeine-Core\Caffeine-Core.vcxproj", "{6F788D01-ED35-4F0B-BBDD-860C7A311D9B}"
-EndProject
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataStructures", "DataStructures.vcxproj", "{039EC1FD-EF6B-B503-D8FF-252AC46C9168}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataStructuresTests", "build\DataStructuresTests\DataStructuresTests.vcxproj", "{163D9D5A-829E-7A68-0B0C-C11A776CB127}"
@@ -13,10 +13,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6F788D01-ED35-4F0B-BBDD-860C7A311D9B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6F788D01-ED35-4F0B-BBDD-860C7A311D9B}.Debug|Win32.Build.0 = Debug|Win32
-		{6F788D01-ED35-4F0B-BBDD-860C7A311D9B}.Release|Win32.ActiveCfg = Release|Win32
-		{6F788D01-ED35-4F0B-BBDD-860C7A311D9B}.Release|Win32.Build.0 = Release|Win32
 		{039EC1FD-EF6B-B503-D8FF-252AC46C9168}.Debug|Win32.ActiveCfg = Debug|Win32
 		{039EC1FD-EF6B-B503-D8FF-252AC46C9168}.Debug|Win32.Build.0 = Debug|Win32
 		{039EC1FD-EF6B-B503-D8FF-252AC46C9168}.Release|Win32.ActiveCfg = Release|Win32
@@ -28,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D0D51FF-6F33-4C47-BD32-F82F2583C6C3}
 	EndGlobalSection
 EndGlobal

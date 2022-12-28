@@ -21,7 +21,7 @@ cff_err_e cff_container_sort(cff_container* container, comparer_fn comparer_func
 cff_err_e cff_container_reverse(cff_container* container, uint64_t lenght);
 cff_err_e cff_container_resize(cff_container* container, uint64_t lenght, AllocatorInterface* allocator);
 cff_err_e cff_container_copy(cff_container* container, cff_container* ptr_out, uint64_t start, uint64_t count, uint64_t out_lenght, uint64_t* copied_count, AllocatorInterface* allocator);
-cff_err_e cff_container_clone(cff_container* container, cff_container* out_lenght, uint64_t lenght, AllocatorInterface* allocator);
+cff_err_e cff_container_clone(cff_container* container, cff_container* ptr_out, uint64_t lenght, AllocatorInterface* allocator);
 cff_err_e cff_container_join(cff_container* container, cff_container* other, uint64_t start, uint64_t container_lenght, uint64_t other_lenght, AllocatorInterface* allocator);
 cff_err_e cff_container_filter(cff_container* container, filter_fn filter_function, cff_container* ptr_out, uint64_t lenght, uint64_t* out_lenght, AllocatorInterface* allocator);
 

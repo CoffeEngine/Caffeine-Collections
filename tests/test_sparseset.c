@@ -1,32 +1,12 @@
-#include <stdio.h>
 #include "caffeine_sparse_set.h"
-#include "caffeine_memory.h"
+#include "test_defs.h"
 
-#define MUNIT_ENABLE_ASSERT_ALIASES
-#include "munit.h"
 
-typedef struct
-{
-	int x, y, z;
-}vec3;
-
-const uint64_t INI_LEN = 10;
-const uint64_t DATA_SIZE = sizeof(vec3);
-
-#define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
-
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], void* munit_data)
-
-#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
-
-static void assert_vec3(vec3 a, vec3 b) {
-	munit_assert(a.x == b.x && a.y == b.y && a.z == b.z);
-}
 
 static void sparseset_arange(cff_sparseset* set, int start, int end) {
 	for (int i = start, j = 0; i < end; i++, j++)
 	{
-		cff_sparseset_add(set, (uint64_t)i, (uintptr_t) & (vec3) { .x = i, .y = i + 1, .z = i + 2 }, NULL);
+		cff_sparseset_add(set, (uint64_t)i, (uintptr_t) & (test_data) { .x = i, .y = i + 1, .z = i + 2 }, NULL);
 		assert_uint64(set->count, == , i + (uint64_t)1);
 	}
 }
@@ -63,10 +43,10 @@ TESTDEF(sparse_set_get) {
 	assert_uint64(set->lenght, == , INI_LEN);
 
 	int index = 5;
-	vec3 data = (vec3){ .x = index, .y = index + 1, .z = index + 2 };
-	vec3 found = { 0 };
+	test_data data = (test_data){ .x = index, .y = index + 1, .z = index + 2 };
+	test_data found = { 0 };
 	cff_sparseset_get(set, (uint64_t)index, (uintptr_t)&found);
-	assert_vec3(data, found);
+	ASSERT_EQUALS(data, found);
 	return MUNIT_OK;
 }
 
@@ -78,15 +58,15 @@ TESTDEF(sparse_set_remove) {
 
 	uint64_t index = (uint64_t)munit_rand_int_range(1, (int)(INI_LEN - 4));
 
-	vec3 data = {0};
-	vec3 last = { 0 };
+	test_data data = {0};
+	test_data last = { 0 };
 	cff_sparseset_get(set,set->count-1, (uintptr_t)&last);
 
 	cff_sparseset_remove(set, index);
 
 	cff_sparseset_get(set, index, (uintptr_t)&data);
 
-	assert_vec3(data, last);
+	ASSERT_EQUALS(data, last);
 	return MUNIT_OK;
 }
 

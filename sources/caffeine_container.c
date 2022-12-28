@@ -279,7 +279,7 @@ cff_err_e cff_container_join(cff_container* container, cff_container* other, uin
 	cff_assert_param_not_null(other);
 	cff_assert_param_not_zero(container_lenght);
 	cff_assert_param_not_zero(other_lenght);
-	cff_assert_param_less(start, container_lenght);
+	cff_assert_param_less_eq(start, container_lenght);
 	cff_assert_param_equals(container->data_size, other->data_size);
 
 	cff_err_e err = CFF_NONE_ERR;

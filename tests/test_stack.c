@@ -1,24 +1,7 @@
-#include <stdio.h>
 #include "caffeine_stack.h"
-#include "caffeine_memory.h"
-
-#define MUNIT_ENABLE_ASSERT_ALIASES
-#include "munit.h"
-
-typedef struct
-{
-	int x, y, z;
-}vec3;
-
-static const uint64_t INI_LEN = 10;
-static const uint64_t DATA_SIZE = sizeof(vec3);
+#include "test_defs.h"
 
 
-#define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
-
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], void* munit_data)
-
-#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 TESTDEF(stack_create) {
 	cff_stack* stack = (cff_stack*)munit_data;
@@ -40,11 +23,11 @@ TESTDEF(stack_resize) {
 
 	for (size_t i = 0; i < n_size; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_stack_push(stack, (uintptr_t)&v, NULL);
 	}
 
-	vec3* buffer = (vec3*)stack->buffer;
+	test_data* buffer = (test_data*)stack->buffer;
 
 	for (size_t i = 0; i < n_size; i++)
 	{
@@ -58,13 +41,13 @@ cff_stack* stack = (cff_stack*)munit_data;
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_stack_push(stack, (uintptr_t)&v, NULL);
 	}
 
 	munit_assert(stack->count == INI_LEN);
 
-	vec3* buffer = (vec3*)stack->buffer;
+	test_data* buffer = (test_data*)stack->buffer;
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
@@ -78,13 +61,13 @@ TESTDEF(stack_pop) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_stack_push(stack, (uintptr_t)&v, NULL);
 	}
 
 	for (int i = 0, v = (int)INI_LEN - 1; i < (int)INI_LEN; v--, i++)
 	{
-		vec3 out= {0};
+		test_data out= {0};
 		cff_stack_pop(stack, (uintptr_t)&out, NULL);
 
 		munit_assert(out.x == v);
@@ -99,13 +82,13 @@ TESTDEF(stack_reverse) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_stack_push(stack, (uintptr_t)&v, NULL);
 	}
 
 	cff_stack_reverse(stack);
 
-	vec3* buffer = (vec3*)stack->buffer;
+	test_data* buffer = (test_data*)stack->buffer;
 
 	for (int i = 0, v = (int)INI_LEN - 1; i < (int)INI_LEN; v--, i++)
 	{
@@ -131,7 +114,7 @@ cff_stack* stack = (cff_stack*)munit_data;
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_stack_push(stack, (uintptr_t)&v, NULL);
 	}
 
@@ -139,7 +122,7 @@ cff_stack* stack = (cff_stack*)munit_data;
 
 	munit_assert(stack->count == 0);
 
-	vec3 tmp ={0};
+	test_data tmp ={0};
 	uint8_t res = cff_stack_pop(stack, (uintptr_t)&tmp, NULL);
 	munit_assert(res == 0);
 
@@ -151,7 +134,7 @@ TESTDEF(stack_copy) {
 	cff_stack tmp_stack;
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_stack_push(stack, (uintptr_t)&v, NULL);
 	}
 
@@ -160,7 +143,7 @@ TESTDEF(stack_copy) {
 
 	for (size_t i = 0; i < INI_LEN / 2; i++)
 	{
-		vec3* tmp = (vec3*)tmp_stack.buffer;
+		test_data* tmp = (test_data*)tmp_stack.buffer;
 		munit_assert(tmp[i].x == i);
 	}
 
@@ -173,7 +156,7 @@ TESTDEF(stack_clone) {
 	cff_stack tmp_stack;
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_stack_push(stack, (uintptr_t)&v, NULL);
 	}
 
@@ -182,7 +165,7 @@ TESTDEF(stack_clone) {
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3* tmp = (vec3*)tmp_stack.buffer;
+		test_data* tmp = (test_data*)tmp_stack.buffer;
 		munit_assert(tmp[i].x == i);
 	}
 
@@ -194,10 +177,10 @@ TESTDEF(stack_top) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_stack_push(stack, (uintptr_t)&v, NULL);
 
-		vec3 out= {0};
+		test_data out= {0};
 		cff_stack_top(stack, (uintptr_t)&out);
 
 		munit_assert(v.x == out.x);

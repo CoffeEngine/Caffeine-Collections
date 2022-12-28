@@ -1,28 +1,6 @@
-#include <stdio.h>
 #include "caffeine_queue.h"
-#include "caffeine_memory.h"
+#include "test_defs.h"
 
-#define MUNIT_ENABLE_ASSERT_ALIASES
-#include "munit.h"
-
-typedef struct
-{
-	int x, y, z;
-}vec3;
-
-static const uint64_t INI_LEN = 100;
-static const uint64_t DATA_SIZE = sizeof(vec3);
-
-
-#define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
-
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], void* munit_data)
-
-#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
-
-static void assert_vec3(vec3 a, vec3 b) {
-	munit_assert(a.x == b.x && a.y == b.y && a.z == b.z);
-}
 
 
 TESTDEF(queue_create) {
@@ -45,13 +23,13 @@ TESTDEF(queue_resize) {
 
 	for (size_t i = 0; i < n_size; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 
 	for (size_t i = 0; i < n_size; i++)
 	{
-		vec3* tmp = (vec3*)queue->buffer;
+		test_data* tmp = (test_data*)queue->buffer;
 		munit_assert(tmp[i].x == i);
 	}
 
@@ -63,13 +41,13 @@ cff_queue* queue = (cff_queue*)munit_data;
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_queue_enqueue(queue, (uintptr_t)&v,NULL);
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3* tmp = (vec3*)queue->buffer;
+		test_data* tmp = (test_data*)queue->buffer;
 		munit_assert(tmp[i].x == i);
 	}
 
@@ -81,13 +59,13 @@ TESTDEF(queue_reverse) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 	cff_queue_reverse(queue);
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3* tmp = (vec3*)queue->buffer;
+		test_data* tmp = (test_data*)queue->buffer;
 		munit_assert(tmp[i].x == (INI_LEN-1) - i);
 	}
 
@@ -111,7 +89,7 @@ TESTDEF(queue_clear) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 
@@ -119,7 +97,7 @@ TESTDEF(queue_clear) {
 
 	munit_assert(queue->count == 0);
 
-	vec3 tmp = {0};
+	test_data tmp = {0};
 	uint8_t res = cff_queue_dequeue(queue, (uintptr_t)&tmp, NULL);
 	munit_assert(res == 0);
 
@@ -132,7 +110,7 @@ TESTDEF(queue_copy) {
 	cff_queue tmp_queue;
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 
@@ -141,7 +119,7 @@ TESTDEF(queue_copy) {
 
 	for (size_t i = 0; i < INI_LEN/2; i++)
 	{
-		vec3* tmp = (vec3*)tmp_queue.buffer;
+		test_data* tmp = (test_data*)tmp_queue.buffer;
 		munit_assert(tmp[i].x == i);
 	}
 
@@ -155,7 +133,7 @@ TESTDEF(queue_clone) {
 	cff_queue tmp_queue;
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 
@@ -164,7 +142,7 @@ TESTDEF(queue_clone) {
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3* tmp = (vec3*)tmp_queue.buffer;
+		test_data* tmp = (test_data*)tmp_queue.buffer;
 		munit_assert(tmp[i].x == i);
 	}
 
@@ -177,13 +155,13 @@ TESTDEF(queue_dequeue) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 v = { .x = i, .y = i, .z = 1 };
+		test_data v = { .x = i, .y = i, .z = 1 };
 		cff_queue_enqueue(queue, (uintptr_t)&v, NULL);
 	}
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 tmp ={0};
+		test_data tmp ={0};
 		cff_queue_dequeue(queue, (uintptr_t)&tmp, NULL);
 		munit_assert(tmp.x == i);
 	}

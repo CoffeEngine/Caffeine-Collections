@@ -165,10 +165,14 @@ uint8_t cff_ordered_container_find_cmp(cff_ordered_container* container, uintptr
 			return true;
 		}
 			
-		if (cmp_pivot == CFF_GREATER)
+		if (cmp_pivot == CFF_GREATER) {
+			if (m == lenght) return false;
 			l = m + 1;
-		else
+		}
+		else {
+			if (m == 0) return false;
 			r = m - 1;
+		}
 	}
 
 	return false;

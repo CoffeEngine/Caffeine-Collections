@@ -1,53 +1,11 @@
-#include <stdio.h>
 #include "caffeine_hashmap.h"
-#include "caffeine_memory.h"
-#include <inttypes.h>
+#include "test_defs.h"
 
-#define MUNIT_ENABLE_ASSERT_ALIASES
-#include "munit.h"
-
-#define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
-
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], void* munit_data)
-
-#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
 
 #define KEY_SIZE ((uint32_t)(sizeof(char)*32))
 #define VALUE_SIZE ((uint32_t)sizeof(int64_t))
 #define INI_LEN 4
 #define KEYS_LEN (INI_LEN * 4)
-
-
-#pragma region DEBUG
-void dbg_callback(char* str, uint64_t str_len) {
-	printf("%s\n", str);
-}
-
-uint64_t parse_key(uintptr_t pointer, uint64_t data_size, char** buffer, AllocatorInterface* allocator) {
-	const char* str = (const char*)pointer;
-	size_t str_len = strnlen(str, 32);
-	*buffer = cff_allocator_alloc(allocator, str_len);
-
-#ifdef CFF_COMP_MSVC
-	strncpy_s(*buffer, str_len, str, str_len);
-#else
-	strncpy(*buffer, str, str_len);
-#endif // CFF_COMP_MSVC
-
-
-	return str_len;
-}
-
-uint64_t parse_value(uintptr_t pointer, uint64_t data_size, char** buffer, AllocatorInterface* allocator) {
-	int64_t value = *(int64_t*)pointer;
-	size_t str_len = snprintf(NULL, 0, "%"PRId64, value);
-	*buffer = cff_allocator_alloc(allocator, str_len + 1);
-	snprintf(*buffer, str_len, "%"PRId64, value);
-	*buffer[str_len] = '\0';
-	return str_len;
-}
-
-#pragma endregion
 
 
 char* get_random_string() {

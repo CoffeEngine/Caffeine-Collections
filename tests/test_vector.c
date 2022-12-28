@@ -1,52 +1,6 @@
-#include <stdio.h>
 #include "caffeine_vector.h"
-#include "caffeine_memory.h"
-#include <math.h>
+#include "test_defs.h"
 
-#define MUNIT_ENABLE_ASSERT_ALIASES
-#include "munit.h"
-
-typedef struct
-{
-	int x, y, z;
-}vec3;
-
-static const uint64_t INI_LEN = 10;
-static const uint64_t DATA_SIZE = sizeof(vec3);
-
-#define TEST(FUNC) { "/"#FUNC, test_##FUNC, test_setup, test_tear_down, MUNIT_TEST_OPTION_NONE, NULL }
-
-#define TESTDEF(FUNC) MunitResult test_##FUNC(const MunitParameter params[], void* munit_data)
-
-#define SKIP_ON_ERR(EXP) {cff_err_e err = (EXP); if (err != CFF_NONE_ERR) { return MUNIT_ERROR; }}
-
-bool filter_even_x(const void* const data, uint64_t index, uint64_t size) {
-	const vec3* const _data = (const vec3* const)data;
-	return _data->x % 2 == 0;
-}
-
-void map_to_lenght(const void* const in, void* out, uint64_t index) {
-	const vec3* const _in = (const vec3* const)in;
-	float l = (float)(_in->x * _in->x + _in->y * _in->y + _in->z * _in->z);
-	*((float*)out) = sqrtf(l);
-}
-
-void double_y(void* in, uint64_t index) {
-	((vec3*)in)->y *= 2;
-}
-
-cff_cmp_e compare_vec3(const void* const a, const void* const b, uint64_t data_size) {
-	const vec3* const _a = (const vec3* const)a;
-	const vec3* const _b = (const vec3* const)b;
-	
-	if (memcmp(a, b, sizeof(vec3)) == 0) return CFF_EQUALS;
-	if (_a->x < _b->x) return CFF_LESS;
-	return CFF_GREATER;
-}
-
-static void assert_vec3(vec3 a, vec3 b) {
-	munit_assert(a.x == b.x && a.y == b.y && a.z == b.z);
-}
 
 TESTDEF(vector_create) {
 	cff_vector* vector = (cff_vector*)munit_data;
@@ -91,15 +45,15 @@ TESTDEF(vector_get) {
 	cff_vector* vector = (cff_vector*)munit_data;
 	
 	int rnd_value = munit_rand_uint32();
-	vec3 value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
+	test_data value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
-	*((vec3*)vector->buffer) = value;
+	*((test_data*)vector->buffer) = value;
 	vector->count = 1;
 
-	vec3 out= {0};
+	test_data out= {0};
 	cff_vector_get(vector, 0, (uintptr_t)&out);
 
-	assert_vec3(value, out);
+	ASSERT_EQUALS(value, out);
 
 	return MUNIT_OK;
 }
@@ -110,14 +64,14 @@ cff_vector* vector = (cff_vector*)munit_data;
 	for (size_t i = 0; i < INI_LEN - 1; i++)
 	{
 		int rnd_value = munit_rand_uint32();
-		vec3 value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
+		test_data value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
 		cff_vector_set(vector, (uintptr_t)&value, i);
 
-		vec3 out= {0};
+		test_data out= {0};
 		cff_vector_get(vector, i, (uintptr_t)&out);
 
-		assert_vec3(value, out);
+		ASSERT_EQUALS(value, out);
 	}
 
 	return MUNIT_OK;
@@ -127,20 +81,20 @@ TESTDEF(vector_insert) {
 cff_vector* vector = (cff_vector*)munit_data;
 	
 	int rnd_value = munit_rand_uint32();
-	vec3 value1 = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
+	test_data value1 = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
 	rnd_value = munit_rand_uint32();
-	vec3 value2 = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
+	test_data value2 = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
 	cff_vector_insert(vector, (uintptr_t)&value1, 0);
 	cff_vector_insert(vector, (uintptr_t)&value2, 0);
 
-	vec3 out= {0};
+	test_data out= {0};
 	cff_vector_get(vector, 1, (uintptr_t)&out);
-	assert_vec3(value1, out);
+	ASSERT_EQUALS(value1, out);
 
 	cff_vector_get(vector, 0, (uintptr_t)&out);
-	assert_vec3(value2, out);
+	ASSERT_EQUALS(value2, out);
 
 	return MUNIT_OK;
 }
@@ -149,19 +103,19 @@ TESTDEF(vector_remove) {
 cff_vector* vector = (cff_vector*)munit_data;
 	
 	int rnd_value = munit_rand_uint32();
-	vec3 value1 = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
+	test_data value1 = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
 	rnd_value = munit_rand_uint32();
-	vec3 value2 = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
+	test_data value2 = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
 	cff_vector_insert(vector, (uintptr_t)&value1, 0);
 	cff_vector_insert(vector, (uintptr_t)&value2, 0);
 
 	cff_vector_remove(vector, 0, NULL);
 
-	vec3 out= {0};
+	test_data out= {0};
 	cff_vector_get(vector, 0, (uintptr_t)&out);
-	assert_vec3(value1, out);
+	ASSERT_EQUALS(value1, out);
 
 	return MUNIT_OK;
 }
@@ -173,7 +127,7 @@ cff_vector* vector = (cff_vector*)munit_data;
 	for (size_t i = 0; i < INI_LEN - 1; i++)
 	{
 		int rnd_value = munit_rand_uint32();
-		vec3 value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
+		test_data value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
 		cff_vector_set(vector, (uintptr_t)&value, i);
 	}
@@ -183,12 +137,12 @@ cff_vector* vector = (cff_vector*)munit_data;
 
 	for (size_t i = 0; i < INI_LEN / 2; i++)
 	{
-		vec3 out1 = { 0 }, out2 = {0};
+		test_data out1 = { 0 }, out2 = {0};
 
 		cff_vector_get(vector, i, (uintptr_t)&out1);
 		cff_vector_get(&tmp_vec, i, (uintptr_t)&out2);
 
-		assert_vec3(out1, out2);
+		ASSERT_EQUALS(out1, out2);
 	}
 
 	cff_vector_free(&tmp_vec, NULL);
@@ -202,7 +156,7 @@ TESTDEF(vector_clone) {
 	for (size_t i = 0; i < INI_LEN - 1; i++)
 	{
 		int rnd_value = munit_rand_uint32();
-		vec3 value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
+		test_data value = { .x = rnd_value,.y = rnd_value,.z = rnd_value };
 
 		cff_vector_set(vector, (uintptr_t)&value, i);
 	}
@@ -211,12 +165,12 @@ TESTDEF(vector_clone) {
 
 	for (size_t i = 0; i < INI_LEN - 1; i++)
 	{
-		vec3 out1 = { 0 }, out2 = {0};
+		test_data out1 = { 0 }, out2 = {0};
 
 		cff_vector_get(vector, i, (uintptr_t)&out1);
 		cff_vector_get(&tmp_vec, i, (uintptr_t)&out2);
 
-		assert_vec3(out1, out2);
+		ASSERT_EQUALS(out1, out2);
 	}
 
 	cff_vector_free(&tmp_vec, NULL);
@@ -227,14 +181,14 @@ TESTDEF(vector_fill) {
 	cff_vector* vector = (cff_vector*)munit_data;
 	
 	int v = munit_rand_uint32();
-	vec3 data = { .x = v, .y = 3 * v, .z = 7 * v };
+	test_data data = { .x = v, .y = 3 * v, .z = 7 * v };
 	cff_vector_fill(vector, (uintptr_t)&data);
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 out= {0};
+		test_data out= {0};
 		cff_vector_get(vector, i, (uintptr_t)&out);
-		assert_vec3(data, out);
+		ASSERT_EQUALS(data, out);
 	}
 
 	return MUNIT_OK;
@@ -246,13 +200,13 @@ TESTDEF(vector_join) {
 	cff_vector vector2;
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
-		vec3 data = { .x = i, .y = i, .z = i };
+		test_data data = { .x = i, .y = i, .z = i };
 		cff_vector_set(vector, (uintptr_t)&data, i);
 	}
 	cff_vector_create(&vector2, DATA_SIZE, INI_LEN, NULL);
 	for (int i = (int)INI_LEN; i < (int)INI_LEN * 2; i++)
 	{
-		vec3 data = { .x = i, .y = i, .z = i };
+		test_data data = { .x = i, .y = i, .z = i };
 		cff_vector_set(&vector2, (uintptr_t)&data, i - INI_LEN);
 	}
 
@@ -260,7 +214,7 @@ TESTDEF(vector_join) {
 
 	for (int i = 0; i < (int)INI_LEN * 2; i++)
 	{
-		vec3 data = {0};
+		test_data data = {0};
 		cff_vector_get(vector, i, (uintptr_t)&data);
 		munit_assert(data.x == i);
 	}
@@ -275,14 +229,14 @@ TESTDEF(vector_reverse) {
 	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
-		vec3 data = { .x = i, .y = i, .z = i };
+		test_data data = { .x = i, .y = i, .z = i };
 		cff_vector_set(vector, (uintptr_t)&data, i);
 	}
 	cff_vector_reverse(vector);
 
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
-		vec3 data = {0};
+		test_data data = {0};
 		cff_vector_get(vector, i, (uintptr_t)&data);
 		munit_assert(data.x == (INI_LEN - 1) - i);
 	}
@@ -297,17 +251,17 @@ cff_vector* vector = (cff_vector*)munit_data;
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = { .x = i, .y = i, .z = i };
+		test_data data = { .x = i, .y = i, .z = i };
 		cff_vector_set(vector, (uintptr_t)&data, i);
 	}
 
-	cff_vector_filter(vector, filter_even_x, &vector2, NULL);
+	cff_vector_filter(vector, filter, &vector2, NULL);
 
 	for (size_t i = 0; i < vector2.count; i++)
 	{
-		vec3 out= {0};
+		test_data out= {0};
 		cff_vector_get(&vector2, i, (uintptr_t)&out);
-		munit_assert(out.x % 2 == 0);
+		munit_assert(validate_filter(out, i));
 	}
 
 	if (vector2.count > 0) cff_vector_free(&vector2, NULL);
@@ -320,7 +274,7 @@ TESTDEF(vector_push_back) {
 	
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
-		vec3 data = { .x = i, .y = i, .z = i };
+		test_data data = { .x = i, .y = i, .z = i };
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
@@ -328,7 +282,7 @@ TESTDEF(vector_push_back) {
 
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
-		vec3 out= {0};
+		test_data out= {0};
 		cff_vector_get(vector, i, (uintptr_t)&out);
 		munit_assert(out.x == i);
 	}
@@ -341,7 +295,7 @@ TESTDEF(vector_push_front) {
 	
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
-		vec3 data = { .x = i, .y = i, .z = i };
+		test_data data = { .x = i, .y = i, .z = i };
 		cff_vector_push_front(vector, (uintptr_t)&data, NULL);
 	}
 
@@ -349,7 +303,7 @@ TESTDEF(vector_push_front) {
 
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
-		vec3 out= {0};
+		test_data out= {0};
 		cff_vector_get(vector, i, (uintptr_t)&out);
 		munit_assert(out.x == ((INI_LEN * 2) - 1) - i);
 	}
@@ -362,7 +316,7 @@ TESTDEF(vector_pop_back) {
 	
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
-		vec3 data = { .x = i, .y = i, .z = i };
+		test_data data = { .x = i, .y = i, .z = i };
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
@@ -370,7 +324,7 @@ TESTDEF(vector_pop_back) {
 
 	for (int i = (int)(INI_LEN * 2) - 1; i >= 0; --i)
 	{
-		vec3 out= {0};
+		test_data out= {0};
 		cff_vector_pop_back(vector, (uintptr_t)&out, NULL);
 		munit_assert(out.x == i);
 	}
@@ -383,7 +337,7 @@ TESTDEF(vector_pop_front) {
 	
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
-		vec3 data = { .x = i, .y = i, .z = i };
+		test_data data = { .x = i, .y = i, .z = i };
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
@@ -391,7 +345,7 @@ TESTDEF(vector_pop_front) {
 
 	for (size_t i = 0; i < INI_LEN * 2; i++)
 	{
-		vec3 out = { .x = i, .y = i, .z = i };
+		test_data out = { .x = i, .y = i, .z = i };
 		cff_vector_pop_front(vector, (uintptr_t)&out, NULL);
 		munit_assert(out.x == i);
 	}
@@ -400,13 +354,13 @@ TESTDEF(vector_pop_front) {
 }
 
 TESTDEF(vector_map) {
-cff_vector* vector = (cff_vector*)munit_data;
+	cff_vector* vector = (cff_vector*)munit_data;
 	
 	cff_vector len_vector;
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = munit_rand_int_range(0,100),
 			.y = munit_rand_int_range(0,100),
 			.z = munit_rand_int_range(0,100)
@@ -414,17 +368,16 @@ cff_vector* vector = (cff_vector*)munit_data;
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
-	cff_vector_map(vector, map_to_lenght, &len_vector, sizeof(float), NULL);
+	cff_vector_map(vector, map, &len_vector, sizeof(int), NULL);
 
 	for (size_t i = 0; i < INI_LEN; i++) {
-		vec3 v = {0};
-		float l = {0};
+		test_data v = {0};
+		int l = {0};
 		cff_vector_get(vector, i, (uintptr_t)&v);
 		cff_vector_get(&len_vector, i, (uintptr_t)&l);
 
-		float calc_l = sqrtf((float)(v.x * v.x + v.y * v.y + v.z * v.z));
-
-		munit_assert(calc_l == l);
+		
+		munit_assert(validate_map(v,l,i));
 	}
 
 	cff_vector_free(&len_vector, NULL);
@@ -436,7 +389,7 @@ TESTDEF(vector_foreach) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i,
 			.y = i + 1,
 			.z = i + 2
@@ -444,14 +397,14 @@ TESTDEF(vector_foreach) {
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
-	cff_vector_foreach(vector, double_y);
+	cff_vector_foreach(vector, foreach);
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {0};
+		test_data data = {0};
 		cff_vector_get(vector, i, (uintptr_t)&data);
 
-		munit_assert(data.y == (i + 1) * 2);
+		munit_assert(validate_foreach(data,i));
 	}
 
 	return MUNIT_OK;
@@ -462,7 +415,7 @@ TESTDEF(vector_sort) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i,
 			.y = i + 1,
 			.z = i + 2
@@ -470,11 +423,11 @@ TESTDEF(vector_sort) {
 		cff_vector_push_front(vector, (uintptr_t)&data, NULL);
 	}
 
-	cff_vector_sort(vector, compare_vec3);
+	cff_vector_sort(vector, compare);
 
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {0};
+		test_data data = {0};
 		cff_vector_get(vector, i, (uintptr_t)&data);
 		munit_assert(data.x == i);
 	}
@@ -487,7 +440,7 @@ TESTDEF(vector_clear) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i,
 			.y = i + 1,
 			.z = i + 2
@@ -501,7 +454,7 @@ TESTDEF(vector_clear) {
 
 	for (int i = (int)INI_LEN; i < INI_LEN * 2; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i,
 			.y = i + 1,
 			.z = i + 2
@@ -511,7 +464,7 @@ TESTDEF(vector_clear) {
 
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
-		vec3 data = {0};
+		test_data data = {0};
 		cff_vector_get(vector, i, (uintptr_t)&data);
 
 		munit_assert(data.x = (int)(i + INI_LEN));
@@ -527,7 +480,7 @@ TESTDEF(vector_equal) {
 
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i,
 			.y = i + 1,
 			.z = i + 2
@@ -550,7 +503,7 @@ cff_vector* vector = (cff_vector*)munit_data;
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i,
 			.y = i + 1,
 			.z = i + 2
@@ -558,14 +511,14 @@ cff_vector* vector = (cff_vector*)munit_data;
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
-	vec3 data_ok = {
+	test_data data_ok = {
 		.x = 0,
 		.y = 1,
 		.z = 2
 	};
 	uint64_t ok_index = -1;
 
-	vec3 data_nok = {
+	test_data data_nok = {
 		.x = 0,
 		.y = 0,
 		.z = 0
@@ -589,7 +542,7 @@ cff_vector* vector = (cff_vector*)munit_data;
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i,
 			.y = i + 1,
 			.z = i + 2
@@ -597,22 +550,22 @@ cff_vector* vector = (cff_vector*)munit_data;
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
-	vec3 data_ok = {
+	test_data data_ok = {
 		.x = 0,
 		.y = 1,
 		.z = 2
 	};
 	uint64_t ok_index = -1;
 
-	vec3 data_nok = {
+	test_data data_nok = {
 		.x = 0,
 		.y = 0,
 		.z = 0
 	};
 	uint64_t nok_index = -1;
 
-	uint8_t f_ok = cff_vector_find_cmp(vector, (uintptr_t)&data_ok, &ok_index, compare_vec3);
-	uint8_t f_nok = cff_vector_find_cmp(vector, (uintptr_t)&data_nok, &nok_index, compare_vec3);
+	uint8_t f_ok = cff_vector_find_cmp(vector, (uintptr_t)&data_ok, &ok_index, compare);
+	uint8_t f_nok = cff_vector_find_cmp(vector, (uintptr_t)&data_nok, &nok_index, compare);
 
 	munit_assert(f_ok);
 	munit_assert(ok_index == 0);
@@ -628,7 +581,7 @@ TESTDEF(vector_count) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i % 2,
 			.y = i % 2,
 			.z = i % 2
@@ -636,13 +589,13 @@ TESTDEF(vector_count) {
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
-	vec3 data = {
+	test_data data = {
 		.x = 0,
 		.y = 0,
 		.z = 0
 	};
 
-	vec3 data2 = {
+	test_data data2 = {
 		.x = 2,
 		.y = 0,
 		.z = 0
@@ -651,7 +604,7 @@ TESTDEF(vector_count) {
 	uint64_t count = cff_vector_count(vector, (uintptr_t)&data);
 	uint64_t count2 = cff_vector_count(vector, (uintptr_t)&data2);
 
-	munit_assert(count == 5);
+	munit_assert(count == INI_LEN/2);
 	munit_assert(count2 == 0);
 
 	return MUNIT_OK;
@@ -662,7 +615,7 @@ TESTDEF(vector_count_cmp) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i % 2,
 			.y = i % 2,
 			.z = i % 2
@@ -670,22 +623,22 @@ TESTDEF(vector_count_cmp) {
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
-	vec3 data = {
+	test_data data = {
 		.x = 0,
 		.y = 0,
 		.z = 0
 	};
 
-	vec3 data2 = {
+	test_data data2 = {
 		.x = 2,
 		.y = 0,
 		.z = 0
 	};
 
-	uint64_t count = cff_vector_count_cmp(vector, (uintptr_t)&data, compare_vec3);
-	uint64_t count2 = cff_vector_count_cmp(vector, (uintptr_t)&data2, compare_vec3);
+	uint64_t count = cff_vector_count_cmp(vector, (uintptr_t)&data, compare);
+	uint64_t count2 = cff_vector_count_cmp(vector, (uintptr_t)&data2, compare);
 
-	munit_assert(count == 5);
+	munit_assert(count == INI_LEN/2);
 	munit_assert(count2 == 0);
 
 	return MUNIT_OK;
@@ -696,7 +649,7 @@ TESTDEF(vector_any) {
 	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i,
 			.y = i,
 			.z = i
@@ -704,7 +657,7 @@ TESTDEF(vector_any) {
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
-	vec3 data = {
+	test_data data = {
 		.x = 0,
 		.y = 0,
 		.z = 0
@@ -722,7 +675,7 @@ TESTDEF(vector_any_cmp) {
 	
 	for (int i = 0; i < (int)INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = i,
 			.y = i,
 			.z = i
@@ -730,13 +683,13 @@ TESTDEF(vector_any_cmp) {
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
-	vec3 data = {
+	test_data data = {
 		.x = 0,
 		.y = 0,
 		.z = 0
 	};
 
-	uint8_t result = cff_vector_any_cmp(vector, (uintptr_t)&data,compare_vec3);
+	uint8_t result = cff_vector_any_cmp(vector, (uintptr_t)&data,compare);
 
 	munit_assert(result);
 
@@ -748,7 +701,7 @@ TESTDEF(vector_all) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = 5,
 			.y = 5,
 			.z = 5
@@ -756,13 +709,13 @@ TESTDEF(vector_all) {
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
-	vec3 data = {
+	test_data data = {
 		.x = 5,
 		.y = 5,
 		.z = 5
 	};
 
-	vec3 data2 = {
+	test_data data2 = {
 		.x = 0,
 		.y = 0,
 		.z = 0
@@ -782,7 +735,7 @@ TESTDEF(vector_all_cmp) {
 	
 	for (size_t i = 0; i < INI_LEN; i++)
 	{
-		vec3 data = {
+		test_data data = {
 			.x = 5,
 			.y = 5,
 			.z = 5
@@ -790,20 +743,20 @@ TESTDEF(vector_all_cmp) {
 		cff_vector_push_back(vector, (uintptr_t)&data, NULL);
 	}
 
-	vec3 data = {
+	test_data data = {
 		.x = 5,
 		.y = 5,
 		.z = 5
 	};
 
-	vec3 data2 = {
+	test_data data2 = {
 		.x = 0,
 		.y = 0,
 		.z = 0
 	};
 
-	uint8_t result1 = cff_vector_all_cmp(vector, (uintptr_t)&data, compare_vec3);
-	uint8_t result2 = cff_vector_all_cmp(vector, (uintptr_t)&data2, compare_vec3);
+	uint8_t result1 = cff_vector_all_cmp(vector, (uintptr_t)&data, compare);
+	uint8_t result2 = cff_vector_all_cmp(vector, (uintptr_t)&data2, compare);
 
 	munit_assert(result1);
 	munit_assert(!result2);

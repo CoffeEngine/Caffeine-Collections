@@ -36,6 +36,12 @@
     <ClCompile Include="sources\caffeine_list.c">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="sources\caffeine_ordered_container.c">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\caffeine_ordered_vector.c">
+      <Filter>sources</Filter>
+    </ClCompile>
     <ClCompile Include="sources\caffeine_queue.c">
       <Filter>sources</Filter>
     </ClCompile>

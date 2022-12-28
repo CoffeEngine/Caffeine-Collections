@@ -91,6 +91,8 @@
     <ClCompile Include="sources\caffeine_container.c" />
     <ClCompile Include="sources\caffeine_hashmap.c" />
     <ClCompile Include="sources\caffeine_list.c" />
+    <ClCompile Include="sources\caffeine_ordered_container.c" />
+    <ClCompile Include="sources\caffeine_ordered_vector.c" />
     <ClCompile Include="sources\caffeine_queue.c" />
     <ClCompile Include="sources\caffeine_sparse_set.c" />
     <ClCompile Include="sources\caffeine_stack.c" />

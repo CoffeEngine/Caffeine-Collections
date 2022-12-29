@@ -6,6 +6,7 @@ var group__Vector =
       [ "data_size", "structcaffeine__vector__s.html#aef4241379d14df56eb49f835527d9b1a", null ],
       [ "lenght", "structcaffeine__vector__s.html#ad0bbb332c79c4e8ff35f478c6edd4dce", null ]
     ] ],
+    [ "cff_ordered_vector", "group__Vector.html#ga9c7cde0b1dc85a9e28e86b3ee38c5458", null ],
     [ "cff_vector", "group__Vector.html#ga19638efc27ff43b4cc3ccc3a816fb139", null ],
     [ "cff_vector_all", "group__Vector.html#ga293dfd9b70a1ccad919304e7e89eca63", null ],
     [ "cff_vector_all_cmp", "group__Vector.html#gaf2adf1bcc9b47102eae6905c79a32063", null ],

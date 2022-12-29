@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bitmap_349',['Bitmap',['../group__Bitmap.html',1,'']]]
+  ['bitmap_353',['Bitmap',['../group__Bitmap.html',1,'']]]
 ];

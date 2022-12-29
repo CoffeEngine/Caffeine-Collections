@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Caffeine Data Structure: Data Structure Index</title>
+<title>Caffeine Data Structure: caffeine_ordered_vector_s Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('classes.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('structcaffeine__ordered__vector__s.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -91,21 +91,48 @@ $(document).ready(function(){initNavTree('classes.html',''); initResizable(); })
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">Data Structure Index</div>  </div>
+<div class="title">caffeine_ordered_vector_s Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="qindex"><a class="qindex" href="#letter_C">C</a></div>
-<div class="classindex">
-<dl class="classindex even">
-<dt class="alphachar"><a name="letter_C">C</a></dt>
-<dd><a class="el" href="structcaffeine__array__s.html">caffeine_array_s</a></dd><dd><a class="el" href="structcaffeine__bitmap__s.html">caffeine_bitmap_s</a></dd><dd><a class="el" href="structcaffeine__containter__s.html">caffeine_containter_s</a></dd><dd><a class="el" href="structcaffeine__hashmap__s.html">caffeine_hashmap_s</a></dd><dd><a class="el" href="structcaffeine__list__bucket__t.html">caffeine_list_bucket_t</a></dd><dd><a class="el" href="structcaffeine__list__t.html">caffeine_list_t</a></dd><dd><a class="el" href="structcaffeine__ordered__containter__s.html">caffeine_ordered_containter_s</a></dd><dd><a class="el" href="structcaffeine__ordered__vector__s.html">caffeine_ordered_vector_s</a></dd><dd><a class="el" href="structcaffeine__sparse__set__s.html">caffeine_sparse_set_s</a></dd><dd><a class="el" href="structcaffeine__vector__s.html">caffeine_vector_s</a></dd></dl>
-</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Data Fields</h2></td></tr>
+<tr class="memitem:a8f19f05ae563dc7065bb9aa9493509ec"><td class="memItemLeft" ><a id="a8f19f05ae563dc7065bb9aa9493509ec"></a>
+struct {</td></tr>
+<tr class="memitem:af88410c9dcf8a6370868d2faa588fbbc"><td class="memItemLeft" >
+&#160;&#160;&#160;uintptr_t&#160;&#160;&#160;<a class="el" href="structcaffeine__ordered__vector__s.html#a77b1af8cce7e098a14291ae87facc0d5">buffer</a></td></tr>
+<tr class="memdesc:af88410c9dcf8a6370868d2faa588fbbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to vector buffer. <br /></td></tr>
+<tr class="separator:af88410c9dcf8a6370868d2faa588fbbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae205f319f02076b55a9eee05a392341"><td class="memItemLeft" >
+&#160;&#160;&#160;uint64_t&#160;&#160;&#160;<a class="el" href="structcaffeine__ordered__vector__s.html#a8168ff0a489004631f1d23057cdff971">data_size</a></td></tr>
+<tr class="memdesc:aae205f319f02076b55a9eee05a392341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size in bytes of each element. <br /></td></tr>
+<tr class="separator:aae205f319f02076b55a9eee05a392341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20124a6840d8c84568bb34bbabab2df2"><td class="memItemLeft" >
+&#160;&#160;&#160;comparer_fn&#160;&#160;&#160;<b>comparer_function</b></td></tr>
+<tr class="separator:a20124a6840d8c84568bb34bbabab2df2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f19f05ae563dc7065bb9aa9493509ec"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a8f19f05ae563dc7065bb9aa9493509ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afed69a8e403e06f355d5dc2dd264dc02"><td class="memItemLeft" align="right" valign="top"><a id="afed69a8e403e06f355d5dc2dd264dc02"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcaffeine__ordered__vector__s.html#afed69a8e403e06f355d5dc2dd264dc02">lenght</a></td></tr>
+<tr class="memdesc:afed69a8e403e06f355d5dc2dd264dc02"><td class="mdescLeft">&#160;</td><td class="mdescRight">How many elements the vector contains. <br /></td></tr>
+<tr class="separator:afed69a8e403e06f355d5dc2dd264dc02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b1e2ba8e274b4af04bf2a3ffdebc827"><td class="memItemLeft" align="right" valign="top"><a id="a4b1e2ba8e274b4af04bf2a3ffdebc827"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcaffeine__ordered__vector__s.html#a4b1e2ba8e274b4af04bf2a3ffdebc827">count</a></td></tr>
+<tr class="memdesc:a4b1e2ba8e274b4af04bf2a3ffdebc827"><td class="mdescLeft">&#160;</td><td class="mdescRight">How many elements the vector contains. <br /></td></tr>
+<tr class="separator:a4b1e2ba8e274b4af04bf2a3ffdebc827"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li><a class="el" href="caffeine__ordered__vector_8h_source.html">caffeine_ordered_vector.h</a></li>
+</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="structcaffeine__ordered__vector__s.html">caffeine_ordered_vector_s</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>

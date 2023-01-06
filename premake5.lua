@@ -1,9 +1,10 @@
 workspace "Caffeine" 
     configurations { "Debug","Release" } 
    
-    project "DataStructures"   
+    project "Caffeine-Collections"   
         kind "StaticLib"  
         language "C"   
+        uuid "fc0b7310-e8ac-4eef-b372-523811590c49"
         
         targetdir "build/%{prj.name}/bin/%{cfg.buildcfg}"
         objdir "build/%{prj.name}/obj/%{cfg.buildcfg}"
@@ -11,7 +12,6 @@ workspace "Caffeine"
         files { "sources/**.h","sources/**.c","dependencies/Caffeine-Core/sources/**.c" }
         includedirs {"headers","dependencies/Caffeine-Core/headers"}
         
-      
         filter "configurations:Debug" 
             defines { "DEBUG" }  
             symbols "On" 
@@ -20,7 +20,7 @@ workspace "Caffeine"
             defines { "NDEBUG" }      
             optimize "On"
 
-    project "DataStructuresTests"
+    project "Caffeine-Collections-Tests"
         kind "ConsoleApp"
         language "C"
        
@@ -32,10 +32,10 @@ workspace "Caffeine"
         includedirs {"headers","dependencies/Caffeine-Core/headers"}
         
         filter "system:Windows"
-           links {"DataStructures"}
+           links {"Caffeine-Collections"}
 
         filter "system:linux"
-           links {"DataStructures","m"}
+           links {"Caffeine-Collections","m"}
        
 
         filter "configurations:Debug" 

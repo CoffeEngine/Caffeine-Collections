@@ -24,7 +24,6 @@ workspace "Caffeine"
         kind "ConsoleApp"
         language "C"
        
-
         location "build/%{prj.name}"
         targetdir "build/%{prj.name}/bin/%{cfg.buildcfg}"
         objdir "build/%{prj.name}/obj/%{cfg.buildcfg}"
@@ -49,6 +48,5 @@ workspace "Caffeine"
 
     externalproject "Caffeine-Core"
        location "dependencies/Caffeine-Core"
-       uuid "6f788d01-ed35-4f0b-bbdd-860c7a311d9b"
        kind "StaticLib"
        language "C"
